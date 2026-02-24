@@ -37,11 +37,6 @@
     a { text-decoration: none; color: inherit; }
     button { font-family: inherit; cursor: pointer; }
 
-    /* ═══════════════════════════════════════
-       NAVBAR — fully responsive
-       Desktop : hamburger | DASH | links | icons
-       Mobile  : hamburger | DASH (centered) | icons
-    ═══════════════════════════════════════ */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -55,11 +50,8 @@
       gap: 0;
       transition: box-shadow 0.3s ease, background 0.3s ease;
     }
-    nav.scrolled {
-      box-shadow: 0 2px 20px rgba(0,0,0,0.08);
-    }
+    nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
 
-    /* ── Hamburger (always visible) ── */
     .nav-left { flex: 0 0 auto; display: flex; align-items: center; }
     .hamburger {
       display: flex; flex-direction: column; justify-content: center; gap: 5px;
@@ -80,7 +72,6 @@
     .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
     .hamburger.open span:nth-child(3) { width: 100%; transform: translateY(-7px) rotate(-45deg); }
 
-    /* ── Logo (center on mobile, after hamburger on desktop) ── */
     .nav-logo {
       font-family: var(--ff-display);
       font-size: 1.5rem; font-weight: 900; letter-spacing: 0.12em;
@@ -94,7 +85,6 @@
     }
     .nav-logo:hover { color: var(--lime); }
 
-    /* ── Desktop nav links (center) ── */
     .nav-center { display: flex; align-items: center; flex: 1; }
     .nav-links {
       display: flex; align-items: center; list-style: none;
@@ -117,7 +107,6 @@
     .nav-links li a:hover { color: var(--ink); }
     .nav-links li a:hover::after { transform: scaleX(1); }
 
-    /* ── Right icons ── */
     .nav-right {
       display: flex; align-items: center; gap: 0;
       margin-left: auto;
@@ -141,7 +130,6 @@
     }
     .nav-icon-btn .n-badge.active { opacity: 1; }
 
-    /* ── Search bar (expandable, desktop only) ── */
     .nav-search-wrap {
       display: flex; align-items: center;
       overflow: hidden; width: 0;
@@ -157,15 +145,6 @@
     }
     .nav-search-wrap input::placeholder { color: var(--dust); }
 
-    /* ── Divider between logo and links ── */
-    .nav-divider {
-      width: 1px; height: 24px; background: var(--border);
-      margin: 0 0.25rem; flex-shrink: 0;
-    }
-
-    /* ══════════════════════════════════════
-       MOBILE DRAWER — slides down from top
-    ══════════════════════════════════════ */
     .mobile-menu {
       position: fixed;
       top: 64px; left: 0; right: 0;
@@ -176,7 +155,6 @@
       max-height: 0; overflow: hidden;
       transition: max-height 0.45s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s ease;
       box-shadow: none;
-      /* Override old display:none approach */
       display: block !important;
     }
     .mobile-menu.open {
@@ -188,7 +166,6 @@
       padding: 1.5rem 2rem 2rem;
       gap: 0;
     }
-    /* Nav links in drawer */
     .mobile-menu a {
       font-family: var(--ff-display);
       font-size: 2.2rem; font-weight: 900;
@@ -201,16 +178,13 @@
     }
     .mobile-menu a:last-of-type { border-bottom: none; }
     .mobile-menu a:hover { color: var(--lime); padding-left: 0.6rem; }
-    /* Bottom row of drawer: secondary links + social */
     .mobile-menu-footer {
       display: flex; align-items: center; justify-content: space-between;
       padding-top: 1.5rem; margin-top: 1rem;
       border-top: 1px solid var(--border);
       flex-wrap: wrap; gap: 1rem;
     }
-    .mobile-menu-footer-links {
-      display: flex; gap: 1.5rem;
-    }
+    .mobile-menu-footer-links { display: flex; gap: 1.5rem; }
     .mobile-menu-footer-links a {
       font-family: var(--ff-mono); font-size: 0.65rem; font-weight: 400;
       letter-spacing: 0.12em; text-transform: uppercase;
@@ -223,23 +197,15 @@
       text-transform: uppercase; color: var(--dust); opacity: 0.6;
     }
 
-    /* ── Hamburger hides on screens wide enough to not need it ── */
-    /* Always show hamburger; desktop still uses it for drawer overlay */
-    @media (min-width: 901px) {
-      .hamburger { display: flex; } /* keep on desktop too */
-    }
-
-    /* ── Tablet: hide nav-links in navbar, rely on drawer ── */
+    @media (min-width: 901px) { .hamburger { display: flex; } }
     @media (max-width: 900px) {
       nav { padding: 0 1.25rem; }
       .nav-links { display: none; }
       .nav-logo { border-left: none; margin-left: 0.25rem; font-size: 1.35rem; }
       .nav-search-wrap { display: none; }
-      /* Center logo between hamburger and icons */
       .nav-center { justify-content: flex-start; }
       .nav-icon-btn:not([aria-label="Cart"]):not([aria-label="Wishlist"]) { display: none; }
     }
-
     @media (max-width: 640px) {
       nav { height: 56px; padding: 0 1rem; }
       .nav-logo { line-height: 56px; font-size: 1.25rem; padding: 0 0.85rem; }
@@ -248,19 +214,17 @@
       .mobile-menu-inner { padding: 1.2rem 1.25rem 1.5rem; }
       .nav-icon-btn { width: 36px; height: 36px; }
     }
-
     @media (max-width: 380px) {
       .nav-logo { font-size: 1.1rem; padding: 0 0.6rem; }
       .nav-icon-btn { width: 32px; height: 32px; font-size: 0.82rem; }
     }
 
-    /* HERO — full-bleed bg, text pinned to bottom-left, stats as inline row */
+    /* HERO */
     .hero {
       position: relative; height: 100svh; min-height: 680px;
       overflow: hidden; margin-top: 64px;
       display: flex; flex-direction: column; justify-content: flex-end;
     }
-    /* bg video fills everything */
     .hero-right {
       position: absolute; inset: 0; z-index: 0; overflow: hidden;
     }
@@ -276,7 +240,6 @@
       content:''; position:absolute; left:0; top:0; bottom:0;
       width:4px; background: var(--lime); z-index:2;
     }
-    /* Two-col: big headline left | desc+cta right */
     .hero-left {
       position: relative; z-index: 2;
       display: grid; grid-template-columns: 1fr 280px;
@@ -322,29 +285,49 @@
       transition: color var(--ease), border-color var(--ease); width: fit-content;
     }
     .btn-ghost-dash:hover { color: var(--canvas); border-color: var(--canvas); }
-    /* Stats bar: horizontal, each stat side-by-side with number + label */
+
     .hero-stats {
-      position: absolute; bottom:0; left:0; right:0; z-index:10;
-      background: rgba(13,13,13,0.82); backdrop-filter: blur(10px);
-      display: flex; align-items: stretch;
+      position: relative; z-index: 10;
+      background: rgba(13,13,13,0.88);
+      backdrop-filter: blur(12px);
       border-top: 1px solid rgba(250,250,247,0.07);
+      overflow: hidden;
+      mask-image: linear-gradient(to right, transparent 0%, #000 6%, #000 94%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 6%, #000 94%, transparent 100%);
     }
+    .hero-stats:hover .stats-track { animation-play-state: paused; }
+    .stats-track {
+      display: inline-flex; align-items: stretch;
+      width: max-content;
+      animation: statsScroll 18s linear infinite;
+    }
+    @keyframes statsScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
     .hero-stat {
-      flex:1; padding:1rem 2rem;
-      border-right: 1px solid rgba(250,250,247,0.07);
       display: flex; align-items: center; gap: 1.1rem;
+      padding: 1.1rem 2.8rem;
+      border-right: 1px solid rgba(250,250,247,0.07);
+      flex-shrink: 0; position: relative;
+      transition: background 0.25s ease;
     }
-    .hero-stat:last-child { border-right: none; }
+    .hero-stat:hover { background: rgba(200,244,0,0.06); }
+    .stat-divider {
+      display: flex; align-items: center;
+      padding: 0 0.2rem;
+      border-right: 1px solid rgba(250,250,247,0.07);
+      flex-shrink: 0;
+    }
+    .stat-divider::after { content:'·'; font-size:1.6rem; color:var(--lime); opacity:0.4; line-height:1; }
     .stat-num {
-      font-family: var(--ff-display); font-size: 2.2rem; font-weight: 900;
-      letter-spacing: 0.04em; color: var(--lime); line-height: 1;
+      font-family: var(--ff-display); font-size: 2.4rem; font-weight: 900;
+      letter-spacing: 0.04em; color: var(--lime); line-height: 1; white-space: nowrap;
+      transition: transform 0.3s ease;
     }
+    .hero-stat:hover .stat-num { transform: scale(1.08); }
     .stat-label {
       font-size: 0.54rem; font-weight: 400; letter-spacing: 0.18em;
-      text-transform: uppercase; color: rgba(250,250,247,0.38); line-height: 1.6;
+      text-transform: uppercase; color: rgba(250,250,247,0.38); line-height: 1.6; white-space: nowrap;
     }
 
-    /* KEYFRAMES */
     @keyframes heroUp { from { opacity:0; transform: translateY(28px); } to { opacity:1; transform: translateY(0); } }
     @keyframes animLeft { from { opacity:0; transform: translateX(-44px); } to { opacity:1; transform: translateX(0); } }
     @keyframes animRight { from { opacity:0; transform: translateX(44px); } to { opacity:1; transform: translateX(0); } }
@@ -352,7 +335,6 @@
     @keyframes animFlip { from { opacity:0; transform: perspective(600px) rotateX(22deg) translateY(32px); } to { opacity:1; transform: perspective(600px) rotateX(0) translateY(0); } }
     @keyframes animBlur { from { opacity:0; filter: blur(10px); transform: translateY(18px); } to { opacity:1; filter: blur(0); transform: translateY(0); } }
     @keyframes animUp { from { opacity:0; transform: translateY(22px); } to { opacity:1; transform: translateY(0); } }
-
     .do-left  { animation: animLeft  0.6s ease both; }
     .do-right { animation: animRight 0.6s ease both; }
     .do-zoom  { animation: animZoom  0.65s ease both; }
@@ -396,15 +378,249 @@
     .link-arrow:hover { color: var(--ink); border-color: var(--ink); }
     .link-arrow:hover i { transform: translateX(5px); }
 
-    /* PRODUCTS — featured hero card top full-width + 4-col row below */
-    #products { padding: 8rem 0 7rem; background: var(--canvas); }
+    /* ═══════════════════════════════════════
+       SNEAKER PICKS SECTION  (namespaced)
+    ═══════════════════════════════════════ */
+    #sneaker-picks {
+      background: var(--canvas);
+      padding: clamp(32px, 5vw, 64px) 0;
+      border-bottom: 1px solid var(--border);
+    }
+    #sneaker-picks .sp-inner {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 0 clamp(16px, 4vw, 48px);
+    }
+    #sneaker-picks .sp-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    #sneaker-picks .sp-scroll-hint {
+      display: none;
+      font-family: var(--ff-display);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--dust);
+      margin-bottom: 8px;
+      align-items: center;
+      gap: 6px;
+    }
+    #sneaker-picks .sp-scroll-hint::after { content: '→'; color: var(--lime); }
+
+    /* grid: single row */
+    #sneaker-picks .sp-grid {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      gap: clamp(10px, 1.5vw, 22px);
+      align-items: center;
+      justify-content: center;
+      overflow-x: auto;
+      padding: 40px 20px 20px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--lime) #e0e0e0;
+      -webkit-overflow-scrolling: touch;
+    }
+    #sneaker-picks .sp-grid::-webkit-scrollbar { height: 4px; }
+    #sneaker-picks .sp-grid::-webkit-scrollbar-track { background: #e0e0e0; border-radius: 2px; }
+    #sneaker-picks .sp-grid::-webkit-scrollbar-thumb { background: var(--lime); border-radius: 2px; }
+
+    /* sp-card */
+    .sp-card {
+      position: relative;
+      flex-shrink: 0;
+      width: clamp(160px, 17vw, 250px);
+      height: clamp(160px, 17vw, 250px);
+      margin-inline: 0;
+      transition: margin-inline .4s cubic-bezier(.4,0,.2,1);
+      z-index: 0;
+    }
+    .sp-card:hover {
+      margin-inline: clamp(30px, 4vw, 60px);
+      z-index: 10;
+    }
+
+    /* circle */
+    .sp-card .sp-circle {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: clamp(120px, 13vw, 185px);
+      height: clamp(120px, 13vw, 185px);
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 0 3px 1px rgba(24,24,24,.22),
+                  2px 2px 6px rgba(24,24,24,.35),
+                  inset 2px 2px 2px #fff;
+      transition: opacity .3s ease-in-out .5s,
+                  border-radius .3s ease-in-out .5s;
+      cursor: pointer;
+    }
+    .sp-card:hover .sp-circle {
+      opacity: 0;
+      border-radius: 8px;
+      transition-delay: 0s;
+    }
+    .sp-card .sp-circle img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+    }
+
+    /* expanded panel */
+    .sp-card .sp-panel {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: flex-end;
+      width: clamp(120px, 13vw, 185px);
+      height: clamp(120px, 13vw, 185px);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.18),
+                  inset 2px 2px 2px rgba(255,255,255,.7);
+      visibility: hidden;
+      overflow: visible;
+      transition: width .35s cubic-bezier(.4,0,.2,1),
+                  height .35s cubic-bezier(.4,0,.2,1),
+                  visibility 0s .35s;
+      z-index: 1;
+    }
+    .sp-card:hover .sp-panel {
+      width: clamp(220px, 24vw, 310px);
+      height: clamp(130px, 14vw, 195px);
+      visibility: visible;
+      transition: width .35s cubic-bezier(.4,0,.2,1) .45s,
+                  height .35s cubic-bezier(.4,0,.2,1) .45s,
+                  visibility 0s .45s;
+    }
+    .sp-card .sp-panel::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--lime);
+      border-radius: 0 0 16px 16px;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .4s ease-in-out;
+    }
+    .sp-card:hover .sp-panel::after {
+      transform: scaleX(1);
+      transition-delay: .75s;
+    }
+
+    /* detail text */
+    .sp-card .sp-panel .sp-detail {
+      display: flex; flex-direction: column; flex: 1;
+      opacity: 0;
+      transition: opacity .3s ease-in-out;
+    }
+    .sp-card:hover .sp-panel .sp-detail {
+      opacity: 1;
+      transition-delay: .65s;
+    }
+    .sp-card .sp-panel .sp-detail .sp-name {
+      font-family: var(--ff-display);
+      font-size: clamp(14px, 1.4vw, 18px);
+      font-weight: 900;
+      text-transform: uppercase;
+      line-height: 1.05;
+      margin-bottom: 4px;
+      color: var(--ink);
+    }
+    .sp-card .sp-panel .sp-detail .sp-sub {
+      font-size: clamp(7px, 0.65vw, 9px);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 6px;
+      font-weight: 400;
+      font-family: var(--ff-mono);
+    }
+    .sp-card .sp-panel .sp-detail .sp-price {
+      font-family: var(--ff-display);
+      font-size: clamp(16px, 1.7vw, 22px);
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .sp-card .sp-panel .sp-detail .sp-btn {
+      background: var(--lime);
+      width: clamp(56px, 5.5vw, 72px);
+      height: clamp(22px, 2.2vw, 26px);
+      color: var(--ink);
+      font-family: var(--ff-display);
+      font-size: clamp(10px, 0.9vw, 12px);
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .sp-card .sp-panel .sp-detail .sp-btn:hover { background: #d9ff00; }
+
+    /* floating shoe */
+    .sp-card .sp-panel .sp-float {
+      position: absolute;
+      bottom: 35%;
+      right: -10px;
+      width: clamp(110px, 12vw, 160px);
+      height: clamp(110px, 12vw, 160px);
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(20px) scale(0.65) rotate(-12deg);
+      transition: opacity .45s ease-in-out,
+                  transform .45s cubic-bezier(.34,1.46,.64,1);
+      z-index: 5;
+    }
+    .sp-card:hover .sp-panel .sp-float {
+      opacity: 1;
+      transform: translateY(0) scale(1) rotate(-8deg);
+      transition-delay: .6s;
+    }
+    .sp-card .sp-panel .sp-float img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      border-radius: 12px;
+      filter: drop-shadow(4px 8px 16px rgba(0,0,0,.45));
+    }
+
+    /* view-all link reusing site style */
+    #sneaker-picks .sp-footer {
+      margin-top: clamp(16px, 2.5vw, 28px);
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    @media (max-width: 1000px) {
+      #sneaker-picks .sp-grid { justify-content: flex-start; }
+      #sneaker-picks .sp-scroll-hint { display: flex; }
+    }
+    @media (max-width: 760px) and (orientation: landscape) {
+      .sp-card { width: 130px; height: 130px; }
+      .sp-card .sp-panel .sp-float { width: 100px; height: 100px; }
+    }
+    @media (max-width: 500px) {
+      .sp-card { width: 145px; height: 145px; }
+      .sp-card:hover { margin-inline: 26px; }
+    }
+
+    /* PRODUCTS */
+    #products { padding: 5rem 0 7rem; background: var(--canvas); }
     .products-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       grid-template-rows: auto auto;
       gap: 1.25rem;
     }
-    /* First card spans all 4 cols, landscape hero format */
     .card:first-child {
       grid-column: span 4;
       display: grid; grid-template-columns: 1fr 1fr;
@@ -452,7 +668,7 @@
     }
     .add-btn:hover { background: var(--lime); color: var(--ink); }
 
-    /* BRANDS — infinite scrolling carousel */
+    /* BRANDS */
     #brands {
       padding: 4rem 0;
       background: var(--stone);
@@ -462,55 +678,37 @@
     }
     .brands-inner { display: flex; flex-direction: column; align-items: center; gap: 2rem; }
     .brands-label { font-size: 0.6rem; font-weight:500; letter-spacing:0.28em; text-transform:uppercase; color: var(--dust); }
-
-    /* Carousel track wrapper — clips overflow */
     .brands-carousel {
-      width: 100%;
-      overflow: hidden;
-      position: relative;
-      /* Fade edges */
+      width: 100%; overflow: hidden; position: relative;
       mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
       -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
     }
-    /* Pause on hover */
     .brands-carousel:hover .brands-track { animation-play-state: paused; }
-
-    /* The scrolling track — contains two identical sets of cards */
     .brands-track {
-      display: flex;
-      align-items: center;
-      gap: 1.25rem;
+      display: flex; align-items: center; gap: 1.25rem;
       width: max-content;
       animation: brandScroll 28s linear infinite;
     }
-    @keyframes brandScroll {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
-    }
-
+    @keyframes brandScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
     .brand-card {
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
       width: 140px; height: 80px; padding: 1rem 1.5rem;
-      background: #fff; border: 1.5px solid var(--border);
-      border-radius: 4px;
+      background: #fff; border: 1.5px solid var(--border); border-radius: 4px;
       filter: grayscale(1) opacity(0.4);
       transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1),
-                  box-shadow 0.3s ease,
-                  border-color 0.25s ease,
-                  filter 0.3s ease;
+                  box-shadow 0.3s ease, border-color 0.25s ease, filter 0.3s ease;
       cursor: default;
     }
     .brand-card:hover {
       transform: scale(1.15) translateY(-4px);
       box-shadow: 0 12px 32px rgba(0,0,0,0.12), 0 0 0 2px var(--lime);
-      border-color: var(--lime);
-      filter: grayscale(0) opacity(1);
+      border-color: var(--lime); filter: grayscale(0) opacity(1);
       z-index: 2; position: relative;
     }
     .brand-card svg { display: block; max-width: 100%; max-height: 100%; }
 
-    /* COLLECTION BANNER — full bleed image, text centred over it */
+    /* COLLECTION BANNER */
     #about { position:relative; height:75vh; min-height:520px; overflow:hidden; }
     .banner-right { position:absolute; inset:0; }
     .banner-img {
@@ -518,7 +716,6 @@
       filter: brightness(0.4) saturate(0.7); transition: transform 8s ease;
     }
     #about:hover .banner-img { transform: scale(1.03); }
-    /* Content centered */
     .banner-left {
       position:relative; z-index:2;
       height:100%; display:flex; flex-direction:column;
@@ -546,22 +743,17 @@
     }
     .btn-outline-lime:hover { background: var(--lime); color: var(--ink); }
 
-    /* TESTIMONIALS — 2-col stacked left + 1 accent card right */
+    /* TESTIMONIALS */
     #testimonials { padding: 8rem 0; background: var(--ink); }
-    #testimonials .section-head { padding: 0 0 0 0; }
     #testimonials .section-title { color: var(--canvas); }
     #testimonials .eyebrow { color: rgba(250,250,247,0.4); }
     #testimonials .eyebrow::before { background: var(--lime); }
     #testimonials .link-arrow { color: var(--dust); border-color: rgba(250,250,247,0.15); }
     #testimonials .link-arrow:hover { color: var(--lime); border-color: var(--lime); }
     .reviews-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1.4fr;
-      grid-template-rows: auto auto;
-      gap: 1.25rem;
-      align-items: start;
+      display: grid; grid-template-columns: 1fr 1fr 1.4fr;
+      grid-template-rows: auto auto; gap: 1.25rem; align-items: start;
     }
-    /* Third card spans 2 rows (tall accent) */
     .review-card:last-child { grid-row: span 2; background: var(--lime); }
     .review-card:last-child .review-text { color: rgba(13,13,13,0.75); }
     .review-card:last-child .review-name { color: var(--ink); }
@@ -657,8 +849,8 @@
       .wrap { padding: 0 1.5rem; }
       .hero-left { grid-template-columns: 1fr; gap: 1.5rem; padding: 0 1.5rem 7rem; }
       .hero-desc { max-width: 100%; margin-bottom: 1.5rem; }
-      .hero-stat { padding: 0.9rem 1rem; }
-      .stat-num { font-size: 1.6rem; }
+      .hero-stat { padding: 0.9rem 1.8rem; }
+      .stat-num { font-size: 1.8rem; }
       #products { padding: 5rem 0 4rem; }
       #testimonials { padding: 5rem 0; }
       #newsletter { padding: 5rem 0; }
@@ -668,9 +860,8 @@
       nav { height: 56px; }
       .hero { margin-top: 56px; min-height: calc(100svh - 56px); }
       .hero-h1 { font-size: clamp(4rem, 14vw, 6rem); }
-      .hero-stats { flex-wrap: wrap; }
-      .hero-stat { flex: 0 0 50%; border-bottom: 1px solid rgba(250,250,247,0.07); }
-      .hero-stat:nth-child(2) { border-right: none; }
+      .stat-num { font-size: 1.6rem; }
+      .hero-stat { padding: 0.85rem 1.4rem; }
       .products-grid { grid-template-columns: 1fr; }
       .card:first-child { grid-column: span 1; display: flex; flex-direction: column; }
       .card:first-child .card-img { min-height: 260px; }
@@ -687,16 +878,14 @@
     }
     @media (max-width: 380px) {
       .hero-h1 { font-size: clamp(3rem, 13vw, 4.5rem); }
-      .hero-stat { flex: 0 0 100%; border-right: none; }
-      .nav-icon-btn { width: 34px; height: 34px; font-size: 0.85rem; }
+      .stat-num { font-size: 1.4rem; }
+      .hero-stat { padding: 0.8rem 1.1rem; gap: 0.7rem; }
     }
     @media (max-height: 500px) and (orientation: landscape) {
       nav { height: 52px; }
       .hero { margin-top: 52px; min-height: calc(100lvh - 52px); }
       .hero-left { grid-template-columns: 1fr 200px; gap: 2rem; padding: 0 2rem 5rem; }
       .hero-h1 { font-size: clamp(3rem, 8vw, 5rem); }
-      .hero-stats { position: absolute; }
-      .hero-stat { padding: 0.5rem 1rem; }
       .stat-num { font-size: 1.3rem; }
       #newsletter { padding: 3.5rem 0; }
       #testimonials { padding: 4rem 0; }
@@ -706,14 +895,11 @@
 <body>
 
   <nav id="navbar">
-    <!-- Left: hamburger -->
     <div class="nav-left">
       <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </div>
-
-    <!-- Center: logo + desktop nav links -->
     <div class="nav-center">
       <a href="#" class="nav-logo">DASH</a>
       <ul class="nav-links">
@@ -724,8 +910,6 @@
         <li><a href="#testimonials">News</a></li>
       </ul>
     </div>
-
-    <!-- Right: search expand + icon buttons -->
     <div class="nav-right">
       <div class="nav-search-wrap" id="navSearchWrap">
         <input type="text" placeholder="Search styles..." id="navSearchInput" aria-label="Search"/>
@@ -743,7 +927,6 @@
     </div>
   </nav>
 
-  <!-- Mobile slide-down drawer -->
   <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
     <div class="mobile-menu-inner">
       <a href="#"             onclick="closeMobileMenu()">Home</a>
@@ -763,8 +946,8 @@
     </div>
   </div>
 
+  <!-- ═══ HERO ═══ -->
   <section class="hero" id="home">
-    <!-- Full-bleed background video -->
     <div class="hero-right">
       <video class="hero-video" autoplay loop muted playsinline
         poster="https://images.pexels.com/photos/1598505/pexels-photo-1598505.jpeg?auto=compress&cs=tinysrgb&w=1400"
@@ -772,7 +955,6 @@
         <source src="https://videos.pexels.com/video-files/5377106/5377106-uhd_2560_1440_25fps.mp4" type="video/mp4"/>
       </video>
     </div>
-    <!-- Two-col bottom content: big headline | desc + cta -->
     <div class="hero-left">
       <div>
         <div class="hero-tag">SS 2025 Collection</div>
@@ -786,15 +968,42 @@
         </div>
       </div>
     </div>
-    <!-- Stats bar -->
-    <div class="hero-stats">
-      <div class="hero-stat"><span class="stat-num">4K+</span><span class="stat-label">Styles<br>Available</span></div>
-      <div class="hero-stat"><span class="stat-num">80K</span><span class="stat-label">Happy<br>Customers</span></div>
-      <div class="hero-stat"><span class="stat-num">New</span><span class="stat-label">Drops Every<br>Week</span></div>
-      <div class="hero-stat"><span class="stat-num">FREE</span><span class="stat-label">Returns<br>Always</span></div>
+    <div class="hero-stats" aria-label="Key stats">
+      <div class="stats-track">
+        <div class="hero-stat"><span class="stat-num">4K+</span><span class="stat-label">Styles<br>Available</span></div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="hero-stat"><span class="stat-num">80K</span><span class="stat-label">Happy<br>Customers</span></div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="hero-stat"><span class="stat-num">New</span><span class="stat-label">Drops Every<br>Week</span></div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="hero-stat"><span class="stat-num">FREE</span><span class="stat-label">Returns<br>Always</span></div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="hero-stat"><span class="stat-num">120+</span><span class="stat-label">Global<br>Brands</span></div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="hero-stat"><span class="stat-num">4.9★</span><span class="stat-label">Average<br>Rating</span></div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="hero-stat"><span class="stat-num">24H</span><span class="stat-label">Express<br>Delivery</span></div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <!-- duplicate set -->
+        <div class="hero-stat"><span class="stat-num">4K+</span><span class="stat-label">Styles<br>Available</span></div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="hero-stat"><span class="stat-num">80K</span><span class="stat-label">Happy<br>Customers</span></div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="hero-stat"><span class="stat-num">New</span><span class="stat-label">Drops Every<br>Week</span></div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="hero-stat"><span class="stat-num">FREE</span><span class="stat-label">Returns<br>Always</span></div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="hero-stat"><span class="stat-num">120+</span><span class="stat-label">Global<br>Brands</span></div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="hero-stat"><span class="stat-num">4.9★</span><span class="stat-label">Average<br>Rating</span></div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="hero-stat"><span class="stat-num">24H</span><span class="stat-label">Express<br>Delivery</span></div>
+        <div class="stat-divider" aria-hidden="true"></div>
+      </div>
     </div>
   </section>
 
+  <!-- ═══ TICKER ═══ -->
   <div class="ticker" aria-hidden="true">
     <div class="ticker-track">
       <span>New Arrivals</span><span class="sep"> — </span>
@@ -808,12 +1017,121 @@
     </div>
   </div>
 
+  <!-- ═══ SNEAKER PICKS CARDS ═══ -->
+  <section id="sneaker-picks">
+    <div class="sp-inner">
+      <div class="sp-head">
+        <div>
+          <p class="eyebrow">Curated Picks</p>
+          <h2 class="section-title">FEATURED<br><span style="color:var(--lime)">DROPS</span></h2>
+        </div>
+        <a href="#" class="link-arrow">View All Drops <i class="fa fa-arrow-right"></i></a>
+      </div>
+      <p class="sp-scroll-hint">Scroll to explore</p>
+
+      <div class="sp-grid">
+
+        <!-- Card 1 — Nike Air Max -->
+        <div class="sp-card">
+          <div class="sp-circle">
+            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=80&fit=crop&crop=center" alt="Nike Air Max 270">
+          </div>
+          <div class="sp-panel" style="background:#d4dff5;">
+            <div class="sp-detail">
+              <span class="sp-name">Air Max<br>270</span>
+              <small class="sp-sub">Nike · Running</small>
+              <p class="sp-price">$160</p>
+              <button class="sp-btn">Buy</button>
+            </div>
+            <div class="sp-float">
+              <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=90&fit=crop&crop=center" alt="Nike Air Max 270">
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 — Adidas Ultraboost -->
+        <div class="sp-card">
+          <div class="sp-circle">
+            <img src="https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?w=400&q=80&fit=crop&crop=center" alt="Adidas Ultraboost">
+          </div>
+          <div class="sp-panel" style="background:#f5ddd4;">
+            <div class="sp-detail">
+              <span class="sp-name">Ultra<br>Boost 22</span>
+              <small class="sp-sub">Adidas · Running</small>
+              <p class="sp-price">$190</p>
+              <button class="sp-btn">Buy</button>
+            </div>
+            <div class="sp-float">
+              <img src="https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?w=500&q=90&fit=crop&crop=center" alt="Adidas Ultraboost">
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 — Jordan 1 -->
+        <div class="sp-card">
+          <div class="sp-circle">
+            <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=400&q=80&fit=crop&crop=center" alt="Jordan 1 Retro High">
+          </div>
+          <div class="sp-panel" style="background:#d4f0e0;">
+            <div class="sp-detail">
+              <span class="sp-name">Jordan 1<br>Retro High</span>
+              <small class="sp-sub">Jordan · Basketball</small>
+              <p class="sp-price">$180</p>
+              <button class="sp-btn">Buy</button>
+            </div>
+            <div class="sp-float">
+              <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=500&q=90&fit=crop&crop=center" alt="Jordan 1 Retro High">
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4 — New Balance 990 -->
+        <div class="sp-card">
+          <div class="sp-circle">
+            <img src="https://images.unsplash.com/photo-1539185441755-769473a23570?w=400&q=80&fit=crop&crop=center" alt="New Balance 990">
+          </div>
+          <div class="sp-panel" style="background:#ecdff5;">
+            <div class="sp-detail">
+              <span class="sp-name">NB 990<br>v5</span>
+              <small class="sp-sub">New Balance · Lifestyle</small>
+              <p class="sp-price">$185</p>
+              <button class="sp-btn">Buy</button>
+            </div>
+            <div class="sp-float">
+              <img src="https://images.unsplash.com/photo-1539185441755-769473a23570?w=500&q=90&fit=crop&crop=center" alt="New Balance 990">
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 5 — Puma RS-X -->
+        <div class="sp-card">
+          <div class="sp-circle">
+            <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&q=80&fit=crop&crop=center" alt="Puma RS-X">
+          </div>
+          <div class="sp-panel" style="background:#fdf0d4;">
+            <div class="sp-detail">
+              <span class="sp-name">RS-X<br>Reinvent</span>
+              <small class="sp-sub">Puma · Lifestyle</small>
+              <p class="sp-price">$110</p>
+              <button class="sp-btn">Buy</button>
+            </div>
+            <div class="sp-float">
+              <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=500&q=90&fit=crop&crop=center" alt="Puma RS-X">
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /.sp-grid -->
+    </div><!-- /.sp-inner -->
+  </section>
+
+  <!-- ═══ FEATURED DROPS (product grid) ═══ -->
   <section id="products">
     <div class="wrap">
       <div class="section-head">
         <div>
-          <p class="eyebrow">Curated Picks</p>
-          <h2 class="section-title">FEATURED<br>DROPS</h2>
+          <p class="eyebrow">Shop The Collection</p>
+          <h2 class="section-title">NEW<br><span style="color:var(--lime)">ARRIVALS</span></h2>
         </div>
         <a href="#" class="link-arrow">All Products <i class="fa fa-arrow-right"></i></a>
       </div>
@@ -906,109 +1224,29 @@
       <span class="brands-label">Trusted Brands</span>
       <div class="brands-carousel">
         <div class="brands-track">
-          
-          <!-- Nike -->
-          <div class="brand-card">
-            <svg viewBox="0 0 80 30" xmlns="http://www.w3.org/2000/svg" width="80" height="30">
-              <path d="M7 22L75 4C71 10 60 18 47 20c-9 1.5-17-1-14-6 2-3.5 9-5 15-3L7 22z" fill="#111"/>
-            </svg>
-          </div>
-          <!-- Adidas -->
-          <div class="brand-card">
-            <svg viewBox="0 0 80 40" xmlns="http://www.w3.org/2000/svg" width="80" height="40">
-              <polygon points="40,4 56,32 24,32" fill="none" stroke="#111" stroke-width="5"/>
-              <rect x="14" y="35" width="52" height="5" fill="#111"/>
-            </svg>
-          </div>
-          <!-- Puma -->
-          <div class="brand-card">
-            <svg viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg" width="90" height="38">
-              <text x="4" y="38" font-family="Arial Black,sans-serif" font-size="36" font-weight="900" fill="#111" letter-spacing="-1">PUMA</text>
-            </svg>
-          </div>
-          <!-- Reebok -->
-          <div class="brand-card">
-            <svg viewBox="0 0 110 40" xmlns="http://www.w3.org/2000/svg" width="100" height="34">
-              <text x="0" y="32" font-family="Arial Black,sans-serif" font-size="28" font-weight="900" fill="#d00" letter-spacing="1">Reebok</text>
-            </svg>
-          </div>
-          <!-- Vans -->
-          <div class="brand-card">
-            <svg viewBox="0 0 90 36" xmlns="http://www.w3.org/2000/svg" width="80" height="30">
-              <text x="2" y="30" font-family="Arial Black,sans-serif" font-size="30" font-weight="900" fill="#111" letter-spacing="2">VANS</text>
-            </svg>
-          </div>
-          <!-- Converse -->
-          <div class="brand-card">
-            <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" width="44" height="44">
-              <circle cx="18" cy="18" r="16" fill="none" stroke="#111" stroke-width="2.5"/>
-              <polygon points="18,7 20,14 27,14 21.5,18.5 23.5,26 18,21.5 12.5,26 14.5,18.5 9,14 16,14" fill="#111"/>
-            </svg>
-          </div>
-          <!-- New Balance -->
-          <div class="brand-card" style="width:160px;">
-            <svg viewBox="0 0 120 36" xmlns="http://www.w3.org/2000/svg" width="110" height="28">
-              <text x="0" y="28" font-family="Arial Black,sans-serif" font-size="13" font-weight="900" fill="#111" letter-spacing="0.5">New Balance</text>
-            </svg>
-          </div>
-          
-          <!-- Nike -->
-          <div class="brand-card">
-            <svg viewBox="0 0 80 30" xmlns="http://www.w3.org/2000/svg" width="80" height="30">
-              <path d="M7 22L75 4C71 10 60 18 47 20c-9 1.5-17-1-14-6 2-3.5 9-5 15-3L7 22z" fill="#111"/>
-            </svg>
-          </div>
-          <!-- Adidas -->
-          <div class="brand-card">
-            <svg viewBox="0 0 80 40" xmlns="http://www.w3.org/2000/svg" width="80" height="40">
-              <polygon points="40,4 56,32 24,32" fill="none" stroke="#111" stroke-width="5"/>
-              <rect x="14" y="35" width="52" height="5" fill="#111"/>
-            </svg>
-          </div>
-          <!-- Puma -->
-          <div class="brand-card">
-            <svg viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg" width="90" height="38">
-              <text x="4" y="38" font-family="Arial Black,sans-serif" font-size="36" font-weight="900" fill="#111" letter-spacing="-1">PUMA</text>
-            </svg>
-          </div>
-          <!-- Reebok -->
-          <div class="brand-card">
-            <svg viewBox="0 0 110 40" xmlns="http://www.w3.org/2000/svg" width="100" height="34">
-              <text x="0" y="32" font-family="Arial Black,sans-serif" font-size="28" font-weight="900" fill="#d00" letter-spacing="1">Reebok</text>
-            </svg>
-          </div>
-          <!-- Vans -->
-          <div class="brand-card">
-            <svg viewBox="0 0 90 36" xmlns="http://www.w3.org/2000/svg" width="80" height="30">
-              <text x="2" y="30" font-family="Arial Black,sans-serif" font-size="30" font-weight="900" fill="#111" letter-spacing="2">VANS</text>
-            </svg>
-          </div>
-          <!-- Converse -->
-          <div class="brand-card">
-            <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" width="44" height="44">
-              <circle cx="18" cy="18" r="16" fill="none" stroke="#111" stroke-width="2.5"/>
-              <polygon points="18,7 20,14 27,14 21.5,18.5 23.5,26 18,21.5 12.5,26 14.5,18.5 9,14 16,14" fill="#111"/>
-            </svg>
-          </div>
-          <!-- New Balance -->
-          <div class="brand-card" style="width:160px;">
-            <svg viewBox="0 0 120 36" xmlns="http://www.w3.org/2000/svg" width="110" height="28">
-              <text x="0" y="28" font-family="Arial Black,sans-serif" font-size="13" font-weight="900" fill="#111" letter-spacing="0.5">New Balance</text>
-            </svg>
-          </div>
+          <div class="brand-card"><svg viewBox="0 0 80 30" xmlns="http://www.w3.org/2000/svg" width="80" height="30"><path d="M7 22L75 4C71 10 60 18 47 20c-9 1.5-17-1-14-6 2-3.5 9-5 15-3L7 22z" fill="#111"/></svg></div>
+          <div class="brand-card"><svg viewBox="0 0 80 40" xmlns="http://www.w3.org/2000/svg" width="80" height="40"><polygon points="40,4 56,32 24,32" fill="none" stroke="#111" stroke-width="5"/><rect x="14" y="35" width="52" height="5" fill="#111"/></svg></div>
+          <div class="brand-card"><svg viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg" width="90" height="38"><text x="4" y="38" font-family="Arial Black,sans-serif" font-size="36" font-weight="900" fill="#111" letter-spacing="-1">PUMA</text></svg></div>
+          <div class="brand-card"><svg viewBox="0 0 110 40" xmlns="http://www.w3.org/2000/svg" width="100" height="34"><text x="0" y="32" font-family="Arial Black,sans-serif" font-size="28" font-weight="900" fill="#d00" letter-spacing="1">Reebok</text></svg></div>
+          <div class="brand-card"><svg viewBox="0 0 90 36" xmlns="http://www.w3.org/2000/svg" width="80" height="30"><text x="2" y="30" font-family="Arial Black,sans-serif" font-size="30" font-weight="900" fill="#111" letter-spacing="2">VANS</text></svg></div>
+          <div class="brand-card"><svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" width="44" height="44"><circle cx="18" cy="18" r="16" fill="none" stroke="#111" stroke-width="2.5"/><polygon points="18,7 20,14 27,14 21.5,18.5 23.5,26 18,21.5 12.5,26 14.5,18.5 9,14 16,14" fill="#111"/></svg></div>
+          <div class="brand-card" style="width:160px;"><svg viewBox="0 0 120 36" xmlns="http://www.w3.org/2000/svg" width="110" height="28"><text x="0" y="28" font-family="Arial Black,sans-serif" font-size="13" font-weight="900" fill="#111" letter-spacing="0.5">New Balance</text></svg></div>
+          <div class="brand-card"><svg viewBox="0 0 80 30" xmlns="http://www.w3.org/2000/svg" width="80" height="30"><path d="M7 22L75 4C71 10 60 18 47 20c-9 1.5-17-1-14-6 2-3.5 9-5 15-3L7 22z" fill="#111"/></svg></div>
+          <div class="brand-card"><svg viewBox="0 0 80 40" xmlns="http://www.w3.org/2000/svg" width="80" height="40"><polygon points="40,4 56,32 24,32" fill="none" stroke="#111" stroke-width="5"/><rect x="14" y="35" width="52" height="5" fill="#111"/></svg></div>
+          <div class="brand-card"><svg viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg" width="90" height="38"><text x="4" y="38" font-family="Arial Black,sans-serif" font-size="36" font-weight="900" fill="#111" letter-spacing="-1">PUMA</text></svg></div>
+          <div class="brand-card"><svg viewBox="0 0 110 40" xmlns="http://www.w3.org/2000/svg" width="100" height="34"><text x="0" y="32" font-family="Arial Black,sans-serif" font-size="28" font-weight="900" fill="#d00" letter-spacing="1">Reebok</text></svg></div>
+          <div class="brand-card"><svg viewBox="0 0 90 36" xmlns="http://www.w3.org/2000/svg" width="80" height="30"><text x="2" y="30" font-family="Arial Black,sans-serif" font-size="30" font-weight="900" fill="#111" letter-spacing="2">VANS</text></svg></div>
+          <div class="brand-card"><svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" width="44" height="44"><circle cx="18" cy="18" r="16" fill="none" stroke="#111" stroke-width="2.5"/><polygon points="18,7 20,14 27,14 21.5,18.5 23.5,26 18,21.5 12.5,26 14.5,18.5 9,14 16,14" fill="#111"/></svg></div>
+          <div class="brand-card" style="width:160px;"><svg viewBox="0 0 120 36" xmlns="http://www.w3.org/2000/svg" width="110" height="28"><text x="0" y="28" font-family="Arial Black,sans-serif" font-size="13" font-weight="900" fill="#111" letter-spacing="0.5">New Balance</text></svg></div>
         </div>
       </div>
     </div>
   </section>
 
   <section id="about">
-    <!-- Image fills section absolutely -->
     <div class="banner-right">
-      <img class="banner-img"
-        src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1400&auto=format&fit=crop&q=80"
-        alt="Sport Shoes Collection"/>
+      <img class="banner-img" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1400&auto=format&fit=crop&q=80" alt="Sport Shoes Collection"/>
     </div>
-    <!-- Centered text overlay -->
     <div class="banner-left">
       <p class="eyebrow">Spring · Summer 2025</p>
       <h2 class="banner-title">SPORT<br><span class="t-lime">SHOES</span><br>COLLECTION</h2>
@@ -1027,49 +1265,30 @@
         <a href="#" class="link-arrow">All Reviews <i class="fa fa-arrow-right"></i></a>
       </div>
       <div class="reviews-grid">
-
         <div class="review-card">
-          <div class="review-stars">
-            <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
-          </div>
+          <div class="review-stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
           <p class="review-text">Absolute game changer. The Air Luxe Runner fits like a glove — I've never felt more comfortable on the track. Fast shipping, perfect packaging.</p>
           <div class="review-author">
             <img class="review-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&auto=format&fit=crop" alt="Priya"/>
-            <div>
-              <p class="review-name">Priya M.</p>
-              <p class="review-tag">Verified Buyer · Runner</p>
-            </div>
+            <div><p class="review-name">Priya M.</p><p class="review-tag">Verified Buyer · Runner</p></div>
           </div>
         </div>
-
         <div class="review-card">
-          <div class="review-stars">
-            <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
-          </div>
+          <div class="review-stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
           <p class="review-text">Urban Drift is my go-to daily sneaker. The quality is insane for the price — suede feels premium, sole is super grippy. Already ordered a second pair.</p>
           <div class="review-author">
             <img class="review-avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&auto=format&fit=crop" alt="Jake"/>
-            <div>
-              <p class="review-name">Jake T.</p>
-              <p class="review-tag">Verified Buyer · Street Style</p>
-            </div>
+            <div><p class="review-name">Jake T.</p><p class="review-tag">Verified Buyer · Street Style</p></div>
           </div>
         </div>
-
         <div class="review-card">
-          <div class="review-stars">
-            <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-stroke"></i>
-          </div>
+          <div class="review-stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-stroke"></i></div>
           <p class="review-text">Velvet Loafer is everything! Wore them to a dinner party and got compliments all night. Returns process was smooth too — DASH nails customer service.</p>
           <div class="review-author">
             <img class="review-avatar" src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=80&auto=format&fit=crop" alt="Sara"/>
-            <div>
-              <p class="review-name">Sara K.</p>
-              <p class="review-tag">Verified Buyer · Fashion</p>
-            </div>
+            <div><p class="review-name">Sara K.</p><p class="review-tag">Verified Buyer · Fashion</p></div>
           </div>
         </div>
-
       </div>
     </div>
   </section>
@@ -1130,13 +1349,11 @@
   </footer>
 
   <script>
-    /* ── Navbar scroll shadow ── */
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
       navbar.classList.toggle('scrolled', window.scrollY > 40);
     }, { passive: true });
 
-    /* ── Hamburger / mobile drawer ── */
     const hamburger  = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobileMenu');
 
@@ -1145,7 +1362,6 @@
       mobileMenu.classList.toggle('open', isOpen);
       hamburger.setAttribute('aria-expanded', isOpen);
       mobileMenu.setAttribute('aria-hidden', !isOpen);
-      /* No body scroll lock — drawer doesn't cover whole screen */
     });
 
     function closeMobileMenu() {
@@ -1155,37 +1371,28 @@
       mobileMenu.setAttribute('aria-hidden', 'true');
     }
 
-    /* Close drawer when clicking outside */
     document.addEventListener('click', (e) => {
-      if (!navbar.contains(e.target) && !mobileMenu.contains(e.target)) {
-        closeMobileMenu();
-      }
+      if (!navbar.contains(e.target) && !mobileMenu.contains(e.target)) closeMobileMenu();
     });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMobileMenu(); });
 
-    /* Close drawer on Escape key */
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeMobileMenu();
-    });
-
-    /* ── Expandable search bar ── */
-    const searchToggle = document.getElementById('searchToggle');
+    const searchToggle  = document.getElementById('searchToggle');
     const navSearchWrap = document.getElementById('navSearchWrap');
     const navSearchInput = document.getElementById('navSearchInput');
 
     searchToggle.addEventListener('click', () => {
       const isOpen = navSearchWrap.classList.toggle('open');
-      if (isOpen) {
-        navSearchInput.focus();
-        closeMobileMenu(); /* close drawer if open */
-      }
+      if (isOpen) { navSearchInput.focus(); closeMobileMenu(); }
     });
-
-    /* Close search on outside click */
     document.addEventListener('click', (e) => {
       if (!navSearchWrap.contains(e.target) && e.target !== searchToggle) {
         navSearchWrap.classList.remove('open');
       }
     });
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelector('.stats-track').style.animation = 'none';
+    }
 
     const cardObs = new IntersectionObserver(entries => {
       entries.forEach((e, i) => {
@@ -1202,9 +1409,7 @@
         if (e.isIntersecting) { e.target.classList.add('do-up'); headObs.unobserve(e.target); }
       });
     }, { threshold: 0.3 });
-    document.querySelectorAll('.section-head').forEach(el => headObs.observe(el));
-
-    /* brands carousel — CSS-only animation, no JS observer needed */
+    document.querySelectorAll('.section-head, .sp-head').forEach(el => headObs.observe(el));
 
     const bannerObs = new IntersectionObserver(entries => {
       entries.forEach((e, i) => {
