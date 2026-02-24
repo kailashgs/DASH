@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DASH — Ready.Set.Style</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,500;0,700;0,900;1,700;1,900&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+  <style>
+    :root {
+      --canvas:  #FAFAF7;
+      --ink:     #0D0D0D;
+      --lime:    #C8F400;
+      --lime-d:  #AACF00;
+      --stone:   #ECEAE2;
+      --dust:    #9C9990;
+      --border:  #DDDBD3;
+      --ff-display: 'Barlow Condensed', sans-serif;
+      --ff-mono:    'DM Mono', monospace;
+      --ease:       0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--ff-mono);
+      background: var(--canvas);
+      color: var(--ink);
+      overflow-x: hidden;
+      cursor: default;
+    }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+    button { font-family: inherit; cursor: pointer; }
+
+    /* ═══════════════════════════════════════
+       NAVBAR — fully responsive
+       Desktop : hamburger | DASH | links | icons
+       Mobile  : hamburger | DASH (centered) | icons
+    ═══════════════════════════════════════ */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 600;
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      height: 64px;
+      display: flex;
+      align-items: center;
+      padding: 0 2rem;
+      gap: 0;
+      transition: box-shadow 0.3s ease, background 0.3s ease;
+    }
+    nav.scrolled {
+      box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+    }
+
+    /* ── Hamburger (always visible) ── */
+    .nav-left { flex: 0 0 auto; display: flex; align-items: center; }
+    .hamburger {
+      display: flex; flex-direction: column; justify-content: center; gap: 5px;
+      width: 40px; height: 40px; padding: 8px;
+      background: none; border: none; cursor: pointer; border-radius: 6px;
+      transition: background var(--ease);
+    }
+    .hamburger:hover { background: var(--stone); }
+    .hamburger span {
+      display: block; width: 100%; height: 2px;
+      background: var(--ink); border-radius: 2px;
+      transition: transform 0.3s ease, opacity 0.2s ease, width 0.3s ease;
+      transform-origin: center;
+    }
+    .hamburger span:nth-child(3) { width: 65%; }
+    .hamburger:hover span:nth-child(3) { width: 100%; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.open span:nth-child(3) { width: 100%; transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── Logo (center on mobile, after hamburger on desktop) ── */
+    .nav-logo {
+      font-family: var(--ff-display);
+      font-size: 1.5rem; font-weight: 900; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--ink);
+      white-space: nowrap; line-height: 64px;
+      padding: 0 1.2rem;
+      border-left: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      margin-left: 0.5rem;
+      transition: color var(--ease);
+    }
+    .nav-logo:hover { color: var(--lime); }
+
+    /* ── Desktop nav links (center) ── */
+    .nav-center { display: flex; align-items: center; flex: 1; }
+    .nav-links {
+      display: flex; align-items: center; list-style: none;
+      margin-left: 0.25rem;
+    }
+    .nav-links li a {
+      display: block; font-family: var(--ff-mono);
+      font-size: 0.7rem; font-weight: 400; letter-spacing: 0.04em;
+      color: var(--dust); white-space: nowrap;
+      padding: 0 1rem; height: 64px; line-height: 64px;
+      position: relative;
+      transition: color var(--ease);
+    }
+    .nav-links li a::after {
+      content: ''; position: absolute; bottom: 0; left: 1rem; right: 1rem;
+      height: 2px; background: var(--lime);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.25s ease;
+    }
+    .nav-links li a:hover { color: var(--ink); }
+    .nav-links li a:hover::after { transform: scaleX(1); }
+
+    /* ── Right icons ── */
+    .nav-right {
+      display: flex; align-items: center; gap: 0;
+      margin-left: auto;
+    }
+    .nav-icon-btn {
+      position: relative; width: 42px; height: 42px;
+      display: flex; align-items: center; justify-content: center;
+      background: none; border: none; font-size: 0.9rem; color: var(--dust);
+      cursor: pointer; border-radius: 6px;
+      transition: color var(--ease), background var(--ease);
+    }
+    .nav-icon-btn:hover { color: var(--ink); background: var(--stone); }
+    .nav-icon-btn .n-badge {
+      position: absolute; top: 5px; right: 4px;
+      font-size: 0.42rem; font-weight: 700; color: var(--ink);
+      background: var(--lime); border-radius: 99px;
+      padding: 1px 3px; line-height: 1;
+      font-family: var(--ff-mono);
+      opacity: 0;
+      transition: opacity var(--ease);
+    }
+    .nav-icon-btn .n-badge.active { opacity: 1; }
+
+    /* ── Search bar (expandable, desktop only) ── */
+    .nav-search-wrap {
+      display: flex; align-items: center;
+      overflow: hidden; width: 0;
+      transition: width 0.35s ease;
+      border-bottom: 1.5px solid var(--border);
+      margin-right: 0.5rem;
+    }
+    .nav-search-wrap.open { width: 180px; }
+    .nav-search-wrap input {
+      background: none; border: none; outline: none;
+      font-family: var(--ff-mono); font-size: 0.72rem;
+      color: var(--ink); width: 100%; padding: 0.25rem 0;
+    }
+    .nav-search-wrap input::placeholder { color: var(--dust); }
+
+    /* ── Divider between logo and links ── */
+    .nav-divider {
+      width: 1px; height: 24px; background: var(--border);
+      margin: 0 0.25rem; flex-shrink: 0;
+    }
+
+    /* ══════════════════════════════════════
+       MOBILE DRAWER — slides down from top
+    ══════════════════════════════════════ */
+    .mobile-menu {
+      position: fixed;
+      top: 64px; left: 0; right: 0;
+      z-index: 599;
+      background: #fff;
+      border-bottom: 2px solid var(--lime);
+      padding: 0;
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.45s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s ease;
+      box-shadow: none;
+      /* Override old display:none approach */
+      display: block !important;
+    }
+    .mobile-menu.open {
+      max-height: 480px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+    }
+    .mobile-menu-inner {
+      display: flex; flex-direction: column;
+      padding: 1.5rem 2rem 2rem;
+      gap: 0;
+    }
+    /* Nav links in drawer */
+    .mobile-menu a {
+      font-family: var(--ff-display);
+      font-size: 2.2rem; font-weight: 900;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--ink); display: block;
+      padding: 0.55rem 0;
+      border-bottom: 1px solid var(--border);
+      transition: color var(--ease), padding-left var(--ease);
+      line-height: 1.1;
+    }
+    .mobile-menu a:last-of-type { border-bottom: none; }
+    .mobile-menu a:hover { color: var(--lime); padding-left: 0.6rem; }
+    /* Bottom row of drawer: secondary links + social */
+    .mobile-menu-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 1.5rem; margin-top: 1rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .mobile-menu-footer-links {
+      display: flex; gap: 1.5rem;
+    }
+    .mobile-menu-footer-links a {
+      font-family: var(--ff-mono); font-size: 0.65rem; font-weight: 400;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--dust); padding: 0; border: none;
+      transition: color var(--ease);
+    }
+    .mobile-menu-footer-links a:hover { color: var(--ink); padding-left: 0; }
+    .mobile-menu-tag {
+      font-family: var(--ff-mono); font-size: 0.58rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--dust); opacity: 0.6;
+    }
+
+    /* ── Hamburger hides on screens wide enough to not need it ── */
+    /* Always show hamburger; desktop still uses it for drawer overlay */
+    @media (min-width: 901px) {
+      .hamburger { display: flex; } /* keep on desktop too */
+    }
+
+    /* ── Tablet: hide nav-links in navbar, rely on drawer ── */
+    @media (max-width: 900px) {
+      nav { padding: 0 1.25rem; }
+      .nav-links { display: none; }
+      .nav-logo { border-left: none; margin-left: 0.25rem; font-size: 1.35rem; }
+      .nav-search-wrap { display: none; }
+      /* Center logo between hamburger and icons */
+      .nav-center { justify-content: flex-start; }
+      .nav-icon-btn:not([aria-label="Cart"]):not([aria-label="Wishlist"]) { display: none; }
+    }
+
+    @media (max-width: 640px) {
+      nav { height: 56px; padding: 0 1rem; }
+      .nav-logo { line-height: 56px; font-size: 1.25rem; padding: 0 0.85rem; }
+      .mobile-menu { top: 56px; }
+      .mobile-menu a { font-size: 1.8rem; padding: 0.45rem 0; }
+      .mobile-menu-inner { padding: 1.2rem 1.25rem 1.5rem; }
+      .nav-icon-btn { width: 36px; height: 36px; }
+    }
+
+    @media (max-width: 380px) {
+      .nav-logo { font-size: 1.1rem; padding: 0 0.6rem; }
+      .nav-icon-btn { width: 32px; height: 32px; font-size: 0.82rem; }
+    }
+
+    /* HERO — full-bleed bg, text pinned to bottom-left, stats as inline row */
+    .hero {
+      position: relative; height: 100svh; min-height: 680px;
+      overflow: hidden; margin-top: 64px;
+      display: flex; flex-direction: column; justify-content: flex-end;
+    }
+    /* bg video fills everything */
+    .hero-right {
+      position: absolute; inset: 0; z-index: 0; overflow: hidden;
+    }
+    .hero-video {
+      width: 100%; height: 100%; object-fit: cover; object-position: center;
+      filter: saturate(0.65) brightness(0.45);
+    }
+    .hero-right::after {
+      content:''; position:absolute; inset:0;
+      background: linear-gradient(to top, rgba(13,13,13,0.95) 0%, rgba(13,13,13,0.25) 60%, transparent 100%);
+    }
+    .hero-right::before {
+      content:''; position:absolute; left:0; top:0; bottom:0;
+      width:4px; background: var(--lime); z-index:2;
+    }
+    /* Two-col: big headline left | desc+cta right */
+    .hero-left {
+      position: relative; z-index: 2;
+      display: grid; grid-template-columns: 1fr 280px;
+      align-items: flex-end; gap: 5rem;
+      padding: 0 4rem 7rem;
+    }
+    .hero-tag {
+      font-size: 0.6rem; font-weight: 500; letter-spacing: 0.3em;
+      text-transform: uppercase; color: var(--lime); margin-bottom: 1.2rem;
+      display: flex; align-items: center; gap: 0.75rem;
+      animation: heroUp 0.8s 0.1s ease both;
+    }
+    .hero-tag::before { content:''; display:block; width:28px; height:1px; background: var(--lime); }
+    .hero-h1 {
+      font-family: var(--ff-display); font-weight: 900; font-style: italic;
+      font-size: clamp(6rem, 12vw, 12rem); line-height: 0.86;
+      letter-spacing: -0.01em; text-transform: uppercase; color: var(--canvas);
+      animation: heroUp 0.8s 0.2s ease both;
+    }
+    .hero-h1 .lime-word { color: var(--lime); }
+    .hero-desc {
+      font-size: 0.78rem; font-weight: 300; line-height: 1.9;
+      color: rgba(250,250,247,0.5); margin-bottom: 2rem;
+      animation: heroUp 0.8s 0.34s ease both;
+    }
+    .hero-actions { display: flex; flex-direction: column; gap: 0.85rem; animation: heroUp 0.8s 0.44s ease both; }
+    .btn-primary-dash {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      padding: 0.95rem 2rem; background: var(--lime); color: var(--ink);
+      font-size: 0.65rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase;
+      transition: background var(--ease), box-shadow var(--ease), transform var(--ease);
+    }
+    .btn-primary-dash:hover {
+      background: var(--canvas); color: var(--ink);
+      box-shadow: 6px 6px 0 var(--lime); transform: translate(-2px,-2px);
+    }
+    .btn-primary-dash i { font-size: 0.6rem; transition: transform var(--ease); }
+    .btn-primary-dash:hover i { transform: translateX(4px); }
+    .btn-ghost-dash {
+      font-size: 0.65rem; font-weight: 500; letter-spacing: 0.16em;
+      text-transform: uppercase; color: rgba(250,250,247,0.4);
+      border-bottom: 1px solid rgba(250,250,247,0.2); padding-bottom: 2px;
+      transition: color var(--ease), border-color var(--ease); width: fit-content;
+    }
+    .btn-ghost-dash:hover { color: var(--canvas); border-color: var(--canvas); }
+    /* Stats bar: horizontal, each stat side-by-side with number + label */
+    .hero-stats {
+      position: absolute; bottom:0; left:0; right:0; z-index:10;
+      background: rgba(13,13,13,0.82); backdrop-filter: blur(10px);
+      display: flex; align-items: stretch;
+      border-top: 1px solid rgba(250,250,247,0.07);
+    }
+    .hero-stat {
+      flex:1; padding:1rem 2rem;
+      border-right: 1px solid rgba(250,250,247,0.07);
+      display: flex; align-items: center; gap: 1.1rem;
+    }
+    .hero-stat:last-child { border-right: none; }
+    .stat-num {
+      font-family: var(--ff-display); font-size: 2.2rem; font-weight: 900;
+      letter-spacing: 0.04em; color: var(--lime); line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.54rem; font-weight: 400; letter-spacing: 0.18em;
+      text-transform: uppercase; color: rgba(250,250,247,0.38); line-height: 1.6;
+    }
+
+    /* KEYFRAMES */
+    @keyframes heroUp { from { opacity:0; transform: translateY(28px); } to { opacity:1; transform: translateY(0); } }
+    @keyframes animLeft { from { opacity:0; transform: translateX(-44px); } to { opacity:1; transform: translateX(0); } }
+    @keyframes animRight { from { opacity:0; transform: translateX(44px); } to { opacity:1; transform: translateX(0); } }
+    @keyframes animZoom { from { opacity:0; transform: scale(0.9); } to { opacity:1; transform: scale(1); } }
+    @keyframes animFlip { from { opacity:0; transform: perspective(600px) rotateX(22deg) translateY(32px); } to { opacity:1; transform: perspective(600px) rotateX(0) translateY(0); } }
+    @keyframes animBlur { from { opacity:0; filter: blur(10px); transform: translateY(18px); } to { opacity:1; filter: blur(0); transform: translateY(0); } }
+    @keyframes animUp { from { opacity:0; transform: translateY(22px); } to { opacity:1; transform: translateY(0); } }
+
+    .do-left  { animation: animLeft  0.6s ease both; }
+    .do-right { animation: animRight 0.6s ease both; }
+    .do-zoom  { animation: animZoom  0.65s ease both; }
+    .do-flip  { animation: animFlip  0.65s ease both; }
+    .do-blur  { animation: animBlur  0.7s  ease both; }
+    .do-up    { animation: animUp    0.6s  ease both; }
+
+    /* TICKER */
+    .ticker {
+      overflow: hidden; padding: 0.9rem 0; background: var(--lime);
+      border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink);
+    }
+    .ticker-track { display: inline-flex; animation: tickScroll 22s linear infinite; }
+    .ticker-track span {
+      font-family: var(--ff-display); font-size: 1.05rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink); padding: 0 2.5rem;
+    }
+    .ticker-track .sep { opacity:0.35; padding:0; }
+    @keyframes tickScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* SHARED */
+    .wrap { max-width: 1320px; margin: 0 auto; padding: 0 3rem; }
+    .section-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 4rem; gap: 2rem; flex-wrap: wrap; }
+    .eyebrow {
+      font-size: 0.6rem; font-weight: 500; letter-spacing: 0.3em;
+      text-transform: uppercase; color: var(--dust); margin-bottom: 0.6rem;
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .eyebrow::before { content:''; display: inline-block; width:20px; height:1.5px; background: var(--lime); }
+    .section-title {
+      font-family: var(--ff-display); font-size: clamp(2.8rem,5vw,4.5rem);
+      font-weight: 900; letter-spacing: 0.03em; text-transform: uppercase; color: var(--ink); line-height: 0.95;
+    }
+    .link-arrow {
+      font-size: 0.62rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--dust); display: flex; align-items: center; gap: 0.5rem;
+      border-bottom: 1px solid var(--border); padding-bottom: 2px;
+      transition: color var(--ease), border-color var(--ease); white-space: nowrap;
+    }
+    .link-arrow i { font-size: 0.58rem; transition: transform var(--ease); }
+    .link-arrow:hover { color: var(--ink); border-color: var(--ink); }
+    .link-arrow:hover i { transform: translateX(5px); }
+
+    /* PRODUCTS — featured hero card top full-width + 4-col row below */
+    #products { padding: 8rem 0 7rem; background: var(--canvas); }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: auto auto;
+      gap: 1.25rem;
+    }
+    /* First card spans all 4 cols, landscape hero format */
+    .card:first-child {
+      grid-column: span 4;
+      display: grid; grid-template-columns: 1fr 1fr;
+    }
+    .card:first-child .card-img { aspect-ratio: unset; min-height: 420px; }
+    .card:first-child .card-body {
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 3rem; background: var(--stone);
+    }
+    .card:first-child .card-name { font-size: 3rem; margin-bottom: 1.5rem; }
+    .card {
+      background: var(--stone); overflow: hidden; position: relative;
+      transition: box-shadow var(--ease), transform var(--ease); border: 1.5px solid transparent;
+    }
+    .card:hover { box-shadow: 8px 8px 0 var(--ink); transform: translate(-3px,-3px); border-color: var(--ink); }
+    .card-img { overflow: hidden; background: var(--stone); position: relative; }
+    .card:not(:first-child) .card-img { aspect-ratio: 3/4; }
+    .card-img img {
+      width:100%; height:100%; object-fit:cover;
+      transition: transform 0.6s ease, filter 0.3s ease; filter: saturate(0.85);
+    }
+    .card:hover .card-img img { transform: scale(1.06); filter: saturate(1); }
+    .badge {
+      position:absolute; top:1rem; left:1rem; background: var(--lime); color: var(--ink);
+      font-size: 0.55rem; font-weight: 500; letter-spacing: 0.18em;
+      text-transform: uppercase; padding: 4px 10px; border: 1px solid var(--ink);
+    }
+    .quick-add {
+      position:absolute; bottom:0; left:0; right:0; background: var(--lime); color: var(--ink);
+      font-size: 0.62rem; font-weight: 500; letter-spacing: 0.2em;
+      text-transform: uppercase; text-align: center; padding: 0.75rem;
+      transform: translateY(100%); transition: transform 0.25s ease; border-top: 1.5px solid var(--ink);
+    }
+    .card:hover .quick-add { transform: translateY(0); }
+    .card-body { padding: 1.2rem 1.4rem 1.5rem; }
+    .card-cat { font-size:0.58rem; font-weight:500; letter-spacing:0.2em; text-transform:uppercase; color: var(--dust); margin-bottom:0.35rem; }
+    .card-name { font-family: var(--ff-display); font-size:1.6rem; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; color: var(--ink); line-height:1; margin-bottom:1rem; }
+    .card-footer { display:flex; align-items:center; justify-content:space-between; }
+    .card-price { font-size:0.95rem; font-weight:500; color: var(--ink); }
+    .card-price .was { font-size:0.72rem; font-weight:300; color: var(--dust); text-decoration:line-through; margin-left:0.4rem; }
+    .add-btn {
+      width:36px; height:36px; background: var(--ink); color: var(--canvas);
+      border:none; display:flex; align-items:center; justify-content:center;
+      font-size:0.75rem; transition: background var(--ease);
+    }
+    .add-btn:hover { background: var(--lime); color: var(--ink); }
+
+    /* BRANDS — infinite scrolling carousel */
+    #brands {
+      padding: 4rem 0;
+      background: var(--stone);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .brands-inner { display: flex; flex-direction: column; align-items: center; gap: 2rem; }
+    .brands-label { font-size: 0.6rem; font-weight:500; letter-spacing:0.28em; text-transform:uppercase; color: var(--dust); }
+
+    /* Carousel track wrapper — clips overflow */
+    .brands-carousel {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+      /* Fade edges */
+      mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
+    }
+    /* Pause on hover */
+    .brands-carousel:hover .brands-track { animation-play-state: paused; }
+
+    /* The scrolling track — contains two identical sets of cards */
+    .brands-track {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      width: max-content;
+      animation: brandScroll 28s linear infinite;
+    }
+    @keyframes brandScroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    .brand-card {
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      width: 140px; height: 80px; padding: 1rem 1.5rem;
+      background: #fff; border: 1.5px solid var(--border);
+      border-radius: 4px;
+      filter: grayscale(1) opacity(0.4);
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1),
+                  box-shadow 0.3s ease,
+                  border-color 0.25s ease,
+                  filter 0.3s ease;
+      cursor: default;
+    }
+    .brand-card:hover {
+      transform: scale(1.15) translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.12), 0 0 0 2px var(--lime);
+      border-color: var(--lime);
+      filter: grayscale(0) opacity(1);
+      z-index: 2; position: relative;
+    }
+    .brand-card svg { display: block; max-width: 100%; max-height: 100%; }
+
+    /* COLLECTION BANNER — full bleed image, text centred over it */
+    #about { position:relative; height:75vh; min-height:520px; overflow:hidden; }
+    .banner-right { position:absolute; inset:0; }
+    .banner-img {
+      width:100%; height:100%; object-fit:cover; object-position:center 30%;
+      filter: brightness(0.4) saturate(0.7); transition: transform 8s ease;
+    }
+    #about:hover .banner-img { transform: scale(1.03); }
+    /* Content centered */
+    .banner-left {
+      position:relative; z-index:2;
+      height:100%; display:flex; flex-direction:column;
+      justify-content:center; align-items:center; text-align:center;
+      padding:4rem 3rem;
+      background: linear-gradient(135deg, rgba(13,13,13,0.7) 0%, rgba(13,13,13,0.4) 100%);
+    }
+    .banner-left .eyebrow { justify-content: center; color: rgba(250,250,247,0.5); }
+    .banner-left .eyebrow::before { background: var(--lime); }
+    .banner-title {
+      font-family: var(--ff-display); font-size: clamp(4rem,9vw,9rem);
+      font-weight:900; font-style:italic; text-transform:uppercase;
+      letter-spacing:0.02em; line-height:0.88; color: var(--canvas); margin:0.75rem 0 1.5rem;
+    }
+    .banner-title .t-lime { color: var(--lime); }
+    .banner-desc {
+      font-size:0.82rem; font-weight:300; line-height:1.9;
+      color:rgba(250,250,247,0.55); max-width:420px; margin-bottom:2.5rem;
+    }
+    .btn-outline-lime {
+      display:inline-flex; align-items:center; gap:0.6rem; padding:0.9rem 2.5rem;
+      background:transparent; border:1.5px solid var(--lime); color: var(--lime);
+      font-size:0.65rem; font-weight:500; letter-spacing:0.2em; text-transform:uppercase;
+      width:fit-content; transition: background var(--ease), color var(--ease);
+    }
+    .btn-outline-lime:hover { background: var(--lime); color: var(--ink); }
+
+    /* TESTIMONIALS — 2-col stacked left + 1 accent card right */
+    #testimonials { padding: 8rem 0; background: var(--ink); }
+    #testimonials .section-head { padding: 0 0 0 0; }
+    #testimonials .section-title { color: var(--canvas); }
+    #testimonials .eyebrow { color: rgba(250,250,247,0.4); }
+    #testimonials .eyebrow::before { background: var(--lime); }
+    #testimonials .link-arrow { color: var(--dust); border-color: rgba(250,250,247,0.15); }
+    #testimonials .link-arrow:hover { color: var(--lime); border-color: var(--lime); }
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1.4fr;
+      grid-template-rows: auto auto;
+      gap: 1.25rem;
+      align-items: start;
+    }
+    /* Third card spans 2 rows (tall accent) */
+    .review-card:last-child { grid-row: span 2; background: var(--lime); }
+    .review-card:last-child .review-text { color: rgba(13,13,13,0.75); }
+    .review-card:last-child .review-name { color: var(--ink); }
+    .review-card:last-child .review-tag { color: rgba(13,13,13,0.5); }
+    .review-card:last-child .review-stars i { color: var(--ink); }
+    .review-card:last-child:hover { box-shadow: 6px 6px 0 var(--canvas); border-color: var(--ink); }
+    .review-card {
+      background: rgba(250,250,247,0.05); padding: 2rem; border: 1.5px solid rgba(250,250,247,0.08);
+      transition: border-color var(--ease), transform var(--ease), box-shadow var(--ease);
+    }
+    .review-card:not(:last-child):hover { border-color: var(--lime); transform: translateY(-4px); box-shadow: 5px 5px 0 var(--lime); }
+    .review-stars { display:flex; gap:3px; margin-bottom:1rem; }
+    .review-stars i { font-size:0.72rem; color: var(--lime); }
+    .review-text { font-size:0.82rem; font-weight:300; line-height:1.85; color:rgba(250,250,247,0.6); margin-bottom:1.5rem; }
+    .review-author { display:flex; align-items:center; gap:0.85rem; }
+    .review-avatar { width:38px; height:38px; border-radius:50%; object-fit:cover; filter:saturate(0.6); }
+    .review-name { font-family: var(--ff-display); font-size:1rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color: var(--canvas); line-height:1; }
+    .review-tag { font-size:0.56rem; color: var(--dust); letter-spacing:0.12em; margin-top:2px; }
+
+    /* NEWSLETTER */
+    #newsletter { padding: 7rem 0; background: var(--ink); text-align: center; position:relative; overflow:hidden; }
+    #newsletter::before {
+      content:'DASH'; position:absolute; font-family: var(--ff-display); font-size:22vw; font-weight:900;
+      color:rgba(255,255,255,0.03); letter-spacing:0.05em; top:50%; left:50%; transform:translate(-50%,-50%);
+      white-space:nowrap; pointer-events:none;
+    }
+    .nl-inner { position:relative; z-index:2; }
+    .nl-inner .eyebrow { justify-content:center; color:rgba(250,250,247,0.4); }
+    .nl-inner .eyebrow::before { background: var(--lime); }
+    .nl-title {
+      font-family: var(--ff-display); font-size: clamp(2.5rem,5vw,5rem);
+      font-weight:900; letter-spacing:0.04em; text-transform:uppercase;
+      color: var(--canvas); line-height:0.95; margin:0.75rem 0 1rem;
+    }
+    .nl-title span { color: var(--lime); }
+    .nl-sub { font-size:0.8rem; font-weight:300; color:rgba(250,250,247,0.4); max-width:400px; margin:0 auto 2.5rem; line-height:1.8; }
+    .nl-form { display:flex; align-items:stretch; max-width:480px; margin:0 auto; border:1.5px solid rgba(250,250,247,0.18); }
+    .nl-form input { flex:1; background:transparent; border:none; padding:0.9rem 1.2rem; font-family: var(--ff-mono); font-size:0.75rem; color: var(--canvas); outline:none; }
+    .nl-form input::placeholder { color:rgba(250,250,247,0.28); }
+    .nl-form button {
+      background: var(--lime); border:none; padding:0 1.5rem; font-family: var(--ff-mono);
+      font-size:0.65rem; font-weight:500; letter-spacing:0.18em; text-transform:uppercase;
+      color: var(--ink); cursor:pointer; transition: background var(--ease); white-space:nowrap;
+    }
+    .nl-form button:hover { background: var(--lime-d); }
+
+    /* FOOTER */
+    footer { background:#080808; color: var(--canvas); padding:5rem 0 2.5rem; }
+    .footer-grid { display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; gap:3.5rem; padding-bottom:4rem; border-bottom:1px solid rgba(250,250,247,0.08); margin-bottom:2rem; }
+    .footer-logo { font-family: var(--ff-display); font-size:3rem; font-weight:900; letter-spacing:0.12em; color: var(--canvas); line-height:1; margin-bottom:0.2rem; }
+    .footer-logo .lime { color: var(--lime); }
+    .footer-tagline { font-size:0.58rem; font-weight:400; letter-spacing:0.22em; text-transform:uppercase; color:rgba(250,250,247,0.28); margin-bottom:1.5rem; }
+    .footer-brand p { font-size:0.8rem; font-weight:300; line-height:1.9; color:rgba(250,250,247,0.38); max-width:260px; }
+    .footer-col h5 { font-size:0.58rem; font-weight:500; letter-spacing:0.24em; text-transform:uppercase; color:rgba(250,250,247,0.32); margin-bottom:1.4rem; }
+    .footer-col ul { list-style:none; display:flex; flex-direction:column; gap:0.75rem; }
+    .footer-col a { font-size:0.85rem; font-weight:300; color:rgba(250,250,247,0.58); transition: color var(--ease); }
+    .footer-col a:hover { color: var(--lime); }
+    .social-row { display:flex; gap:0.6rem; margin-top:0.5rem; }
+    .social-row a {
+      width:36px; height:36px; display:flex; align-items:center; justify-content:center;
+      border:1px solid rgba(250,250,247,0.12); color:rgba(250,250,247,0.42); font-size:0.82rem;
+      transition: background var(--ease), color var(--ease), border-color var(--ease);
+    }
+    .social-row a:hover { background: var(--lime); color: var(--ink); border-color: var(--lime); }
+    .footer-bottom { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; font-size:0.7rem; color:rgba(250,250,247,0.2); }
+    .footer-bottom a { color:rgba(250,250,247,0.36); transition: color var(--ease); }
+    .footer-bottom a:hover { color: var(--lime); }
+
+    /* RESPONSIVE */
+    @media (max-width: 1200px) {
+      .nav-links li a { padding: 0 0.75rem; font-size: 0.68rem; }
+      .nav-logo { font-size: 1.3rem; padding-right: 0.85rem; }
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
+      .card:first-child { grid-column: span 2; display: grid; grid-template-columns: 1fr 1fr; }
+      .card:first-child .card-img { min-height: 360px; }
+      .reviews-grid { grid-template-columns: 1fr 1fr; }
+      .review-card:last-child { grid-row: span 1; }
+    }
+    @media (max-width: 1024px) {
+      .hero-left { grid-template-columns: 1fr 220px; gap: 2.5rem; padding: 0 2.5rem 7rem; }
+      .products-grid { grid-template-columns: 1fr 1fr; }
+      .card:first-child { grid-column: span 2; }
+      .card:first-child .card-img { min-height: 300px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .reviews-grid { grid-template-columns: 1fr 1fr; }
+      .review-card:last-child { grid-row: span 1; }
+      #about { height: auto; min-height: 60vh; }
+    }
+    @media (max-width: 900px) {
+      nav { padding: 0 1.2rem; }
+      .nav-links { display: none; }
+      .nav-logo { border-right: none; padding-right: 0; }
+      .wrap { padding: 0 1.5rem; }
+      .hero-left { grid-template-columns: 1fr; gap: 1.5rem; padding: 0 1.5rem 7rem; }
+      .hero-desc { max-width: 100%; margin-bottom: 1.5rem; }
+      .hero-stat { padding: 0.9rem 1rem; }
+      .stat-num { font-size: 1.6rem; }
+      #products { padding: 5rem 0 4rem; }
+      #testimonials { padding: 5rem 0; }
+      #newsletter { padding: 5rem 0; }
+      .brand-card { width: 110px; height: 68px; }
+    }
+    @media (max-width: 640px) {
+      nav { height: 56px; }
+      .hero { margin-top: 56px; min-height: calc(100svh - 56px); }
+      .hero-h1 { font-size: clamp(4rem, 14vw, 6rem); }
+      .hero-stats { flex-wrap: wrap; }
+      .hero-stat { flex: 0 0 50%; border-bottom: 1px solid rgba(250,250,247,0.07); }
+      .hero-stat:nth-child(2) { border-right: none; }
+      .products-grid { grid-template-columns: 1fr; }
+      .card:first-child { grid-column: span 1; display: flex; flex-direction: column; }
+      .card:first-child .card-img { min-height: 260px; }
+      .section-title { font-size: clamp(2.2rem, 8vw, 3.2rem); }
+      .reviews-grid { grid-template-columns: 1fr; }
+      .review-card:last-child { grid-row: span 1; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .nl-form { flex-direction: column; }
+      .nl-form button { padding: 0.85rem; }
+      .brand-card { width: 90px; height: 60px; padding: 0.75rem 1rem; }
+      .banner-title { font-size: clamp(3rem, 10vw, 5rem); }
+      .mobile-menu a { font-size: 2.8rem; }
+      #about { height: auto; min-height: 55vh; }
+    }
+    @media (max-width: 380px) {
+      .hero-h1 { font-size: clamp(3rem, 13vw, 4.5rem); }
+      .hero-stat { flex: 0 0 100%; border-right: none; }
+      .nav-icon-btn { width: 34px; height: 34px; font-size: 0.85rem; }
+    }
+    @media (max-height: 500px) and (orientation: landscape) {
+      nav { height: 52px; }
+      .hero { margin-top: 52px; min-height: calc(100lvh - 52px); }
+      .hero-left { grid-template-columns: 1fr 200px; gap: 2rem; padding: 0 2rem 5rem; }
+      .hero-h1 { font-size: clamp(3rem, 8vw, 5rem); }
+      .hero-stats { position: absolute; }
+      .hero-stat { padding: 0.5rem 1rem; }
+      .stat-num { font-size: 1.3rem; }
+      #newsletter { padding: 3.5rem 0; }
+      #testimonials { padding: 4rem 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="navbar">
+    <!-- Left: hamburger -->
+    <div class="nav-left">
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <!-- Center: logo + desktop nav links -->
+    <div class="nav-center">
+      <a href="#" class="nav-logo">DASH</a>
+      <ul class="nav-links">
+        <li><a href="#products">Shoes</a></li>
+        <li><a href="#products">Sandals</a></li>
+        <li><a href="#products">Loafers</a></li>
+        <li><a href="#brands">Brands</a></li>
+        <li><a href="#testimonials">News</a></li>
+      </ul>
+    </div>
+
+    <!-- Right: search expand + icon buttons -->
+    <div class="nav-right">
+      <div class="nav-search-wrap" id="navSearchWrap">
+        <input type="text" placeholder="Search styles..." id="navSearchInput" aria-label="Search"/>
+      </div>
+      <button class="nav-icon-btn" aria-label="Search" id="searchToggle">
+        <i class="fa fa-magnifying-glass"></i>
+      </button>
+      <button class="nav-icon-btn" aria-label="Wishlist">
+        <i class="fa-regular fa-heart"></i>
+      </button>
+      <button class="nav-icon-btn" aria-label="Cart">
+        <i class="fa fa-cart-shopping"></i>
+        <span class="n-badge active">2</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile slide-down drawer -->
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <div class="mobile-menu-inner">
+      <a href="#"             onclick="closeMobileMenu()">Home</a>
+      <a href="#products"     onclick="closeMobileMenu()">Shoes</a>
+      <a href="#products"     onclick="closeMobileMenu()">Sandals</a>
+      <a href="#products"     onclick="closeMobileMenu()">Loafers</a>
+      <a href="#brands"       onclick="closeMobileMenu()">Brands</a>
+      <a href="#testimonials" onclick="closeMobileMenu()">News</a>
+      <div class="mobile-menu-footer">
+        <div class="mobile-menu-footer-links">
+          <a href="#" onclick="closeMobileMenu()">Size Guide</a>
+          <a href="#" onclick="closeMobileMenu()">Returns</a>
+          <a href="#" onclick="closeMobileMenu()">Contact</a>
+        </div>
+        <span class="mobile-menu-tag">SS 2025</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="hero" id="home">
+    <!-- Full-bleed background video -->
+    <div class="hero-right">
+      <video class="hero-video" autoplay loop muted playsinline
+        poster="https://images.pexels.com/photos/1598505/pexels-photo-1598505.jpeg?auto=compress&cs=tinysrgb&w=1400"
+        aria-hidden="true">
+        <source src="https://videos.pexels.com/video-files/5377106/5377106-uhd_2560_1440_25fps.mp4" type="video/mp4"/>
+      </video>
+    </div>
+    <!-- Two-col bottom content: big headline | desc + cta -->
+    <div class="hero-left">
+      <div>
+        <div class="hero-tag">SS 2025 Collection</div>
+        <h1 class="hero-h1">READY<br>SET<br><span class="lime-word">STYLE.</span></h1>
+      </div>
+      <div>
+        <p class="hero-desc">Footwear engineered for those who move fast and look sharp. Drop-worthy silhouettes. Every week, no exceptions.</p>
+        <div class="hero-actions">
+          <a href="#products" class="btn-primary-dash">Shop the Drop <i class="fa fa-arrow-right"></i></a>
+          <a href="#about" class="btn-ghost-dash">See Collection</a>
+        </div>
+      </div>
+    </div>
+    <!-- Stats bar -->
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="stat-num">4K+</span><span class="stat-label">Styles<br>Available</span></div>
+      <div class="hero-stat"><span class="stat-num">80K</span><span class="stat-label">Happy<br>Customers</span></div>
+      <div class="hero-stat"><span class="stat-num">New</span><span class="stat-label">Drops Every<br>Week</span></div>
+      <div class="hero-stat"><span class="stat-num">FREE</span><span class="stat-label">Returns<br>Always</span></div>
+    </div>
+  </section>
+
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <span>New Arrivals</span><span class="sep"> — </span>
+      <span>Ready.Set.Style</span><span class="sep"> — </span>
+      <span>Free Shipping $120+</span><span class="sep"> — </span>
+      <span>Drop Every Friday</span><span class="sep"> — </span>
+      <span>New Arrivals</span><span class="sep"> — </span>
+      <span>Ready.Set.Style</span><span class="sep"> — </span>
+      <span>Free Shipping $120+</span><span class="sep"> — </span>
+      <span>Drop Every Friday</span><span class="sep"> — </span>
+    </div>
+  </div>
+
+  <section id="products">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Curated Picks</p>
+          <h2 class="section-title">FEATURED<br>DROPS</h2>
+        </div>
+        <a href="#" class="link-arrow">All Products <i class="fa fa-arrow-right"></i></a>
+      </div>
+      <div class="products-grid">
+
+        <article class="card">
+          <div class="card-img">
+            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&auto=format&fit=crop" alt="Air Luxe Runner" loading="lazy"/>
+            <span class="badge">New Drop</span>
+            <div class="quick-add">+ Quick Add</div>
+          </div>
+          <div class="card-body">
+            <p class="card-cat">Men's Running</p>
+            <p class="card-name">Air Luxe Runner</p>
+            <div class="card-footer">
+              <span class="card-price">$189</span>
+              <button class="add-btn" aria-label="Add to cart"><i class="fa fa-plus"></i></button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-img">
+            <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=700&auto=format&fit=crop" alt="Urban Drift" loading="lazy"/>
+            <span class="badge">Best Seller</span>
+            <div class="quick-add">+ Quick Add</div>
+          </div>
+          <div class="card-body">
+            <p class="card-cat">Unisex Street</p>
+            <p class="card-name">Urban Drift</p>
+            <div class="card-footer">
+              <span class="card-price">$215 <span class="was">$260</span></span>
+              <button class="add-btn" aria-label="Add to cart"><i class="fa fa-plus"></i></button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-img">
+            <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=700&auto=format&fit=crop" alt="Velvet Loafer" loading="lazy"/>
+            <div class="quick-add">+ Quick Add</div>
+          </div>
+          <div class="card-body">
+            <p class="card-cat">Women's Casual</p>
+            <p class="card-name">Velvet Loafer</p>
+            <div class="card-footer">
+              <span class="card-price">$165</span>
+              <button class="add-btn" aria-label="Add to cart"><i class="fa fa-plus"></i></button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-img">
+            <img src="https://images.unsplash.com/photo-1539185441755-769473a23570?w=700&auto=format&fit=crop" alt="Terrain Pro Boot" loading="lazy"/>
+            <span class="badge">Limited</span>
+            <div class="quick-add">+ Quick Add</div>
+          </div>
+          <div class="card-body">
+            <p class="card-cat">Men's Outdoor</p>
+            <p class="card-name">Terrain Pro</p>
+            <div class="card-footer">
+              <span class="card-price">$295</span>
+              <button class="add-btn" aria-label="Add to cart"><i class="fa fa-plus"></i></button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-img">
+            <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=700&auto=format&fit=crop" alt="Street Force" loading="lazy"/>
+            <div class="quick-add">+ Quick Add</div>
+          </div>
+          <div class="card-body">
+            <p class="card-cat">Unisex</p>
+            <p class="card-name">Street Force</p>
+            <div class="card-footer">
+              <span class="card-price">$175</span>
+              <button class="add-btn" aria-label="Add to cart"><i class="fa fa-plus"></i></button>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="brands">
+    <div class="brands-inner">
+      <span class="brands-label">Trusted Brands</span>
+      <div class="brands-carousel">
+        <div class="brands-track">
+          
+          <!-- Nike -->
+          <div class="brand-card">
+            <svg viewBox="0 0 80 30" xmlns="http://www.w3.org/2000/svg" width="80" height="30">
+              <path d="M7 22L75 4C71 10 60 18 47 20c-9 1.5-17-1-14-6 2-3.5 9-5 15-3L7 22z" fill="#111"/>
+            </svg>
+          </div>
+          <!-- Adidas -->
+          <div class="brand-card">
+            <svg viewBox="0 0 80 40" xmlns="http://www.w3.org/2000/svg" width="80" height="40">
+              <polygon points="40,4 56,32 24,32" fill="none" stroke="#111" stroke-width="5"/>
+              <rect x="14" y="35" width="52" height="5" fill="#111"/>
+            </svg>
+          </div>
+          <!-- Puma -->
+          <div class="brand-card">
+            <svg viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg" width="90" height="38">
+              <text x="4" y="38" font-family="Arial Black,sans-serif" font-size="36" font-weight="900" fill="#111" letter-spacing="-1">PUMA</text>
+            </svg>
+          </div>
+          <!-- Reebok -->
+          <div class="brand-card">
+            <svg viewBox="0 0 110 40" xmlns="http://www.w3.org/2000/svg" width="100" height="34">
+              <text x="0" y="32" font-family="Arial Black,sans-serif" font-size="28" font-weight="900" fill="#d00" letter-spacing="1">Reebok</text>
+            </svg>
+          </div>
+          <!-- Vans -->
+          <div class="brand-card">
+            <svg viewBox="0 0 90 36" xmlns="http://www.w3.org/2000/svg" width="80" height="30">
+              <text x="2" y="30" font-family="Arial Black,sans-serif" font-size="30" font-weight="900" fill="#111" letter-spacing="2">VANS</text>
+            </svg>
+          </div>
+          <!-- Converse -->
+          <div class="brand-card">
+            <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" width="44" height="44">
+              <circle cx="18" cy="18" r="16" fill="none" stroke="#111" stroke-width="2.5"/>
+              <polygon points="18,7 20,14 27,14 21.5,18.5 23.5,26 18,21.5 12.5,26 14.5,18.5 9,14 16,14" fill="#111"/>
+            </svg>
+          </div>
+          <!-- New Balance -->
+          <div class="brand-card" style="width:160px;">
+            <svg viewBox="0 0 120 36" xmlns="http://www.w3.org/2000/svg" width="110" height="28">
+              <text x="0" y="28" font-family="Arial Black,sans-serif" font-size="13" font-weight="900" fill="#111" letter-spacing="0.5">New Balance</text>
+            </svg>
+          </div>
+          
+          <!-- Nike -->
+          <div class="brand-card">
+            <svg viewBox="0 0 80 30" xmlns="http://www.w3.org/2000/svg" width="80" height="30">
+              <path d="M7 22L75 4C71 10 60 18 47 20c-9 1.5-17-1-14-6 2-3.5 9-5 15-3L7 22z" fill="#111"/>
+            </svg>
+          </div>
+          <!-- Adidas -->
+          <div class="brand-card">
+            <svg viewBox="0 0 80 40" xmlns="http://www.w3.org/2000/svg" width="80" height="40">
+              <polygon points="40,4 56,32 24,32" fill="none" stroke="#111" stroke-width="5"/>
+              <rect x="14" y="35" width="52" height="5" fill="#111"/>
+            </svg>
+          </div>
+          <!-- Puma -->
+          <div class="brand-card">
+            <svg viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg" width="90" height="38">
+              <text x="4" y="38" font-family="Arial Black,sans-serif" font-size="36" font-weight="900" fill="#111" letter-spacing="-1">PUMA</text>
+            </svg>
+          </div>
+          <!-- Reebok -->
+          <div class="brand-card">
+            <svg viewBox="0 0 110 40" xmlns="http://www.w3.org/2000/svg" width="100" height="34">
+              <text x="0" y="32" font-family="Arial Black,sans-serif" font-size="28" font-weight="900" fill="#d00" letter-spacing="1">Reebok</text>
+            </svg>
+          </div>
+          <!-- Vans -->
+          <div class="brand-card">
+            <svg viewBox="0 0 90 36" xmlns="http://www.w3.org/2000/svg" width="80" height="30">
+              <text x="2" y="30" font-family="Arial Black,sans-serif" font-size="30" font-weight="900" fill="#111" letter-spacing="2">VANS</text>
+            </svg>
+          </div>
+          <!-- Converse -->
+          <div class="brand-card">
+            <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" width="44" height="44">
+              <circle cx="18" cy="18" r="16" fill="none" stroke="#111" stroke-width="2.5"/>
+              <polygon points="18,7 20,14 27,14 21.5,18.5 23.5,26 18,21.5 12.5,26 14.5,18.5 9,14 16,14" fill="#111"/>
+            </svg>
+          </div>
+          <!-- New Balance -->
+          <div class="brand-card" style="width:160px;">
+            <svg viewBox="0 0 120 36" xmlns="http://www.w3.org/2000/svg" width="110" height="28">
+              <text x="0" y="28" font-family="Arial Black,sans-serif" font-size="13" font-weight="900" fill="#111" letter-spacing="0.5">New Balance</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <!-- Image fills section absolutely -->
+    <div class="banner-right">
+      <img class="banner-img"
+        src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1400&auto=format&fit=crop&q=80"
+        alt="Sport Shoes Collection"/>
+    </div>
+    <!-- Centered text overlay -->
+    <div class="banner-left">
+      <p class="eyebrow">Spring · Summer 2025</p>
+      <h2 class="banner-title">SPORT<br><span class="t-lime">SHOES</span><br>COLLECTION</h2>
+      <p class="banner-desc">We always bring you the best options — performance-engineered silhouettes that work as hard as you do.</p>
+      <a href="#products" class="btn-outline-lime">Shop Now <i class="fa fa-arrow-right"></i></a>
+    </div>
+  </section>
+
+  <section id="testimonials">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Happy Customers</p>
+          <h2 class="section-title">WHAT THEY<br>SAY</h2>
+        </div>
+        <a href="#" class="link-arrow">All Reviews <i class="fa fa-arrow-right"></i></a>
+      </div>
+      <div class="reviews-grid">
+
+        <div class="review-card">
+          <div class="review-stars">
+            <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+          </div>
+          <p class="review-text">Absolute game changer. The Air Luxe Runner fits like a glove — I've never felt more comfortable on the track. Fast shipping, perfect packaging.</p>
+          <div class="review-author">
+            <img class="review-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&auto=format&fit=crop" alt="Priya"/>
+            <div>
+              <p class="review-name">Priya M.</p>
+              <p class="review-tag">Verified Buyer · Runner</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-stars">
+            <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+          </div>
+          <p class="review-text">Urban Drift is my go-to daily sneaker. The quality is insane for the price — suede feels premium, sole is super grippy. Already ordered a second pair.</p>
+          <div class="review-author">
+            <img class="review-avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&auto=format&fit=crop" alt="Jake"/>
+            <div>
+              <p class="review-name">Jake T.</p>
+              <p class="review-tag">Verified Buyer · Street Style</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-stars">
+            <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-stroke"></i>
+          </div>
+          <p class="review-text">Velvet Loafer is everything! Wore them to a dinner party and got compliments all night. Returns process was smooth too — DASH nails customer service.</p>
+          <div class="review-author">
+            <img class="review-avatar" src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=80&auto=format&fit=crop" alt="Sara"/>
+            <div>
+              <p class="review-name">Sara K.</p>
+              <p class="review-tag">Verified Buyer · Fashion</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="newsletter">
+    <div class="wrap nl-inner">
+      <p class="eyebrow">Stay In The Loop</p>
+      <h2 class="nl-title">GET EARLY<br><span>DROP ACCESS</span></h2>
+      <p class="nl-sub">Subscribe and be the first to know about new releases, exclusive discounts, and weekly drops.</p>
+      <div class="nl-form">
+        <input type="email" placeholder="Enter your email address"/>
+        <button type="button">Subscribe</button>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">DASH<span class="lime">·</span></div>
+          <p class="footer-tagline">Ready.Set.Style</p>
+          <p>Drop-worthy footwear for those who live at full speed. New styles every week — never the same look twice.</p>
+        </div>
+        <div class="footer-col">
+          <h5>Explore</h5>
+          <ul>
+            <li><a href="#">New Arrivals</a></li>
+            <li><a href="#">Men's</a></li>
+            <li><a href="#">Women's</a></li>
+            <li><a href="#">Sale</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Support</h5>
+          <ul>
+            <li><a href="#">Size Guide</a></li>
+            <li><a href="#">Returns</a></li>
+            <li><a href="#">Shipping</a></li>
+            <li><a href="#">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Follow Us</h5>
+          <div class="social-row">
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+            <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+            <a href="#" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 DASH Footwear. All rights reserved.</p>
+        <p>Video by <a href="https://www.pexels.com" target="_blank" rel="noopener">Pexels</a> · Photos by <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a> — Demonstration only.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ── Navbar scroll shadow ── */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    /* ── Hamburger / mobile drawer ── */
+    const hamburger  = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    hamburger.addEventListener('click', () => {
+      const isOpen = hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open', isOpen);
+      hamburger.setAttribute('aria-expanded', isOpen);
+      mobileMenu.setAttribute('aria-hidden', !isOpen);
+      /* No body scroll lock — drawer doesn't cover whole screen */
+    });
+
+    function closeMobileMenu() {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      mobileMenu.setAttribute('aria-hidden', 'true');
+    }
+
+    /* Close drawer when clicking outside */
+    document.addEventListener('click', (e) => {
+      if (!navbar.contains(e.target) && !mobileMenu.contains(e.target)) {
+        closeMobileMenu();
+      }
+    });
+
+    /* Close drawer on Escape key */
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeMobileMenu();
+    });
+
+    /* ── Expandable search bar ── */
+    const searchToggle = document.getElementById('searchToggle');
+    const navSearchWrap = document.getElementById('navSearchWrap');
+    const navSearchInput = document.getElementById('navSearchInput');
+
+    searchToggle.addEventListener('click', () => {
+      const isOpen = navSearchWrap.classList.toggle('open');
+      if (isOpen) {
+        navSearchInput.focus();
+        closeMobileMenu(); /* close drawer if open */
+      }
+    });
+
+    /* Close search on outside click */
+    document.addEventListener('click', (e) => {
+      if (!navSearchWrap.contains(e.target) && e.target !== searchToggle) {
+        navSearchWrap.classList.remove('open');
+      }
+    });
+
+    const cardObs = new IntersectionObserver(entries => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('do-left'), i * 90);
+          cardObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.06 });
+    document.querySelectorAll('.card').forEach(c => cardObs.observe(c));
+
+    const headObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('do-up'); headObs.unobserve(e.target); }
+      });
+    }, { threshold: 0.3 });
+    document.querySelectorAll('.section-head').forEach(el => headObs.observe(el));
+
+    /* brands carousel — CSS-only animation, no JS observer needed */
+
+    const bannerObs = new IntersectionObserver(entries => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('do-zoom'), i * 100);
+          bannerObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.banner-left, .banner-right').forEach(el => bannerObs.observe(el));
+
+    const reviewObs = new IntersectionObserver(entries => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('do-flip'), i * 130);
+          reviewObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.review-card').forEach(el => reviewObs.observe(el));
+
+    const nlObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('do-blur'); nlObs.unobserve(e.target); }
+      });
+    }, { threshold: 0.2 });
+    const nlEl = document.querySelector('.nl-inner');
+    if (nlEl) nlObs.observe(nlEl);
+  </script>
+
+</body>
+</html>
