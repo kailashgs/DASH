@@ -614,7 +614,7 @@
     }
 
     /* PRODUCTS */
-    #products { padding: 5rem 0 7rem; background: var(--canvas); }
+    #products { padding: 3rem 0 7rem; background: var(--canvas); }
     .products-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -667,6 +667,212 @@
       font-size:0.75rem; transition: background var(--ease);
     }
     .add-btn:hover { background: var(--lime); color: var(--ink); }
+
+    /* ═══════════════════════════════════════
+       CORE COLLECTIONS — SMOOTH HOVER
+    ═══════════════════════════════════════ */
+    #core-collections {
+      padding: 3rem 0 7rem;
+      background: var(--stone);
+      border-top: 1px solid var(--border);
+    }
+    .cc-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 280px);
+      gap: 2rem;
+      justify-content: center;
+    }
+
+    /* ---- card base ---- */
+    .cc-card {
+      position: relative;
+      width: 280px;
+      height: 380px;
+      border-radius: 12px;
+      cursor: pointer;
+      overflow: hidden;
+      /* smooth all transitions at once */
+      transition:
+        transform   0.45s cubic-bezier(0.34, 1.3, 0.64, 1),
+        box-shadow  0.45s cubic-bezier(0.34, 1.3, 0.64, 1);
+      box-shadow: 0px 4px 24px rgba(0,0,0,0.13);
+      /* remove the jarring "transition: all 120ms" */
+    }
+
+    /* subtle lift on hover — replaces :active scale(.96) abruptness */
+    .cc-card:hover {
+      transform: translateY(-8px) scale(1.025);
+      box-shadow:
+        0 20px 48px rgba(0,0,0,0.18),
+        0 0 0 2px var(--lime);
+    }
+    .cc-card:active {
+      transform: translateY(-2px) scale(1.01);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.14);
+      transition-duration: 0.15s;
+    }
+
+    /* inner gloss — keep as-is */
+    .cc-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      box-shadow: inset 0px 0px 32px 8px rgba(255,255,255,.45);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* "Add to Cart" bar — smooth slide with spring easing */
+    .cc-card::after {
+      content: "Add to Cart";
+      position: absolute;
+      bottom: -70px; /* start fully off-screen */
+      left: 0;
+      padding-left: 22px;
+      background: var(--ink);
+      width: 100%; height: 70px;
+      color: #fff;
+      font-family: var(--ff-display);
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      line-height: 70px;
+      z-index: 4;
+      transition: bottom 0.42s cubic-bezier(0.34, 1.2, 0.64, 1);
+    }
+    .cc-card:hover::after {
+      bottom: 0;
+    }
+    .cc-card:active::after {
+      content: "Adding !";
+      height: 75px;
+      background: var(--lime);
+      color: var(--ink);
+      transition-duration: 0.15s;
+    }
+
+    /* ---- shoe image ---- */
+    /* floating idle animation */
+    @keyframes cc-float {
+      from { transform: scale(1.00) translateY(0px); }
+      to   { transform: scale(1.04) translateY(-6px); }
+    }
+    /* hover enter: smooth via will-change + longer duration */
+    @keyframes cc-hover-spin {
+      from { transform: scale(1.18) rotate(0deg) translate(0%, 0%); }
+      to   { transform: scale(1.18) rotate(8deg) translate(8%, -6%); }
+    }
+
+    .cc-card .cc-shoe-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transform-origin: center center;
+      will-change: transform;
+      /* idle float */
+      animation: cc-float 2s ease-in-out infinite alternate;
+      /* smooth transition for all transform changes */
+      transition:
+        transform 0.55s cubic-bezier(0.34, 1.2, 0.64, 1),
+        filter    0.4s ease;
+      z-index: 2;
+    }
+    .cc-card:hover .cc-shoe-img {
+      /* stop idle float gracefully, glide into hover pose */
+      animation: none;
+      transform: scale(1.18) rotate(8deg) translate(8%, -6%);
+      filter: drop-shadow(0 12px 24px rgba(0,0,0,0.28));
+    }
+
+    /* ---- text slide-in ---- */
+    .cc-card .cc-text {
+      position: absolute;
+      top: 14%;
+      left: -90%;  /* off-screen left */
+      color: var(--ink);
+      transition: left 0.45s cubic-bezier(0.34, 1.2, 0.64, 1);
+      z-index: 3;
+    }
+    .cc-card:hover .cc-text {
+      left: 6%;
+    }
+    .cc-card .cc-text .cc-name {
+      font-family: var(--ff-display);
+      font-size: 1.5rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      line-height: 1.05;
+      margin-bottom: 5px;
+    }
+    .cc-card .cc-text .cc-cat {
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--dust);
+      margin-bottom: 8px;
+      font-family: var(--ff-mono);
+    }
+    .cc-card .cc-text .cc-price {
+      font-family: var(--ff-display);
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: var(--ink);
+    }
+    .cc-card .cc-text .cc-price .was {
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--dust);
+      text-decoration: line-through;
+      margin-left: 6px;
+    }
+    .cc-card .cc-chip {
+      position: absolute;
+      top: 14px; right: 14px;
+      background: var(--lime);
+      color: var(--ink);
+      font-family: var(--ff-mono);
+      font-size: 0.5rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 4px 9px;
+      border: 1px solid var(--ink);
+      z-index: 5;
+      /* chip pops in smoothly on card hover */
+      transition: transform 0.4s cubic-bezier(0.34, 1.5, 0.64, 1), opacity 0.3s ease;
+    }
+    .cc-card:hover .cc-chip {
+      transform: scale(1.08) translateY(-2px);
+    }
+
+    /* per-card background tints */
+    .cc-card.c1 { background: #dfe8f8; }
+    .cc-card.c2 { background: #fae5de; }
+    .cc-card.c3 { background: #d8f0e4; }
+    .cc-card.c4 { background: #ece0f8; }
+    .cc-card.c5 { background: #fdf0d0; }
+    .cc-card.c6 { background: #ede8e0; }
+    .cc-card.c7 { background: #fcd9d6; }
+    .cc-card.c8 { background: #d4ecfa; }
+
+    @media (max-width: 1280px) { .cc-grid { grid-template-columns: repeat(2, 280px); } }
+    @media (max-width: 640px)  {
+      .cc-grid { grid-template-columns: repeat(2, 160px); gap: 1rem; }
+      .cc-card { width: 160px; height: 220px; }
+      .cc-card .cc-shoe-img { width: 130px; height: 130px; }
+      .cc-card:hover .cc-shoe-img { width: 200px; height: 200px; }
+      .cc-card .cc-text .cc-name { font-size: 1rem; }
+      .cc-card .cc-text .cc-price { font-size: 0.9rem; }
+      .cc-card::after { font-size: 0.7rem; height: 50px; line-height: 50px; bottom: -50px; }
+      #core-collections { padding: 5rem 0 4rem; }
+    }
+    @media (max-width: 380px) { .cc-grid { grid-template-columns: 280px; } .cc-card { width: 280px; } }
 
     /* BRANDS */
     #brands {
@@ -984,7 +1190,6 @@
         <div class="stat-divider" aria-hidden="true"></div>
         <div class="hero-stat"><span class="stat-num">24H</span><span class="stat-label">Express<br>Delivery</span></div>
         <div class="stat-divider" aria-hidden="true"></div>
-        <!-- duplicate set -->
         <div class="hero-stat"><span class="stat-num">4K+</span><span class="stat-label">Styles<br>Available</span></div>
         <div class="stat-divider" aria-hidden="true"></div>
         <div class="hero-stat"><span class="stat-num">80K</span><span class="stat-label">Happy<br>Customers</span></div>
@@ -1023,15 +1228,13 @@
       <div class="sp-head">
         <div>
           <p class="eyebrow">Curated Picks</p>
-          <h2 class="section-title">NEW<br><span style="color:var(--lime)">ARRIVALS</span></h2>
+          <h2 class="section-title">FEATURED<br><span style="color:var(--lime)">DROPS</span></h2>
         </div>
         <a href="#" class="link-arrow">View All Drops <i class="fa fa-arrow-right"></i></a>
       </div>
       <p class="sp-scroll-hint">Scroll to explore</p>
 
       <div class="sp-grid">
-
-        <!-- Card 1 — Nike Air Max -->
         <div class="sp-card">
           <div class="sp-circle">
             <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=80&fit=crop&crop=center" alt="Nike Air Max 270">
@@ -1048,8 +1251,6 @@
             </div>
           </div>
         </div>
-
-        <!-- Card 2 — Adidas Ultraboost -->
         <div class="sp-card">
           <div class="sp-circle">
             <img src="https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?w=400&q=80&fit=crop&crop=center" alt="Adidas Ultraboost">
@@ -1066,8 +1267,6 @@
             </div>
           </div>
         </div>
-
-        <!-- Card 3 — Jordan 1 -->
         <div class="sp-card">
           <div class="sp-circle">
             <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=400&q=80&fit=crop&crop=center" alt="Jordan 1 Retro High">
@@ -1084,8 +1283,6 @@
             </div>
           </div>
         </div>
-
-        <!-- Card 4 — New Balance 990 -->
         <div class="sp-card">
           <div class="sp-circle">
             <img src="https://images.unsplash.com/photo-1539185441755-769473a23570?w=400&q=80&fit=crop&crop=center" alt="New Balance 990">
@@ -1102,8 +1299,6 @@
             </div>
           </div>
         </div>
-
-        <!-- Card 5 — Puma RS-X -->
         <div class="sp-card">
           <div class="sp-circle">
             <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&q=80&fit=crop&crop=center" alt="Puma RS-X">
@@ -1120,9 +1315,8 @@
             </div>
           </div>
         </div>
-
-      </div><!-- /.sp-grid -->
-    </div><!-- /.sp-inner -->
+      </div>
+    </div>
   </section>
 
   <!-- ═══ FEATURED DROPS (product grid) ═══ -->
@@ -1131,12 +1325,11 @@
       <div class="section-head">
         <div>
           <p class="eyebrow">Shop The Collection</p>
-          <h2 class="section-title">FEATURED<br><span style="color:var(--lime)">DROPS</span></h2>
+          <h2 class="section-title">NEW<br><span style="color:var(--lime)">ARRIVALS</span></h2>
         </div>
         <a href="#" class="link-arrow">All Products <i class="fa fa-arrow-right"></i></a>
       </div>
       <div class="products-grid">
-
         <article class="card">
           <div class="card-img">
             <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&auto=format&fit=crop" alt="Air Luxe Runner" loading="lazy"/>
@@ -1152,7 +1345,6 @@
             </div>
           </div>
         </article>
-
         <article class="card">
           <div class="card-img">
             <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=700&auto=format&fit=crop" alt="Urban Drift" loading="lazy"/>
@@ -1168,7 +1360,6 @@
             </div>
           </div>
         </article>
-
         <article class="card">
           <div class="card-img">
             <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=700&auto=format&fit=crop" alt="Velvet Loafer" loading="lazy"/>
@@ -1183,7 +1374,6 @@
             </div>
           </div>
         </article>
-
         <article class="card">
           <div class="card-img">
             <img src="https://images.unsplash.com/photo-1539185441755-769473a23570?w=700&auto=format&fit=crop" alt="Terrain Pro Boot" loading="lazy"/>
@@ -1199,7 +1389,6 @@
             </div>
           </div>
         </article>
-
         <article class="card">
           <div class="card-img">
             <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=700&auto=format&fit=crop" alt="Street Force" loading="lazy"/>
@@ -1214,7 +1403,90 @@
             </div>
           </div>
         </article>
+      </div>
+    </div>
+  </section>
 
+  <!-- ═══ CORE COLLECTIONS ═══ -->
+  <section id="core-collections">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Best Of The Season</p>
+          <h2 class="section-title">CORE<br><span style="color:var(--lime)">COLLECTIONS</span></h2>
+        </div>
+        <a href="#" class="link-arrow">Browse All <i class="fa fa-arrow-right"></i></a>
+      </div>
+      <div class="cc-grid">
+        <div class="cc-card c1">
+          <span class="cc-chip">Classic</span>
+          <img class="cc-shoe-img" src="https://images.unsplash.com/photo-1543508282-6319a3e2621f?w=600&q=85&fit=crop&crop=center" alt="Converse Chuck 70" loading="lazy"/>
+          <div class="cc-text">
+            <p class="cc-cat">Unisex · Lifestyle</p>
+            <p class="cc-name">Chuck 70<br>High Top</p>
+            <p class="cc-price">$90</p>
+          </div>
+        </div>
+        <div class="cc-card c2">
+          <img class="cc-shoe-img" src="https://images.unsplash.com/photo-1556048219-bb6978360b84?w=600&q=85&fit=crop&crop=center" alt="Velocity Pro Runner" loading="lazy"/>
+          <div class="cc-text">
+            <p class="cc-cat">Men's · Performance</p>
+            <p class="cc-name">Velocity<br>Pro X2</p>
+            <p class="cc-price">$145<span class="was">$180</span></p>
+          </div>
+        </div>
+        <div class="cc-card c3">
+          <span class="cc-chip">New</span>
+          <img class="cc-shoe-img" src="https://images.unsplash.com/photo-1587563871167-1ee9c731aefb?w=600&q=85&fit=crop&crop=center" alt="Clean Edge Low" loading="lazy"/>
+          <div class="cc-text">
+            <p class="cc-cat">Women's · Minimal</p>
+            <p class="cc-name">Clean Edge<br>Low</p>
+            <p class="cc-price">$125</p>
+          </div>
+        </div>
+        <div class="cc-card c4">
+          <span class="cc-chip">Limited</span>
+          <img class="cc-shoe-img" src="https://th.bing.com/th/id/R.3dfc3ee87bbe818983d17c62d970b985?rik=OjXKzJzOyWOWRg&riu=http%3a%2f%2fwww.blueowl.us%2fcdn%2fshop%2ffiles%2f2024_10_Product_RedwingHeritage_8085IronRangerBootinCopperRough_Tough_1335.jpg%3fv%3d1728686262%26width%3d1500&ehk=R4IeNInBOx455JwI55G44S841yVx5d7WERWNSvIRMdQ%3d&risl=&pid=ImgRaw&r=0" alt="Ranger Boot" loading="lazy"/>
+          <div class="cc-text">
+            <p class="cc-cat">Men's · Heritage</p>
+            <p class="cc-name">Ranger<br>Boot</p>
+            <p class="cc-price">$320</p>
+          </div>
+        </div>
+        <div class="cc-card c5">
+          <img class="cc-shoe-img" src="https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=600&q=85&fit=crop&crop=center" alt="Slip Draft Canvas" loading="lazy"/>
+          <div class="cc-text">
+            <p class="cc-cat">Unisex · Casual</p>
+            <p class="cc-name">Slip Draft<br>Canvas</p>
+            <p class="cc-price">$75</p>
+          </div>
+        </div>
+        <div class="cc-card c6">
+          <span class="cc-chip">Sale</span>
+          <img class="cc-shoe-img" src="https://images.unsplash.com/photo-1512374382149-233c42b6a83b?w=600&q=85&fit=crop&crop=center" alt="Suede Courts" loading="lazy"/>
+          <div class="cc-text">
+            <p class="cc-cat">Women's · Street</p>
+            <p class="cc-name">Suede<br>Courts</p>
+            <p class="cc-price">$99<span class="was">$140</span></p>
+          </div>
+        </div>
+        <div class="cc-card c7">
+          <img class="cc-shoe-img" src="https://images.unsplash.com/photo-1582588678413-dbf45f4823e9?w=600&q=85&fit=crop&crop=center" alt="Trailblazer GTX" loading="lazy"/>
+          <div class="cc-text">
+            <p class="cc-cat">Unisex · Trail</p>
+            <p class="cc-name">Trailblazer<br>GTX</p>
+            <p class="cc-price">$210</p>
+          </div>
+        </div>
+        <div class="cc-card c8">
+          <span class="cc-chip">Trending</span>
+          <img class="cc-shoe-img" src="https://assets.myntassets.com/h_200,w_200,c_fill,g_auto/h_1440,q_100,w_1080/v1/assets/images/19256166/2022/7/26/064e1791-b2b4-4a55-8af6-5d53fd4ac8111658821027446WomenChunkySneakers1.jpg" alt="Rise Up Platform" loading="lazy"/>
+          <div class="cc-text">
+            <p class="cc-cat">Women's · Platform</p>
+            <p class="cc-name">Rise Up<br>Platform</p>
+            <p class="cc-price">$155</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
