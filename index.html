@@ -387,7 +387,7 @@
       border-bottom: 1px solid var(--border);
     }
     #sneaker-picks .sp-inner {
-      max-width: 1600px;
+      max-width: 100%;
       margin: 0 auto;
       padding: 0 clamp(16px, 4vw, 48px);
     }
@@ -434,14 +434,14 @@
     .sp-card {
       position: relative;
       flex-shrink: 0;
-      width: clamp(160px, 17vw, 250px);
-      height: clamp(160px, 17vw, 250px);
+      width: clamp(200px, 22vw, 320px);
+      height: clamp(200px, 22vw, 320px);
       margin-inline: 0;
       transition: margin-inline .4s cubic-bezier(.4,0,.2,1);
       z-index: 0;
     }
     .sp-card:hover {
-      margin-inline: clamp(30px, 4vw, 60px);
+      margin-inline: clamp(40px, 5vw, 80px);
       z-index: 10;
     }
 
@@ -450,13 +450,13 @@
       position: absolute;
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
-      width: clamp(120px, 13vw, 185px);
-      height: clamp(120px, 13vw, 185px);
+      width: clamp(160px, 18vw, 260px);
+      height: clamp(160px, 18vw, 260px);
       border-radius: 50%;
       overflow: hidden;
-      box-shadow: 0 0 3px 1px rgba(24,24,24,.22),
-                  2px 2px 6px rgba(24,24,24,.35),
-                  inset 2px 2px 2px #fff;
+      box-shadow: 0 0 4px 2px rgba(24,24,24,.22),
+                  3px 3px 10px rgba(24,24,24,.35),
+                  inset 2px 2px 3px #fff;
       transition: opacity .3s ease-in-out .5s,
                   border-radius .3s ease-in-out .5s;
       cursor: pointer;
@@ -478,10 +478,10 @@
       transform: translate(-50%, -50%);
       display: flex;
       align-items: flex-end;
-      width: clamp(120px, 13vw, 185px);
-      height: clamp(120px, 13vw, 185px);
-      border-radius: 16px;
-      padding: 16px;
+      width: clamp(160px, 18vw, 260px);
+      height: clamp(160px, 18vw, 260px);
+      border-radius: 20px;
+      padding: 20px;
       box-shadow: 0 8px 32px rgba(0,0,0,.18),
                   inset 2px 2px 2px rgba(255,255,255,.7);
       visibility: hidden;
@@ -492,8 +492,8 @@
       z-index: 1;
     }
     .sp-card:hover .sp-panel {
-      width: clamp(220px, 24vw, 310px);
-      height: clamp(130px, 14vw, 195px);
+      width: clamp(280px, 30vw, 400px);
+      height: clamp(170px, 18vw, 250px);
       visibility: visible;
       transition: width .35s cubic-bezier(.4,0,.2,1) .45s,
                   height .35s cubic-bezier(.4,0,.2,1) .45s,
@@ -505,7 +505,7 @@
       bottom: 0; left: 0; right: 0;
       height: 3px;
       background: var(--lime);
-      border-radius: 0 0 16px 16px;
+      border-radius: 0 0 20px 20px;
       transform: scaleX(0);
       transform-origin: left;
       transition: transform .4s ease-in-out;
@@ -527,36 +527,36 @@
     }
     .sp-card .sp-panel .sp-detail .sp-name {
       font-family: var(--ff-display);
-      font-size: clamp(14px, 1.4vw, 18px);
+      font-size: clamp(15px, 1.6vw, 22px);
       font-weight: 900;
       text-transform: uppercase;
       line-height: 1.05;
-      margin-bottom: 4px;
+      margin-bottom: 5px;
       color: var(--ink);
     }
     .sp-card .sp-panel .sp-detail .sp-sub {
-      font-size: clamp(7px, 0.65vw, 9px);
+      font-size: clamp(8px, 0.7vw, 10px);
       letter-spacing: 1.5px;
       text-transform: uppercase;
       color: #888;
-      margin-bottom: 6px;
+      margin-bottom: 7px;
       font-weight: 400;
       font-family: var(--ff-mono);
     }
     .sp-card .sp-panel .sp-detail .sp-price {
       font-family: var(--ff-display);
-      font-size: clamp(16px, 1.7vw, 22px);
+      font-size: clamp(18px, 1.9vw, 26px);
       font-weight: 700;
       color: var(--ink);
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
     .sp-card .sp-panel .sp-detail .sp-btn {
       background: var(--lime);
-      width: clamp(56px, 5.5vw, 72px);
-      height: clamp(22px, 2.2vw, 26px);
+      width: clamp(64px, 6vw, 84px);
+      height: clamp(24px, 2.4vw, 30px);
       color: var(--ink);
       font-family: var(--ff-display);
-      font-size: clamp(10px, 0.9vw, 12px);
+      font-size: clamp(10px, 0.95vw, 13px);
       font-weight: 700;
       letter-spacing: 1px;
       text-transform: uppercase;
@@ -571,9 +571,9 @@
     .sp-card .sp-panel .sp-float {
       position: absolute;
       bottom: 35%;
-      right: -10px;
-      width: clamp(110px, 12vw, 160px);
-      height: clamp(110px, 12vw, 160px);
+      right: -14px;
+      width: clamp(140px, 15vw, 210px);
+      height: clamp(140px, 15vw, 210px);
       pointer-events: none;
       opacity: 0;
       transform: translateY(20px) scale(0.65) rotate(-12deg);
@@ -589,8 +589,8 @@
     .sp-card .sp-panel .sp-float img {
       width: 100%; height: 100%;
       object-fit: cover;
-      border-radius: 12px;
-      filter: drop-shadow(4px 8px 16px rgba(0,0,0,.45));
+      border-radius: 14px;
+      filter: drop-shadow(4px 10px 20px rgba(0,0,0,.45));
     }
 
     /* view-all link reusing site style */
@@ -605,16 +605,16 @@
       #sneaker-picks .sp-scroll-hint { display: flex; }
     }
     @media (max-width: 760px) and (orientation: landscape) {
-      .sp-card { width: 130px; height: 130px; }
-      .sp-card .sp-panel .sp-float { width: 100px; height: 100px; }
+      .sp-card { width: 160px; height: 160px; }
+      .sp-card .sp-panel .sp-float { width: 120px; height: 120px; }
     }
     @media (max-width: 500px) {
-      .sp-card { width: 145px; height: 145px; }
-      .sp-card:hover { margin-inline: 26px; }
+      .sp-card { width: 175px; height: 175px; }
+      .sp-card:hover { margin-inline: 32px; }
     }
 
     /* PRODUCTS */
-    #products { padding: 3rem 0 7rem; background: var(--canvas); }
+    #products { padding: 8rem 0 7rem; background: var(--canvas); }
     .products-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -672,7 +672,7 @@
        CORE COLLECTIONS — SMOOTH HOVER
     ═══════════════════════════════════════ */
     #core-collections {
-      padding: 3rem 0 7rem;
+      padding: 8rem 0 7rem;
       background: var(--stone);
       border-top: 1px solid var(--border);
     }
@@ -861,60 +861,293 @@
     .cc-card.c7 { background: #fcd9d6; }
     .cc-card.c8 { background: #d4ecfa; }
 
-    @media (max-width: 1280px) { .cc-grid { grid-template-columns: repeat(2, 280px); } }
-    @media (max-width: 640px)  {
-      .cc-grid { grid-template-columns: repeat(2, 160px); gap: 1rem; }
-      .cc-card { width: 160px; height: 220px; }
-      .cc-card .cc-shoe-img { width: 130px; height: 130px; }
-      .cc-card:hover .cc-shoe-img { width: 200px; height: 200px; }
-      .cc-card .cc-text .cc-name { font-size: 1rem; }
-      .cc-card .cc-text .cc-price { font-size: 0.9rem; }
-      .cc-card::after { font-size: 0.7rem; height: 50px; line-height: 50px; bottom: -50px; }
-      #core-collections { padding: 5rem 0 4rem; }
+    /* ── 2-col fixed grid for mid-range tablets ── */
+    @media (max-width: 1280px) {
+      .cc-grid { grid-template-columns: repeat(2, 280px); }
     }
-    @media (max-width: 380px) { .cc-grid { grid-template-columns: 280px; } .cc-card { width: 280px; } }
 
-    /* BRANDS */
+    /* ── fluid 2-col for tablet portrait & large phones ── */
+    @media (max-width: 680px) {
+      #core-collections { padding: 3.5rem 0 3rem; }
+
+      .cc-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+        width: 100%;
+      }
+
+      /* card fills its column, height scales with viewport */
+      .cc-card {
+        width: 100%;
+        height: clamp(180px, 46vw, 260px);
+        border-radius: 10px;
+      }
+
+      /* shoe fills the card */
+      .cc-card .cc-shoe-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* hover pose scaled to card size */
+      .cc-card:hover .cc-shoe-img {
+        transform: scale(1.2) rotate(7deg) translate(6%, -5%);
+        filter: drop-shadow(0 8px 16px rgba(0,0,0,.28));
+      }
+
+      .cc-card .cc-text .cc-name  { font-size: 1rem; }
+      .cc-card .cc-text .cc-cat   { font-size: 0.5rem; margin-bottom: 4px; }
+      .cc-card .cc-text .cc-price { font-size: 1rem; }
+      .cc-card .cc-text .cc-price .was { font-size: 0.72rem; }
+
+      .cc-card::after {
+        font-size: 0.62rem;
+        height: 44px;
+        line-height: 44px;
+        bottom: -44px;
+        padding-left: 14px;
+        letter-spacing: 0.14em;
+      }
+      .cc-card:hover::after { bottom: 0; }
+
+      .cc-chip { font-size: 0.44rem; padding: 3px 7px; }
+    }
+
+    /* ── single fluid column for small phones (≤ 400px) ── */
+    @media (max-width: 400px) {
+      .cc-grid {
+        grid-template-columns: 1fr;
+        gap: 0.65rem;
+      }
+      .cc-card {
+        width: 100%;
+        height: clamp(160px, 56vw, 210px);
+        border-radius: 10px;
+      }
+      .cc-card .cc-text .cc-name { font-size: 1.1rem; }
+    }
+
+    /* ── landscape phones: 4-col horizontal scroll ── */
+    @media (max-height: 500px) and (orientation: landscape) {
+      #core-collections { padding: 2.5rem 0 2rem; }
+
+      .cc-grid {
+        grid-template-columns: repeat(4, 200px);
+        gap: 0.75rem;
+        overflow-x: auto;
+        justify-content: start;
+        padding-bottom: 0.5rem;
+        scrollbar-width: thin;
+        scrollbar-color: var(--lime) #e0e0e0;
+      }
+      .cc-grid::-webkit-scrollbar { height: 4px; }
+      .cc-grid::-webkit-scrollbar-thumb { background: var(--lime); border-radius: 2px; }
+
+      .cc-card {
+        width: 200px;
+        height: 160px;
+        flex-shrink: 0;
+        border-radius: 8px;
+      }
+
+      .cc-card::after {
+        font-size: 0.58rem;
+        height: 38px;
+        line-height: 38px;
+        bottom: -38px;
+        padding-left: 12px;
+        letter-spacing: 0.1em;
+      }
+      .cc-card:hover::after { bottom: 0; }
+
+      .cc-card .cc-text .cc-name  { font-size: 0.85rem; }
+      .cc-card .cc-text .cc-price { font-size: 0.85rem; }
+      .cc-card .cc-text .cc-cat   { font-size: 0.44rem; }
+    }
+
+    /* ═══════════════════════════════════════
+       BRANDS — wide card, black-fill hover
+    ═══════════════════════════════════════ */
     #brands {
-      padding: 4rem 0;
+      padding: 5rem 0;
       background: var(--stone);
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
       overflow: hidden;
     }
-    .brands-inner { display: flex; flex-direction: column; align-items: center; gap: 2rem; }
-    .brands-label { font-size: 0.6rem; font-weight:500; letter-spacing:0.28em; text-transform:uppercase; color: var(--dust); }
-    .brands-carousel {
-      width: 100%; overflow: hidden; position: relative;
-      mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
-      -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
+    .brands-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2.5rem;
     }
-    .brands-carousel:hover .brands-track { animation-play-state: paused; }
-    .brands-track {
-      display: flex; align-items: center; gap: 1.25rem;
-      width: max-content;
-      animation: brandScroll 28s linear infinite;
+    .brands-label {
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--dust);
     }
-    @keyframes brandScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-    .brand-card {
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-      width: 140px; height: 80px; padding: 1rem 1.5rem;
-      background: #fff; border: 1.5px solid var(--border); border-radius: 4px;
-      filter: grayscale(1) opacity(0.4);
-      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1),
-                  box-shadow 0.3s ease, border-color 0.25s ease, filter 0.3s ease;
-      cursor: default;
-    }
-    .brand-card:hover {
-      transform: scale(1.15) translateY(-4px);
-      box-shadow: 0 12px 32px rgba(0,0,0,0.12), 0 0 0 2px var(--lime);
-      border-color: var(--lime); filter: grayscale(0) opacity(1);
-      z-index: 2; position: relative;
-    }
-    .brand-card svg { display: block; max-width: 100%; max-height: 100%; }
 
-    /* COLLECTION BANNER */
+    /* extra vertical padding so the hover lift isn't clipped */
+    .brands-carousel {
+      width: 100%;
+      padding: 1.4rem 0 1.8rem;
+      overflow: hidden;
+      position: relative;
+      mask-image: linear-gradient(to right, transparent 0%, #000 7%, #000 93%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 7%, #000 93%, transparent 100%);
+    }
+
+    .brands-track {
+      display: flex;
+      align-items: center;
+      gap: 1.1rem;
+      width: max-content;
+      will-change: transform;
+    }
+
+    /* ── wide card (logo + name always visible) ── */
+    .brand-chip {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      gap: 8px;
+      width: 160px;
+      height: 100px;
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+      transition:
+        background    0.35s cubic-bezier(0.4, 0, 0.2, 1),
+        border-color  0.35s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow    0.35s cubic-bezier(0.4, 0, 0.2, 1),
+        transform     0.4s  cubic-bezier(0.34, 1.3, 0.64, 1);
+    }
+
+    /* lime border glow + black fill + lift */
+    .brand-chip:hover {
+      background: #0D0D0D;
+      border-color: var(--lime);
+      box-shadow:
+        0 0 0 2px var(--lime),
+        0 16px 40px rgba(0, 0, 0, 0.22);
+      transform: translateY(-8px) scale(1.04);
+    }
+
+    /* lime bottom accent bar */
+    .brand-chip::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--lime);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.38s cubic-bezier(0.34, 1.2, 0.64, 1) 0.05s;
+      border-radius: 0 0 12px 12px;
+    }
+    .brand-chip:hover::before {
+      transform: scaleX(1);
+    }
+
+    /* ── icon area ── */
+    .brand-chip .bc-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px;
+      height: 36px;
+      flex-shrink: 0;
+      transition: transform 0.4s cubic-bezier(0.34, 1.3, 0.64, 1);
+    }
+    .brand-chip:hover .bc-icon {
+      transform: scale(1.08) translateY(-2px);
+    }
+    .brand-chip .bc-icon svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      transition: opacity 0.3s ease;
+    }
+    /* default: greyed out */
+    .brand-chip .bc-icon svg * {
+      fill: #aaa !important;
+      stroke: #aaa !important;
+    }
+    /* on hover: fill becomes white */
+    .brand-chip:hover .bc-icon svg * {
+      fill: #fff !important;
+      stroke: #fff !important;
+    }
+    /* preserve brand-specific colours that use fill="none" (outlined shapes) */
+    .brand-chip .bc-icon svg [fill="none"] { fill: none !important; }
+    .brand-chip:hover .bc-icon svg [fill="none"] { fill: none !important; }
+
+    /* ── brand name label ── */
+    .brand-chip .bc-name {
+      font-family: var(--ff-display);
+      font-size: 0.75rem;
+      font-weight: 900;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #bbb;
+      transition: color 0.3s ease, transform 0.35s ease;
+      line-height: 1;
+    }
+    .brand-chip:hover .bc-name {
+      color: var(--lime);
+      transform: translateY(1px);
+    }
+
+    /* ── RESPONSIVE ──────────────────────────── */
+
+    /* large tablet */
+    @media (max-width: 1200px) {
+      .brand-chip       { width: 148px; height: 94px; }
+      .brands-track     { gap: 1rem; }
+    }
+
+    /* tablet portrait */
+    @media (max-width: 900px) {
+      #brands           { padding: 4rem 0; }
+      .brands-inner     { gap: 2rem; }
+      .brands-carousel  { padding: 1.1rem 0 1.5rem; }
+      .brand-chip       { width: 136px; height: 88px; border-radius: 12px; }
+      .brand-chip .bc-icon { width: 50px; height: 32px; }
+      .brand-chip .bc-name { font-size: 0.68rem; }
+      .brands-track     { gap: 0.9rem; }
+    }
+
+    /* mobile phones */
+    @media (max-width: 640px) {
+      #brands           { padding: 3rem 0; }
+      .brands-inner     { gap: 1.5rem; }
+      .brands-carousel  { padding: 0.9rem 0 1.2rem; }
+      .brand-chip       { width: 112px; height: 76px; border-radius: 10px; gap: 6px; }
+      .brand-chip:hover { transform: translateY(-5px) scale(1.03); }
+      .brand-chip .bc-icon { width: 42px; height: 28px; }
+      .brand-chip .bc-name { font-size: 0.6rem; letter-spacing: 0.14em; }
+      .brands-track     { gap: 0.7rem; }
+    }
+
+    /* small phones */
+    @media (max-width: 400px) {
+      .brands-carousel  { padding: 0.75rem 0 1rem; }
+      .brand-chip       { width: 96px; height: 68px; border-radius: 9px; gap: 5px; }
+      .brand-chip:hover { transform: translateY(-4px) scale(1.02); }
+      .brand-chip .bc-icon { width: 36px; height: 24px; }
+      .brand-chip .bc-name { font-size: 0.55rem; letter-spacing: 0.1em; }
+      .brands-track     { gap: 0.6rem; }
+    }
+
+        /* COLLECTION BANNER */
     #about { position:relative; height:75vh; min-height:520px; overflow:hidden; }
     .banner-right { position:absolute; inset:0; }
     .banner-img {
@@ -1052,7 +1285,7 @@
       nav { padding: 0 1.2rem; }
       .nav-links { display: none; }
       .nav-logo { border-right: none; padding-right: 0; }
-      .wrap { padding: 0 1.5rem; }
+      .wrap { padding: 0 1rem; }
       .hero-left { grid-template-columns: 1fr; gap: 1.5rem; padding: 0 1.5rem 7rem; }
       .hero-desc { max-width: 100%; margin-bottom: 1.5rem; }
       .hero-stat { padding: 0.9rem 1.8rem; }
@@ -1060,7 +1293,7 @@
       #products { padding: 5rem 0 4rem; }
       #testimonials { padding: 5rem 0; }
       #newsletter { padding: 5rem 0; }
-      .brand-card { width: 110px; height: 68px; }
+
     }
     @media (max-width: 640px) {
       nav { height: 56px; }
@@ -1077,7 +1310,7 @@
       .footer-grid { grid-template-columns: 1fr; }
       .nl-form { flex-direction: column; }
       .nl-form button { padding: 0.85rem; }
-      .brand-card { width: 90px; height: 60px; padding: 0.75rem 1rem; }
+
       .banner-title { font-size: clamp(3rem, 10vw, 5rem); }
       .mobile-menu a { font-size: 2.8rem; }
       #about { height: auto; min-height: 55vh; }
@@ -1491,27 +1724,138 @@
     </div>
   </section>
 
-  <section id="brands">
+    <section id="brands">
     <div class="brands-inner">
       <span class="brands-label">Trusted Brands</span>
       <div class="brands-carousel">
-        <div class="brands-track">
-          <div class="brand-card"><svg viewBox="0 0 80 30" xmlns="http://www.w3.org/2000/svg" width="80" height="30"><path d="M7 22L75 4C71 10 60 18 47 20c-9 1.5-17-1-14-6 2-3.5 9-5 15-3L7 22z" fill="#111"/></svg></div>
-          <div class="brand-card"><svg viewBox="0 0 80 40" xmlns="http://www.w3.org/2000/svg" width="80" height="40"><polygon points="40,4 56,32 24,32" fill="none" stroke="#111" stroke-width="5"/><rect x="14" y="35" width="52" height="5" fill="#111"/></svg></div>
-          <div class="brand-card"><svg viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg" width="90" height="38"><text x="4" y="38" font-family="Arial Black,sans-serif" font-size="36" font-weight="900" fill="#111" letter-spacing="-1">PUMA</text></svg></div>
-          <div class="brand-card"><svg viewBox="0 0 110 40" xmlns="http://www.w3.org/2000/svg" width="100" height="34"><text x="0" y="32" font-family="Arial Black,sans-serif" font-size="28" font-weight="900" fill="#d00" letter-spacing="1">Reebok</text></svg></div>
-          <div class="brand-card"><svg viewBox="0 0 90 36" xmlns="http://www.w3.org/2000/svg" width="80" height="30"><text x="2" y="30" font-family="Arial Black,sans-serif" font-size="30" font-weight="900" fill="#111" letter-spacing="2">VANS</text></svg></div>
-          <div class="brand-card"><svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" width="44" height="44"><circle cx="18" cy="18" r="16" fill="none" stroke="#111" stroke-width="2.5"/><polygon points="18,7 20,14 27,14 21.5,18.5 23.5,26 18,21.5 12.5,26 14.5,18.5 9,14 16,14" fill="#111"/></svg></div>
-          <div class="brand-card" style="width:160px;"><svg viewBox="0 0 120 36" xmlns="http://www.w3.org/2000/svg" width="110" height="28"><text x="0" y="28" font-family="Arial Black,sans-serif" font-size="13" font-weight="900" fill="#111" letter-spacing="0.5">New Balance</text></svg></div>
-          <div class="brand-card"><svg viewBox="0 0 80 30" xmlns="http://www.w3.org/2000/svg" width="80" height="30"><path d="M7 22L75 4C71 10 60 18 47 20c-9 1.5-17-1-14-6 2-3.5 9-5 15-3L7 22z" fill="#111"/></svg></div>
-          <div class="brand-card"><svg viewBox="0 0 80 40" xmlns="http://www.w3.org/2000/svg" width="80" height="40"><polygon points="40,4 56,32 24,32" fill="none" stroke="#111" stroke-width="5"/><rect x="14" y="35" width="52" height="5" fill="#111"/></svg></div>
-          <div class="brand-card"><svg viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg" width="90" height="38"><text x="4" y="38" font-family="Arial Black,sans-serif" font-size="36" font-weight="900" fill="#111" letter-spacing="-1">PUMA</text></svg></div>
-          <div class="brand-card"><svg viewBox="0 0 110 40" xmlns="http://www.w3.org/2000/svg" width="100" height="34"><text x="0" y="32" font-family="Arial Black,sans-serif" font-size="28" font-weight="900" fill="#d00" letter-spacing="1">Reebok</text></svg></div>
-          <div class="brand-card"><svg viewBox="0 0 90 36" xmlns="http://www.w3.org/2000/svg" width="80" height="30"><text x="2" y="30" font-family="Arial Black,sans-serif" font-size="30" font-weight="900" fill="#111" letter-spacing="2">VANS</text></svg></div>
-          <div class="brand-card"><svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" width="44" height="44"><circle cx="18" cy="18" r="16" fill="none" stroke="#111" stroke-width="2.5"/><polygon points="18,7 20,14 27,14 21.5,18.5 23.5,26 18,21.5 12.5,26 14.5,18.5 9,14 16,14" fill="#111"/></svg></div>
-          <div class="brand-card" style="width:160px;"><svg viewBox="0 0 120 36" xmlns="http://www.w3.org/2000/svg" width="110" height="28"><text x="0" y="28" font-family="Arial Black,sans-serif" font-size="13" font-weight="900" fill="#111" letter-spacing="0.5">New Balance</text></svg></div>
-        </div>
-      </div>
+        <div class="brands-track" id="brandsTrack">
+
+          <!-- Nike -->
+          <div class="brand-chip">
+            <span class="bc-icon">
+              <svg viewBox="0 0 100 38" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 30L96 5C91 13 76 24 59 27c-12 2-22-1-18-8 3-5 12-7 20-4L9 30z" fill="#111"/>
+              </svg>
+            </span>
+            <span class="bc-name">Nike</span>
+          </div>
+
+          <!-- Adidas: three stripes wordmark style -->
+          <div class="brand-chip">
+            <span class="bc-icon">
+              <svg viewBox="0 0 80 44" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="40,3 74,40 6,40" fill="none" stroke="#111" stroke-width="5" stroke-linejoin="round"/>
+                <line x1="22" y1="32" x2="58" y2="32" stroke="#111" stroke-width="4.5"/>
+                <line x1="28" y1="22" x2="52" y2="22" stroke="#111" stroke-width="4.5"/>
+              </svg>
+            </span>
+            <span class="bc-name">Adidas</span>
+          </div>
+
+          <!-- Puma: leaping cat -->
+          <div class="brand-chip">
+            <span class="bc-icon">
+              <svg viewBox="0 0 60 48" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="36" cy="10" rx="9" ry="6.5" fill="#111" transform="rotate(-25,36,10)"/>
+                <path d="M28 14 Q16 22 13 38 Q19 35 24 32 Q25 40 29 43 Q32 35 35 31 Q40 36 46 43 Q46 33 40 24 Z" fill="#111"/>
+                <circle cx="41" cy="6" r="4" fill="#111"/>
+                <path d="M45 4 Q52 1 55 -1" stroke="#111" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <path d="M44 2 Q50 -2 52 -4" stroke="#111" stroke-width="2" fill="none" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span class="bc-name">Puma</span>
+          </div>
+
+          <!-- Reebok: delta vector -->
+          <div class="brand-chip">
+            <span class="bc-icon">
+              <svg viewBox="0 0 60 48" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="30,3 56,44 4,44" fill="#cc0000"/>
+                <polygon points="30,16 46,40 14,40" fill="#fff"/>
+                <polygon points="30,28 38,40 22,40" fill="#cc0000"/>
+              </svg>
+            </span>
+            <span class="bc-name" style="color:inherit">Reebok</span>
+          </div>
+
+          <!-- Vans: checkered off-the-wall -->
+          <div class="brand-chip">
+            <span class="bc-icon">
+              <svg viewBox="0 0 60 44" xmlns="http://www.w3.org/2000/svg">
+                <rect x="4"  y="4"  width="13" height="13" fill="#111"/>
+                <rect x="17" y="4"  width="13" height="13" fill="none" stroke="#111" stroke-width="2.5"/>
+                <rect x="4"  y="17" width="13" height="13" fill="none" stroke="#111" stroke-width="2.5"/>
+                <rect x="17" y="17" width="13" height="13" fill="#111"/>
+                <line x1="36" y1="4" x2="56" y2="40" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+                <line x1="44" y1="4" x2="36" y2="40" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+                <line x1="44" y1="4" x2="52" y2="40" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span class="bc-name">Vans</span>
+          </div>
+
+          <!-- New Balance: NB lettermark -->
+          <div class="brand-chip">
+            <span class="bc-icon">
+              <svg viewBox="0 0 70 44" xmlns="http://www.w3.org/2000/svg">
+                <text x="2" y="40" font-family="Arial Black,sans-serif" font-size="42" font-weight="900" fill="#111" letter-spacing="-2">NB</text>
+              </svg>
+            </span>
+            <span class="bc-name">New Balance</span>
+          </div>
+
+          <!-- Jordan: jumpman -->
+          <div class="brand-chip">
+            <span class="bc-icon">
+              <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="25" cy="6" r="4.5" fill="#111"/>
+                <line x1="25" y1="10" x2="18" y2="26" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+                <line x1="25" y1="10" x2="32" y2="26" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+                <line x1="18" y1="19" x2="32" y2="17" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+                <line x1="18" y1="26" x2="10" y2="38" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+                <line x1="32" y1="26" x2="40" y2="38" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+                <line x1="18" y1="26" x2="9"  y2="21" stroke="#111" stroke-width="2.5" stroke-linecap="round"/>
+                <line x1="32" y1="26" x2="41" y2="30" stroke="#111" stroke-width="2.5" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span class="bc-name">Jordan</span>
+          </div>
+
+          <!-- Converse: star-in-circle -->
+          <div class="brand-chip">
+            <span class="bc-icon">
+              <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="25" cy="25" r="22" fill="none" stroke="#111" stroke-width="3"/>
+                <polygon points="25,9 27.9,19 38.5,19 30,25.5 32.9,35.5 25,29 17.1,35.5 20,25.5 11.5,19 22.1,19" fill="#111"/>
+              </svg>
+            </span>
+            <span class="bc-name">Converse</span>
+          </div>
+
+          <!-- Timberland: tree -->
+          <div class="brand-chip">
+            <span class="bc-icon">
+              <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="25,3 46,36 4,36" fill="#8B6914"/>
+                <polygon points="25,14 40,36 10,36" fill="#6B4F10"/>
+                <rect x="21" y="36" width="8" height="11" fill="#8B6914"/>
+              </svg>
+            </span>
+            <span class="bc-name">Timberland</span>
+          </div>
+
+          <!-- Skechers: S lettermark -->
+          <div class="brand-chip">
+            <span class="bc-icon">
+              <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                <path d="M35 13 Q35 6 25 6 Q12 6 12 16 Q12 24 25 26 Q38 28 38 37 Q38 47 24 47 Q11 47 10 37" fill="none" stroke="#111" stroke-width="5" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span class="bc-name">Skechers</span>
+          </div>
+
+        </div><!-- /.brands-track -->
+      </div><!-- /.brands-carousel -->
     </div>
   </section>
 
@@ -1621,6 +1965,119 @@
   </footer>
 
   <script>
+    /* ══════════════════════════════════════════════════════
+       BRANDS — glitch-free endless rAF marquee
+       Strategy:
+         • Clone the original chip set N times until the
+           cloned content is wider than the viewport (min 2×).
+         • Track scroll offset in PIXELS.
+         • Each rAF frame: offset += speed * dt
+         • When offset >= oneSetWidth → subtract oneSetWidth.
+           The subtraction is invisible because set[1] looks
+           identical to set[0] at that exact pixel position.
+         • Hover pauses the clock without resetting offset,
+           so resume is seamless.
+    ══════════════════════════════════════════════════════ */
+    (function () {
+      const track    = document.getElementById('brandsTrack');
+      const carousel = track ? track.closest('.brands-carousel') : null;
+      if (!track || !carousel) return;
+
+      const SPEED     = 55;   // px / second
+      let   offset    = 0;
+      let   lastTs    = null;
+      let   paused    = false;
+      let   raf       = null;
+      let   setW      = 0;    // pixel width of ONE original set
+
+      /* ── build clones until we have >= 2× viewport width ── */
+      function buildClones() {
+        /* remove any previous clones */
+        track.querySelectorAll('.bc-clone-set').forEach(el => el.remove());
+
+        /* snapshot the original chips */
+        const originals = Array.from(track.children);
+        if (!originals.length) return;
+
+        /* measure gap from computed style */
+        const gap = parseFloat(getComputedStyle(track).gap) || 16;
+
+        /* measure one set width (chips + gaps between them) */
+        setW = originals.reduce((acc, el) => acc + el.offsetWidth + gap, 0);
+        /* setW now includes a trailing gap after the last chip;
+           we want: sum_of_widths + (n-1)*gap, so subtract one gap */
+        setW -= gap;
+        /* but add the gap that separates last-of-set from first-of-clone */
+        setW += gap;
+
+        if (setW <= 0) return;
+
+        /* how many extra copies do we need? */
+        const vw        = window.innerWidth;
+        const needed    = Math.ceil((vw * 2) / setW) + 1; // at least 2 full screens
+
+        for (let i = 0; i < needed; i++) {
+          const clone = document.createElement('span');
+          clone.className = 'bc-clone-set';
+          clone.style.cssText = 'display:inline-flex;align-items:center;gap:' + gap + 'px;';
+          originals.forEach(chip => {
+            const c = chip.cloneNode(true);
+            c.style.pointerEvents = 'none';   // clones don't steal hover
+            clone.appendChild(c);
+          });
+          track.appendChild(clone);
+        }
+      }
+
+      /* ── animation tick ── */
+      function tick(ts) {
+        if (lastTs !== null && !paused) {
+          const dt = Math.min(ts - lastTs, 64); // cap delta to avoid jump after tab switch
+          offset += SPEED * (dt / 1000);
+          if (setW > 0 && offset >= setW) offset -= setW;
+          track.style.transform = 'translateX(' + (-offset) + 'px)';
+        }
+        lastTs = ts;
+        raf = requestAnimationFrame(tick);
+      }
+
+      /* ── pause / resume helpers ── */
+      function pause()  { paused = true; }
+      function resume() { paused = false; lastTs = null; /* reset clock so dt=0 on next frame */ }
+
+      /* hover on any original chip pauses */
+      track.addEventListener('mouseenter', pause,  true);
+      track.addEventListener('mouseleave', resume, true);
+      /* hover on the whole carousel also pauses */
+      carousel.addEventListener('mouseenter', pause);
+      carousel.addEventListener('mouseleave', resume);
+
+      /* tab visibility */
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) pause(); else resume();
+      });
+
+      /* ── init ── */
+      function init() {
+        if (raf) { cancelAnimationFrame(raf); raf = null; }
+        lastTs = null;
+        buildClones();
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          raf = requestAnimationFrame(tick);
+        }
+      }
+
+      /* debounced resize */
+      let resizeTimer;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => { offset = 0; init(); }, 200);
+      });
+
+      /* kick off after two rAF passes (ensures layout is complete) */
+      requestAnimationFrame(() => requestAnimationFrame(init));
+    })();
+
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
       navbar.classList.toggle('scrolled', window.scrollY > 40);
