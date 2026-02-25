@@ -270,6 +270,15 @@
     max-width: 480px;
   }
 
+  .product-image {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    animation: breadFloat 5s ease-in-out infinite;
+  }
+
   .bread-main-wrap {
     width: 100%;
     aspect-ratio: 1;
@@ -368,6 +377,128 @@
     gap: 1rem;
   }
 
+  /* ── PRODUCT DESCRIPTION ── */
+  .product-description {
+    padding: 4rem 5vw;
+    background: var(--cream);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .description-container {
+    max-width: 100%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 0.7fr 0.3fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .description-content h2 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    color: var(--dark);
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+  }
+
+  .description-content p {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--mid);
+    margin-bottom: 1.2rem;
+  }
+
+  .description-content p:last-child {
+    margin-bottom: 0;
+  }
+
+  .description-highlight {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .highlight-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid rgba(212, 160, 23, 0.15);
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+
+  .highlight-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(139, 76, 30, 0.1);
+    border-color: rgba(212, 160, 23, 0.3);
+  }
+
+  .highlight-icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 0.8rem;
+  }
+
+  .highlight-card h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1rem;
+    color: var(--dark);
+    margin-bottom: 0.4rem;
+  }
+
+  .highlight-card p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    background: var(--dark);
+    color: white;
+    padding: 1.5rem 5vw;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  @media (max-width: 900px) {
+    .description-container {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .description-highlight {
+      flex-direction: row;
+      gap: 1rem;
+    }
+
+    .highlight-card {
+      flex: 1;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .product-description {
+      padding: 3rem 1.2rem;
+    }
+
+    .description-content h2 {
+      font-size: 1.5rem;
+    }
+
+    .description-content p {
+      font-size: 0.95rem;
+    }
+
+    .description-highlight {
+      flex-direction: column;
+    }
+  }
+
   .stat-item {
     text-align: center;
     padding: 0.5rem 1.5rem;
@@ -433,7 +564,7 @@
 
   .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
   }
 
@@ -682,7 +813,7 @@
 
   .reviews-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
     margin-top: 3rem;
   }
@@ -757,15 +888,38 @@
   /* ── STORY ── */
   .story {
     padding: 6rem 5vw;
-    background: var(--warm-white);
+    background: linear-gradient(135deg, var(--crust) 0%, var(--dark) 100%);
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 5rem;
     align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .story::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 20px,
+      rgba(255,255,255,0.01) 20px,
+      rgba(255,255,255,0.01) 21px
+    );
   }
 
   .story-visual {
     position: relative;
+  }
+
+  .story-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 30px;
+    box-shadow: 0 30px 80px rgba(139, 76, 30, 0.25);
   }
 
   .story-img-box {
@@ -776,16 +930,17 @@
     position: relative;
     overflow: hidden;
     box-shadow: 0 30px 80px rgba(139, 76, 30, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
   }
 
-  .story-img-box::before {
-    content: '🍞';
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 8rem;
-    opacity: 0.35;
-    animation: breadFloat 6s ease-in-out infinite;
+  .story-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
   }
 
   .story-badge {
@@ -809,10 +964,22 @@
 
   .story-content .section-title { max-width: 100%; }
 
+  .story-content .section-label {
+    color: var(--wheat);
+  }
+
+  .story-content .section-title {
+    color: white;
+  }
+
+  .story-content .section-title em {
+    color: var(--wheat);
+  }
+
   .story-text {
     font-size: 0.975rem;
     line-height: 1.75;
-    color: var(--mid);
+    color: rgba(255, 255, 255, 0.75);
     margin-bottom: 1.2rem;
   }
 
@@ -830,8 +997,8 @@
     gap: 0.3rem;
   }
   .pillar .pillar-icon { font-size: 1.5rem; }
-  .pillar strong { font-size: 0.85rem; color: var(--dark); font-weight: 700; }
-  .pillar span { font-size: 0.78rem; color: var(--muted); }
+  .pillar strong { font-size: 0.85rem; color: white; font-weight: 700; }
+  .pillar span { font-size: 0.78rem; color: rgba(255, 255, 255, 0.6); }
 
   /* ── FAQ ── */
   .faq {
@@ -1053,6 +1220,10 @@
     .specs-grid { grid-template-columns: 1fr; }
     .story { grid-template-columns: 1fr; gap: 2.5rem; }
     .story-badge { right: 1rem; }
+    .features-grid { grid-template-columns: repeat(2, 1fr); }
+    .reviews-grid { grid-template-columns: repeat(2, 1fr); }
+    .description-container { grid-template-columns: 1fr; gap: 2rem; }
+    .description-highlight { flex-direction: row; }
   }
 
   @media (max-width: 600px) {
@@ -1068,6 +1239,10 @@
     .story-img-box { aspect-ratio: 3/2; }
     .story-badge { right: 0.5rem; bottom: -1rem; }
     .float-tag { font-size: 0.7rem; padding: 0.5rem 0.7rem; }
+    .features-grid { grid-template-columns: 1fr; }
+    .reviews-grid { grid-template-columns: 1fr; }
+    .description-container { grid-template-columns: 1fr; }
+    .description-highlight { flex-direction: column; }
   }
 
   @media (max-width: 380px) {
@@ -1087,7 +1262,7 @@
     <li><a href="#reviews">Reviews</a></li>
     <li><a href="#faq">FAQ</a></li>
   </ul>
-  <button class="nav-cta" onclick="handleCart()">Add to Cart</button>
+
 </nav>
 
 <!-- HERO -->
@@ -1109,18 +1284,12 @@
       Say hello to the softest sandwich bread you'll ever sink your teeth into. 100% crustless — because we made the whole loaf the best part.
     </p>
     <div class="hero-actions">
-      <button class="btn-primary" onclick="handleCart()">🛒 Add to Cart</button>
-      <div class="hero-price">
-        <span>400g · 14–16 slices</span>
-        <strong>₹ 65</strong>
-      </div>
     </div>
   </div>
 
   <div class="hero-visual">
     <div class="bread-illustration">
-      <div class="bread-main-wrap"></div>
-      <div class="bread-label">SoftWhite · 400g · Crustless</div>
+      <img src="bread.png" alt="GOOD GRUB SoftWhite Bread" class="product-image">
     </div>
     <div class="float-tag float-tag-1"><span class="icon">☁️</span> Cloud-Like Softness</div>
     <div class="float-tag float-tag-2"><span class="icon">🌿</span> No Preservatives</div>
@@ -1151,6 +1320,47 @@
     <span class="stat-label">Days Fresh</span>
   </div>
 </div>
+
+<!-- PRODUCT DESCRIPTION -->
+<section class="product-description">
+  <div class="description-container">
+    <div class="description-content">
+      <h2>What is GOOD GRUB SoftWhite Bread?</h2>
+      <p>
+        GOOD GRUB SoftWhite Crustless Bread is a premium sandwich bread designed for families who refuse to settle for tough crusts and wasted edges. Every loaf is baked entirely crustless — meaning every single slice, from first to last, is soft, pillowy, and delicious.
+      </p>
+      <p>
+        Born from a simple idea: why sell bread with the part nobody wants? We bake only the soft center, removing the crust entirely during production so you get 100% usable slices. It's perfect for kids' lunchboxes, French toast, grilled cheese, or simply enjoying the cleanest sandwich experience possible.
+      </p>
+      <p>
+        Made in Bengaluru with clean, simple ingredients and no artificial colors or preservatives, GOOD GRUB is FSSAI certified and vegetarian. It stays fresh for 7–10 days at room temperature and up to 15 days when refrigerated in our resealable packaging.
+      </p>
+	   <p>
+        Each slice is precision-cut to ensure consistent thickness and even softness across the loaf. This guarantees better layering for sandwiches, cleaner cuts for party platters, and uniform toasting without hard edges or burnt corners.
+      </p>
+	   <p>
+        Since the crust is completely removed during production, GOOD GRUB SoftWhite Bread produces significantly fewer crumbs. That means cleaner lunchboxes, tidier kitchen counters, and less food waste — making it ideal for busy households and school mornings.
+      </p>
+    </div>
+    <div class="description-highlight">
+      <div class="highlight-card">
+        <span class="highlight-icon">✨</span>
+        <h3>Premium Quality</h3>
+        <p>Baked fresh with carefully selected ingredients</p>
+      </div>
+      <div class="highlight-card">
+        <span class="highlight-icon">👨‍👩‍👧‍👦</span>
+        <h3>Family Approved</h3>
+        <p>50,000+ happy families across India</p>
+      </div>
+      <div class="highlight-card">
+        <span class="highlight-icon">🌿</span>
+        <h3>Clean & Simple</h3>
+        <p>No artificial colors, flavors, or HFCS</p>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- FEATURES -->
 <section class="features" id="features">
@@ -1189,6 +1399,91 @@
       <span class="feature-icon">🔒</span>
       <h3>Resealable Packaging</h3>
       <p>Stay-fresh resealable bag keeps your bread soft longer. Open it, seal it, keep the softness locked in.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BRAND STORY -->
+<section class="story" id="story">
+  <div class="story-visual reveal">
+    <div class="story-img-box">
+      <img src="bread2.png" alt="GOOD GRUB Bread Story" class="story-image">
+    </div>
+    <div class="story-badge">
+      <strong>2019</strong>
+      <span>Founded</span>
+    </div>
+  </div>
+
+  <div class="story-content reveal">
+    <div class="section-label">Our Story</div>
+    <h2 class="section-title">Born from a <em>simple belief.</em></h2>
+
+    <p class="story-text">
+      GOOD GRUB started in a small bakery in Bengaluru, India, where our founder — a dad tired of watching his kids pick the crust off their sandwiches and throw it away — decided enough was enough.
+    </p>
+    <p class="story-text">
+      Why make bread with the part nobody wants? So he didn't. After months of recipe testing, failing, tweaking, and more taste tests than any family should endure, the SoftWhite Crustless Bread was born — baked entirely free of edges, entirely full of the soft center everyone actually loves.
+    </p>
+    <p class="story-text">
+      Every loaf is still baked in Bengaluru using the same original recipe: simple, quality ingredients, no shortcuts, no artificial nonsense. Just bread the way it should be — soft, simple, and made for GOOD GRUB.
+    </p>
+	<p class="story-text">
+      GOOD GRUB wasn’t created in a boardroom — it was built at a kitchen table. Every improvement came from real family feedback, real lunchbox experiments, and real everyday moments. If it didn’t pass the “kid approval test,” it didn’t make the cut.
+    </p>
+	<p class="story-text">
+      Proudly baked in Bengaluru, we combine neighborhood bakery care with modern food safety standards. Every batch reflects our commitment to consistency, freshness, and uncompromising quality.
+    </p>
+
+    <div class="story-pillars">
+      <div class="pillar">
+        <span class="pillar-icon">🏭</span>
+        <strong>Bengaluru, India</strong>
+        <span>Made & Baked Here</span>
+      </div>
+      <div class="pillar">
+        <span class="pillar-icon">👨‍👧</span>
+        <strong>Family Founded</strong>
+        <span>Since 2019</span>
+      </div>
+      <div class="pillar">
+        <span class="pillar-icon">🌾</span>
+        <strong>Clean Ingredients</strong>
+        <span>No Artificial Colors</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<section class="social-proof">
+  <div class="reveal">
+    <div class="section-label" style="color:var(--toast)">Loved by Families Across India</div>
+    <div class="rating-display">
+      <div class="stars-row">
+        <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span>
+      </div>
+      <span class="rating-score">4.8</span>
+      <span class="rating-count">Based on 12,400+ verified reviews</span>
+    </div>
+
+    <div class="social-stats">
+      <div class="social-stat">
+        <strong>50,000+</strong>
+        <span>Happy Families</span>
+      </div>
+      <div class="social-stat">
+        <strong>1.2M+</strong>
+        <span>Loaves Sold</span>
+      </div>
+      <div class="social-stat">
+        <strong>98%</strong>
+        <span>Would Buy Again</span>
+      </div>
+      <div class="social-stat">
+        <strong>#1</strong>
+        <span>Crustless Bread in India</span>
+      </div>
     </div>
   </div>
 </section>
@@ -1253,39 +1548,6 @@
       <div class="nutrition-row">
         <span class="nut-label">Sodium</span>
         <span class="nut-val">380mg / 95mg</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SOCIAL PROOF -->
-<section class="social-proof">
-  <div class="reveal">
-    <div class="section-label" style="color:var(--toast)">Loved by Families Across India</div>
-    <div class="rating-display">
-      <div class="stars-row">
-        <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span>
-      </div>
-      <span class="rating-score">4.8</span>
-      <span class="rating-count">Based on 12,400+ verified reviews</span>
-    </div>
-
-    <div class="social-stats">
-      <div class="social-stat">
-        <strong>50,000+</strong>
-        <span>Happy Families</span>
-      </div>
-      <div class="social-stat">
-        <strong>1.2M+</strong>
-        <span>Loaves Sold</span>
-      </div>
-      <div class="social-stat">
-        <strong>98%</strong>
-        <span>Would Buy Again</span>
-      </div>
-      <div class="social-stat">
-        <strong>#1</strong>
-        <span>Crustless Bread in India</span>
       </div>
     </div>
   </div>
@@ -1379,50 +1641,6 @@
   </div>
 </section>
 
-<!-- BRAND STORY -->
-<section class="story" id="story">
-  <div class="story-visual reveal">
-    <div class="story-img-box"></div>
-    <div class="story-badge">
-      <strong>2019</strong>
-      <span>Founded</span>
-    </div>
-  </div>
-
-  <div class="story-content reveal">
-    <div class="section-label">Our Story</div>
-    <h2 class="section-title">Born from a <em>simple belief.</em></h2>
-
-    <p class="story-text">
-      GOOD GRUB started in a small bakery in Bengaluru, India, where our founder — a dad tired of watching his kids pick the crust off their sandwiches and throw it away — decided enough was enough.
-    </p>
-    <p class="story-text">
-      Why make bread with the part nobody wants? So he didn't. After months of recipe testing, failing, tweaking, and more taste tests than any family should endure, the SoftWhite Crustless Bread was born — baked entirely free of edges, entirely full of the soft center everyone actually loves.
-    </p>
-    <p class="story-text">
-      Every loaf is still baked in Bengaluru using the same original recipe: simple, quality ingredients, no shortcuts, no artificial nonsense. Just bread the way it should be — soft, simple, and made for GOOD GRUB.
-    </p>
-
-    <div class="story-pillars">
-      <div class="pillar">
-        <span class="pillar-icon">🏭</span>
-        <strong>Bengaluru, India</strong>
-        <span>Made & Baked Here</span>
-      </div>
-      <div class="pillar">
-        <span class="pillar-icon">👨‍👧</span>
-        <strong>Family Founded</strong>
-        <span>Since 2019</span>
-      </div>
-      <div class="pillar">
-        <span class="pillar-icon">🌾</span>
-        <strong>Clean Ingredients</strong>
-        <span>No Artificial Colors</span>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- FAQ -->
 <section class="faq" id="faq" style="max-width:100%; padding: 5rem 5vw;">
   <div style="max-width: 860px; margin: 0 auto;">
@@ -1495,13 +1713,6 @@
   </div>
 </section>
 
-<!-- CTA -->
-<section class="cta-section">
-  <h2>Ready for the <em>softest bread</em> of your life?</h2>
-  <p>Made simple. Made soft. Made for GOOD GRUB. Your lunchbox will never be the same.</p>
-  <button class="btn-cta-big" onclick="handleCart()">🛒 Add to Cart — ₹65</button>
-</section>
-
 <!-- FOOTER -->
 <footer>
   <span class="footer-logo">GOOD GRUB</span>
@@ -1533,20 +1744,6 @@
     const isOpen = item.classList.contains('open');
     document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
     if (!isOpen) item.classList.add('open');
-  }
-
-  /* ── CART ── */
-  function handleCart() {
-    const btn = event.currentTarget;
-    const orig = btn.innerHTML;
-    btn.innerHTML = '✅ Added to Cart!';
-    btn.style.background = '#4CAF50';
-    btn.style.color = 'white';
-    setTimeout(() => {
-      btn.innerHTML = orig;
-      btn.style.background = '';
-      btn.style.color = '';
-    }, 2000);
   }
 
   /* ── NAV SCROLL EFFECT ── */
