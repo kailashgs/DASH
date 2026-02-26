@@ -1,0 +1,1706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GOOD GRUB SoftWhite Bread — FreshMart</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,600&family=DM+Serif+Display:ital@0;1&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ── RESET & ROOT ── */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --g: #0C831F;          /* grocery green */
+  --g-light: #E8F5E9;
+  --y: #F5A623;          /* offer amber */
+  --y-light: #FFF8E7;
+  --r: #D0021B;          /* sale red */
+  --dark: #1A1A1A;
+  --mid: #4A4A4A;
+  --muted: #888;
+  --border: #EBEBEB;
+  --bg: #F5F5F5;
+  --white: #FFFFFF;
+  --bread-primary: #E8A020;
+  --bread-dark: #8B4C1E;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Jost',sans-serif;background:var(--bg);color:var(--dark);min-height:100vh}
+
+/* ── STORE HEADER ── */
+.store-header{
+  background:var(--g);
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 5vw;
+  height:56px;
+  position:sticky;
+  top:0;z-index:200;
+  box-shadow:0 2px 12px rgba(12,131,31,0.3);
+}
+.store-logo{font-family:'DM Serif Display',serif;font-size:1.5rem;font-weight:400;letter-spacing:0.02em;display:flex;align-items:center;gap:6px}
+.store-logo .dot{width:8px;height:8px;border-radius:50%;background:#FFD600;display:inline-block}
+.store-search{flex:1;max-width:480px;margin:0 2rem;position:relative}
+.store-search input{
+  width:100%;padding:8px 16px 8px 40px;
+  border-radius:8px;border:none;
+  background:rgba(255,255,255,0.18);
+  color:white;font-size:0.9rem;
+  font-family:'Jost',sans-serif;
+}
+.store-search input::placeholder{color:rgba(255,255,255,0.65)}
+.store-search .si{position:absolute;left:12px;top:50%;transform:translateY(-50%);opacity:0.7;font-size:1rem}
+.header-right{display:flex;align-items:center;gap:1.2rem;font-size:0.85rem}
+.header-right button{background:white;color:var(--g);border:none;padding:6px 14px;border-radius:6px;font-weight:600;cursor:pointer;font-family:'Jost',sans-serif;font-size:0.9rem;letter-spacing:0.05em}
+.cart-icon{position:relative;cursor:pointer;font-size:1.3rem}
+.cart-count{position:absolute;top:-6px;right:-8px;background:var(--r);color:white;border-radius:50%;width:17px;height:17px;font-size:0.6rem;font-weight:800;display:flex;align-items:center;justify-content:center}
+
+/* ── BREADCRUMB ── */
+.breadcrumb{padding:12px 5vw;font-size:0.8rem;color:var(--muted);display:flex;align-items:center;gap:6px;background:white;border-bottom:1px solid var(--border)}
+.breadcrumb a{color:var(--g);text-decoration:none;font-weight:600}
+.breadcrumb span{color:var(--muted)}
+
+/* ── MAIN LAYOUT ── */
+.pdp-wrapper{
+  max-width:1200px;
+  margin:0 auto;
+  padding:20px 5vw 40px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+  align-items:start;
+}
+
+/* ── IMAGE PANEL ── */
+.img-panel{
+  position:sticky;
+  top:76px;
+  background:white;
+  border-radius:16px;
+  overflow:hidden;
+  border:1px solid var(--border);
+}
+
+/* Wrap image + thumbs in a row */
+.img-panel-body{
+  display:flex;
+  flex-direction:row;
+  gap:0;
+}
+
+/* Thumbnails — vertical strip on the left */
+.img-thumbs{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  padding:12px 10px;
+  background:#FAFAFA;
+  border-right:1px solid var(--border);
+  flex-shrink:0;
+}
+.thumb{
+  width:58px;height:58px;border-radius:8px;border:2px solid transparent;
+  cursor:pointer;transition:all 0.2s;overflow:hidden;
+  flex-shrink:0;
+}
+.thumb img{
+  width:100%;height:100%;
+  object-fit:cover;object-position:center;
+  display:block;transition:transform 0.2s;
+}
+.thumb:hover img{ transform:scale(1.08); }
+.thumb.active{ border-color:var(--g); box-shadow:0 0 0 1px var(--g); }
+.thumb:hover{ border-color:rgba(12,131,31,0.5); }
+
+/* Main image — takes remaining width */
+.img-main{
+  flex:1;
+  aspect-ratio:3/4;
+  background:#F8F8F6;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  overflow:hidden;
+}
+.img-main img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  transition:transform 0.5s ease;
+  display:block;
+}
+.img-main:hover img{ transform:scale(1.04); }
+
+/* Cert strip — now sits below, aligned to the right */
+.cert-strip{
+  display:flex;gap:6px;flex-wrap:wrap;
+  padding:10px 12px;
+  background:var(--g-light);
+  border-top:1px solid #C8E6C9;
+  justify-content:flex-end;
+}
+.cert-badge{
+  font-size:0.7rem;font-weight:700;
+  color:var(--g);
+  background:white;border:1px solid #A5D6A7;
+  padding:3px 9px;border-radius:50px;
+  display:flex;align-items:center;gap:4px;
+}
+
+@keyframes breadBob{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-14px) rotate(1.5deg)}}
+
+/* Offer ribbon */
+.offer-ribbon{
+  position:absolute;
+  top:16px;left:0;
+  background:var(--r);
+  color:white;
+  font-size:0.78rem;font-weight:800;
+  padding:5px 14px 5px 12px;
+  border-radius:0 50px 50px 0;
+  letter-spacing:0.04em;
+  box-shadow:0 3px 10px rgba(208,2,27,0.3);
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{box-shadow:0 3px 10px rgba(208,2,27,0.3)}50%{box-shadow:0 3px 20px rgba(208,2,27,0.5)}}
+
+/* ── DETAILS PANEL ── */
+.details-panel{display:flex;flex-direction:column;gap:16px}
+
+/* Offer banner */
+.offer-banner{
+  background:linear-gradient(135deg, #FFF3E0, #FFE0B2);
+  border:1.5px solid #FFB74D;
+  border-radius:12px;
+  padding:10px 16px;
+  display:flex;align-items:center;gap:10px;
+  font-size:0.85rem;font-weight:700;color:#E65100;
+}
+.offer-banner .ob-icon{font-size:1.3rem}
+.offer-tag{
+  background:var(--r);color:white;
+  font-size:0.7rem;font-weight:800;
+  padding:2px 8px;border-radius:50px;
+  margin-left:auto;white-space:nowrap;
+}
+
+/* Product info card */
+.info-card{
+  background:white;border-radius:16px;
+  border:1px solid var(--border);
+  padding:20px;
+}
+
+.brand-tag{
+  font-size:0.75rem;font-weight:800;color:var(--g);
+  letter-spacing:0.1em;text-transform:uppercase;
+  margin-bottom:6px;display:flex;align-items:center;gap:6px;
+}
+.brand-tag::after{content:'';flex:1;height:1.5px;background:var(--g-light)}
+
+.product-name{
+  font-family:'Playfair Display',serif;
+  font-size:1.6rem;font-weight:800;
+  line-height:1.15;color:var(--dark);
+  letter-spacing:-0.01em;
+  margin-bottom:4px;
+}
+
+.product-sub{font-size:0.85rem;color:var(--muted);margin-bottom:12px}
+
+.rating-row{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  margin-bottom:14px;
+}
+.r-pill{
+  background:var(--g);color:white;
+  font-size:0.8rem;font-weight:800;
+  padding:3px 10px;border-radius:50px;
+  display:flex;align-items:center;gap:4px;
+}
+.r-count{font-size:0.82rem;color:var(--muted);font-weight:600}
+.r-dot{width:4px;height:4px;border-radius:50%;background:var(--border)}
+.r-sold{font-size:0.82rem;color:var(--g);font-weight:700}
+
+.price-block{display:flex;align-items:baseline;gap:10px;margin-bottom:4px}
+.price-now{font-family:'Jost',sans-serif;font-size:2.2rem;font-weight:700;color:var(--dark);letter-spacing:-0.02em}
+.price-mrp{font-size:1rem;color:var(--muted);text-decoration:line-through;font-weight:600}
+.price-save{
+  background:var(--g-light);color:var(--g);
+  font-size:0.78rem;font-weight:800;
+  padding:3px 10px;border-radius:50px;
+}
+
+.size-note{font-size:0.8rem;color:var(--muted);margin-bottom:16px}
+
+/* qty + cart */
+.atc-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+
+.qty-control{
+  display:flex;align-items:center;
+  border:2px solid var(--g);border-radius:10px;
+  overflow:hidden;background:white;
+}
+.qty-btn{
+  background:none;border:none;
+  width:40px;height:44px;
+  font-size:1.2rem;font-weight:700;color:var(--g);
+  cursor:pointer;transition:background 0.15s;
+  font-family:'Jost',sans-serif;
+}
+.qty-btn:hover{background:var(--g-light)}
+.qty-num{
+  font-size:1rem;font-weight:800;
+  width:36px;text-align:center;color:var(--dark);
+  border-left:1.5px solid #C8E6C9;border-right:1.5px solid #C8E6C9;
+}
+
+.btn-atc{
+  flex:1;
+  background:var(--g);color:white;
+  border:none;border-radius:10px;
+  padding:12px 24px;
+  font-family:'Jost',sans-serif;font-size:1rem;font-weight:600;
+  cursor:pointer;transition:all 0.25s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  min-height:48px;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+}
+.btn-atc:hover{background:#0a6e19;transform:translateY(-2px);box-shadow:0 8px 24px rgba(12,131,31,0.35)}
+.btn-atc.added{background:#2E7D32}
+
+.btn-wl{
+  width:48px;height:48px;border-radius:10px;
+  border:2px solid var(--border);background:white;
+  font-size:1.3rem;cursor:pointer;transition:all 0.2s;
+  display:flex;align-items:center;justify-content:center;
+}
+.btn-wl:hover,.btn-wl.active{border-color:var(--r);color:var(--r)}
+
+/* delivery */
+.delivery-strip{
+  display:flex;gap:8px;flex-wrap:wrap;
+  padding:12px 0 0;border-top:1px solid var(--border);margin-top:4px;
+}
+.d-item{
+  display:flex;align-items:center;gap:6px;
+  font-size:0.8rem;font-weight:700;color:var(--mid);
+  background:var(--bg);border-radius:8px;padding:6px 10px;
+}
+
+/* features quick list — now inside info-card */
+.fq-divider{
+  height:1px;background:var(--border);
+  margin:16px 0;
+}
+.fq-title{font-size:0.78rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:12px}
+.fq-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fq-item{
+  display:flex;align-items:flex-start;gap:8px;
+  font-size:0.83rem;font-weight:600;color:var(--mid);
+  line-height:1.4;
+}
+.fq-icon{font-size:1rem;flex-shrink:0;margin-top:1px}
+
+/* ── BELOW FOLD ── */
+.below-fold{
+  max-width:1200px;
+  margin:0 auto;
+  padding:0 5vw 60px;
+  display:flex;flex-direction:column;gap:24px;
+}
+
+.section-card{
+  background:white;border-radius:16px;
+  border:1px solid var(--border);
+  overflow:hidden;
+}
+
+.sc-header{
+  padding:16px 20px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;
+}
+.sc-header h2{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--dark);letter-spacing:-0.01em}
+.sc-header .sc-icon{font-size:1.2rem}
+.sc-header .sc-count{font-size:0.8rem;color:var(--muted);font-weight:600;margin-left:auto}
+
+/* ── PRODUCT STORY ── */
+.story-inner{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:0;
+}
+.story-visual-side{
+  overflow:hidden;
+  min-height:260px;
+  position:relative;
+}
+.story-visual-side img{
+  width:100%;height:100%;
+  object-fit:cover;object-position:center;
+  display:block;
+}
+.story-text-side{padding:30px 28px}
+.story-text-side h3{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;font-style:italic;letter-spacing:-0.01em;margin-bottom:10px;color:var(--dark)}
+.story-text-side p{font-size:0.875rem;line-height:1.7;color:var(--mid);margin-bottom:10px}
+.story-pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.story-pill{
+  font-size:0.75rem;font-weight:700;
+  background:var(--g-light);color:var(--g);
+  border:1px solid #A5D6A7;
+  padding:4px 12px;border-radius:50px;
+  display:flex;align-items:center;gap:5px;
+}
+
+/* ── REVIEW SLIDER ── */
+.reviews-slider{padding:20px}
+.slider-track-outer{overflow:hidden;position:relative}
+.slider-track{
+  display:flex;gap:16px;
+  transition:transform 0.45s cubic-bezier(0.4,0,0.2,1);
+  will-change:transform;
+}
+.review-card{
+  flex:0 0 300px;
+  background:var(--bg);border-radius:12px;
+  border:1px solid var(--border);
+  padding:18px;
+  position:relative;
+}
+.review-card::before{
+  content:'"';font-family:'DM Serif Display',serif;
+  font-size:4rem;color:rgba(12,131,31,0.1);
+  position:absolute;top:4px;right:14px;line-height:1;
+}
+.rv-stars{color:#F5A623;font-size:0.85rem;margin-bottom:8px;letter-spacing:2px}
+.rv-text{font-size:0.85rem;line-height:1.6;color:var(--mid);margin-bottom:14px}
+.rv-user{display:flex;align-items:center;gap:8px}
+.rv-avatar{
+  width:34px;height:34px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.85rem;font-weight:800;color:white;flex-shrink:0;
+}
+.rv-name{font-size:0.82rem;font-weight:800;color:var(--dark)}
+.rv-meta{font-size:0.72rem;color:var(--muted);font-weight:600}
+.rv-verified{color:var(--g);font-size:0.7rem;font-weight:700;display:flex;align-items:center;gap:3px;margin-top:2px}
+
+.slider-controls{display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding:0 4px}
+.slider-arrows{display:flex;gap:8px}
+.s-arrow{
+  width:36px;height:36px;border-radius:50%;
+  border:2px solid var(--border);background:white;
+  cursor:pointer;font-size:0.9rem;
+  transition:all 0.2s;display:flex;align-items:center;justify-content:center;
+}
+.s-arrow:hover{border-color:var(--g);color:var(--g)}
+.s-arrow:disabled{opacity:0.35;cursor:not-allowed}
+.slider-dots{display:flex;gap:6px;align-items:center}
+.s-dot{width:8px;height:8px;border-radius:50%;background:var(--border);cursor:pointer;transition:all 0.2s}
+.s-dot.active{background:var(--g);width:22px;border-radius:50px}
+
+/* ── SPECS TABLE ── */
+.specs-table-inner{padding:0}
+.specs-row{
+  display:flex;align-items:center;
+  padding:12px 20px;
+  border-bottom:1px solid var(--border);
+  font-size:0.875rem;
+  transition:background 0.15s;
+}
+.specs-row:last-child{border-bottom:none}
+.specs-row:hover{background:#FAFAFA}
+.specs-key{width:45%;color:var(--muted);font-weight:700;font-size:0.8rem}
+.specs-val{flex:1;font-weight:700;color:var(--dark)}
+.specs-val .tag{
+  display:inline-flex;align-items:center;gap:4px;
+  background:var(--g-light);color:var(--g);
+  font-size:0.72rem;font-weight:800;
+  padding:2px 8px;border-radius:50px;
+}
+
+/* ── NUTRITION ── */
+.nutrition-inner{padding:20px}
+.nutr-header{
+  display:flex;align-items:baseline;gap:8px;
+  margin-bottom:16px;padding-bottom:12px;border-bottom:3px solid var(--dark);
+}
+.nutr-header h3{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700}
+.nutr-header span{font-size:0.75rem;color:var(--muted);font-weight:600}
+.nutr-row{
+  display:flex;justify-content:space-between;
+  align-items:center;padding:8px 0;
+  border-bottom:1px solid #F0F0F0;font-size:0.85rem;
+}
+.nutr-row.bold{border-bottom-width:3px;border-color:var(--dark)}
+.nutr-row.sub{padding-left:16px}
+.nutr-row .nk{font-weight:600;color:var(--mid)}
+.nutr-row.bold .nk{font-weight:800;color:var(--dark)}
+.nutr-row .nv{font-weight:800;color:var(--dark)}
+.nutr-bar-row{padding:8px 0;border-bottom:1px solid #F0F0F0}
+.nutr-bar-label{display:flex;justify-content:space-between;font-size:0.78rem;font-weight:700;color:var(--mid);margin-bottom:5px}
+.nutr-bar{height:5px;border-radius:50px;background:#EBEBEB;overflow:hidden}
+.nutr-bar-fill{height:100%;border-radius:50px;background:var(--g);transition:width 1s ease}
+.allergen-note{
+  margin-top:14px;padding:10px 14px;
+  background:#FFF8E7;border:1px solid #FFE082;border-radius:10px;
+  font-size:0.78rem;font-weight:600;color:#E65100;line-height:1.5;
+}
+
+/* ── FAQ ── */
+.faq-inner{padding:8px 0}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-q{
+  width:100%;background:none;border:none;
+  padding:16px 20px;
+  display:flex;justify-content:space-between;align-items:center;
+  font-family:'Jost',sans-serif;font-size:0.92rem;font-weight:600;
+  color:var(--dark);text-align:left;cursor:pointer;gap:12px;
+  transition:color 0.2s;
+}
+.faq-q:hover{color:var(--g)}
+.faq-chevron{
+  flex-shrink:0;
+  width:24px;height:24px;border-radius:50%;
+  border:2px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.65rem;color:var(--g);
+  transition:all 0.3s;
+}
+.faq-item.open .faq-chevron{background:var(--g);border-color:var(--g);color:white;transform:rotate(180deg)}
+.faq-ans{max-height:0;overflow:hidden;transition:max-height 0.4s ease}
+.faq-item.open .faq-ans{max-height:200px}
+.faq-ans p{padding:0 20px 16px;font-size:0.85rem;line-height:1.7;color:var(--mid)}
+
+/* ── RELATED PRODUCTS ── */
+.related-inner{padding:20px}
+.related-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.rel-card{
+  border:1px solid var(--border);border-radius:12px;
+  overflow:hidden;background:white;
+  transition:all 0.25s;cursor:pointer;
+}
+.rel-card:hover{border-color:var(--g);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.08)}
+.rel-img{
+  width:100%;aspect-ratio:1;
+  position:relative;overflow:hidden;
+  background:#F8F8F6;
+}
+.rel-img img{
+  width:100%;height:100%;
+  object-fit:cover;object-position:center;
+  display:block;
+  transition:transform 0.35s ease;
+}
+.rel-card:hover .rel-img img{ transform:scale(1.07); }
+.rel-badge{
+  position:absolute;top:6px;left:6px;
+  background:var(--r);color:white;
+  font-size:0.62rem;font-weight:800;
+  padding:2px 7px;border-radius:50px;
+}
+.rel-body{padding:10px}
+.rel-brand{font-size:0.65rem;font-weight:800;color:var(--g);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:2px}
+.rel-name{font-size:0.82rem;font-weight:800;color:var(--dark);margin-bottom:2px;line-height:1.3}
+.rel-sub{font-size:0.72rem;color:var(--muted);font-weight:600;margin-bottom:8px}
+.rel-price-row{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.rel-price{font-size:1rem;font-weight:700;color:var(--dark);font-family:'DM Serif Display',serif}
+.rel-mrp{font-size:0.72rem;color:var(--muted);text-decoration:line-through;font-weight:600}
+.rel-add{
+  width:100%;background:white;border:2px solid var(--g);
+  color:var(--g);border-radius:7px;
+  font-family:'Jost',sans-serif;font-size:0.9rem;font-weight:700;
+  padding:6px;cursor:pointer;transition:all 0.2s;
+}
+.rel-add:hover{background:var(--g);color:white}
+
+/* ── TOAST ── */
+.toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:var(--dark);color:white;
+  padding:12px 24px;border-radius:50px;
+  font-size:0.875rem;font-weight:700;
+  display:flex;align-items:center;gap:8px;
+  z-index:1000;transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow:0 8px 30px rgba(0,0,0,0.25);
+  white-space:nowrap;
+}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* ══════════════════════════════
+   RESPONSIVE — Full Coverage
+   ══════════════════════════════ */
+
+/* ── Large Desktop (1200px+) ── */
+@media(min-width:1200px){
+  .pdp-wrapper{ padding:24px 40px 48px; gap:32px; }
+  .below-fold{ padding:0 40px 60px; }
+  .product-name{ font-size:1.75rem; }
+  .related-grid{ grid-template-columns:repeat(4,1fr); }
+}
+
+/* ── Tablet Landscape (961px – 1199px) ── */
+@media(max-width:1199px) and (min-width:961px){
+  .pdp-wrapper{ grid-template-columns:1fr 1fr; gap:20px; padding:16px 3vw 32px; }
+  .below-fold{ padding:0 3vw 48px; }
+  .related-grid{ grid-template-columns:repeat(4,1fr); }
+  #specsNutrGrid{ grid-template-columns:1fr 1fr; }
+}
+
+/* ── Tablet Portrait (641px – 960px) ── */
+@media(max-width:960px){
+  /* Layout */
+  .pdp-wrapper{ grid-template-columns:1fr; gap:16px; padding:16px 20px 32px; }
+  .below-fold{ padding:0 20px 48px; }
+  .img-panel{ position:relative; top:0; max-width:520px; margin:0 auto; width:100%; }
+  .img-main{ aspect-ratio:4/3; }
+  .img-thumbs{ flex-direction:row; border-right:none; border-bottom:1px solid var(--border); padding:10px 12px; overflow-x:auto; }
+  .thumb{ width:54px; height:54px; }
+
+  /* Story */
+  .story-inner{ grid-template-columns:1fr; }
+  .story-visual-side{ display:none; }
+  .story-text-side{ padding:24px 20px; }
+
+  /* Specs & Nutrition */
+  #specsNutrGrid{ grid-template-columns:1fr 1fr; gap:16px; }
+
+  /* Related */
+  .related-grid{ grid-template-columns:repeat(2,1fr); gap:12px; }
+
+  /* Reviews */
+  .review-card{ flex:0 0 280px; }
+
+  /* Features grid */
+  .fq-grid{ grid-template-columns:1fr 1fr; }
+
+  /* Header */
+  .store-search{ max-width:300px; margin:0 1rem; }
+}
+
+/* ── Mobile (≤ 640px) ── */
+@media(max-width:640px){
+  /* Header */
+  .store-header{ padding:0 14px; height:52px; }
+  .store-search{ display:none; }
+  .store-logo{ font-size:1.3rem; }
+  .header-right{ gap:0.8rem; }
+  .header-right button{ padding:5px 10px; font-size:0.82rem; }
+
+  /* Breadcrumb */
+  .breadcrumb{ padding:10px 14px; font-size:0.72rem; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+  .breadcrumb span{ display:none; }
+
+  /* Layout */
+  .pdp-wrapper{ padding:12px 14px 24px; gap:12px; }
+  .below-fold{ padding:0 14px 40px; gap:14px; }
+
+  /* Image panel */
+  .img-panel{ max-width:100%; }
+  .img-panel-body{ flex-direction:column; }
+  .img-main{ aspect-ratio:1; }
+  .img-thumbs{ flex-direction:row; border-right:none; border-bottom:1px solid var(--border); border-top:none; padding:8px 10px; gap:6px; overflow-x:auto; }
+  .thumb{ width:48px; height:48px; }
+  .cert-strip{ gap:5px; padding:8px 10px; justify-content:flex-end; }
+  .cert-badge{ font-size:0.65rem; padding:2px 7px; }
+
+  /* Info card */
+  .info-card{ padding:16px; }
+  .product-name{ font-size:1.35rem; }
+  .price-now{ font-size:1.8rem; }
+  .product-sub{ font-size:0.8rem; }
+
+  /* Rating row — wrap on mobile */
+  .rating-row{ flex-wrap:wrap; gap:6px; }
+  .r-count{ font-size:0.75rem; }
+  .r-sold{ font-size:0.75rem; }
+
+  /* ATC row */
+  .atc-row{ gap:8px; }
+  .btn-atc{ font-size:0.9rem; padding:11px 16px; }
+  .btn-wl{ width:44px; height:44px; }
+
+  /* Delivery strip */
+  .delivery-strip{ gap:6px; }
+  .d-item{ font-size:0.72rem; padding:5px 8px; }
+
+  /* Features quick */
+  .features-quick{ padding:14px 16px; }
+  .fq-grid{ grid-template-columns:1fr; gap:8px; }
+  .fq-item{ font-size:0.8rem; }
+
+  /* Offer banner */
+  .offer-banner{ padding:10px 12px; font-size:0.8rem; }
+
+  /* Section cards */
+  .sc-header{ padding:14px 16px; }
+  .sc-header h2{ font-size:1rem; }
+  .sc-icon{ font-size:1rem; }
+
+  /* Story */
+  .story-text-side{ padding:20px 16px; }
+  .story-text-side h3{ font-size:1.2rem; }
+  .story-text-side p{ font-size:0.83rem; }
+  .story-pills{ gap:6px; }
+  .story-pill{ font-size:0.7rem; padding:3px 10px; }
+
+  /* Reviews slider */
+  .reviews-slider{ padding:14px; }
+  .review-card{ flex:0 0 calc(100vw - 60px); max-width:320px; padding:14px; }
+  .rv-text{ font-size:0.82rem; }
+
+  /* Specs & Nutrition stacked */
+  #specsNutrGrid{ grid-template-columns:1fr !important; gap:14px; }
+  .specs-row{ padding:10px 16px; font-size:0.82rem; }
+  .nutrition-inner{ padding:16px; }
+
+  /* FAQ */
+  .faq-inner{ padding:4px 0; }
+  .faq-q{ padding:14px 16px; font-size:0.85rem; }
+  .faq-ans p{ padding:0 16px 14px; font-size:0.82rem; }
+
+  /* Related */
+  .related-inner{ padding:14px; }
+  .related-grid{ grid-template-columns:repeat(2,1fr); gap:10px; }
+  .rel-body{ padding:8px; }
+  .rel-name{ font-size:0.78rem; }
+  .rel-sub{ font-size:0.68rem; }
+  .rel-price{ font-size:0.9rem; }
+
+  /* Description chips */
+  .desc-chips{ flex-direction:column; }
+}
+
+/* ── Small Mobile (≤ 400px) ── */
+@media(max-width:400px){
+  .product-name{ font-size:1.2rem; }
+  .price-now{ font-size:1.55rem; }
+  .price-mrp{ font-size:0.88rem; }
+  .header-right .h-loc{ display:none; }
+  .store-logo{ font-size:1.15rem; }
+  .review-card{ flex:0 0 calc(100vw - 44px); }
+  .related-grid{ grid-template-columns:repeat(2,1fr); gap:8px; }
+  .rel-img{ overflow:hidden; }
+  .atc-row{ flex-direction:row; }
+  .btn-atc{ min-width:0; font-size:0.82rem; padding:10px 12px; }
+}
+
+/* ── Sticky bottom bar on mobile ── */
+@media(max-width:640px){
+  .mobile-sticky-bar{
+    display:flex;
+    position:fixed;
+    bottom:0;left:0;right:0;
+    background:white;
+    border-top:1px solid var(--border);
+    padding:10px 14px;
+    gap:10px;
+    z-index:150;
+    box-shadow:0 -4px 20px rgba(0,0,0,0.08);
+  }
+  .mobile-sticky-price{
+    display:flex;flex-direction:column;justify-content:center;
+  }
+  .mobile-sticky-price strong{
+    font-family:'Jost',sans-serif;font-size:1.3rem;font-weight:700;color:var(--dark);line-height:1;
+  }
+  .mobile-sticky-price span{
+    font-size:0.7rem;color:var(--muted);text-decoration:line-through;
+  }
+  .mobile-sticky-btn{
+    flex:1;background:var(--g);color:white;border:none;
+    border-radius:10px;font-family:'Jost',sans-serif;
+    font-size:0.95rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;
+    cursor:pointer;transition:background 0.2s;
+    display:flex;align-items:center;justify-content:center;gap:6px;
+  }
+  .mobile-sticky-btn:active{ background:#0a6e19; }
+  /* give bottom content breathing room above sticky bar */
+  .below-fold{ padding-bottom:80px; }
+}
+@media(min-width:641px){
+  .mobile-sticky-bar{ display:none; }
+}
+/* ══════════════════════════════
+   MOSTLY PAIRED TOGETHER
+   ══════════════════════════════ */
+
+/* Reuse page's section-card + sc-header — only add scroll track & card specifics */
+
+.paired-section {
+  /* inherits section-card shell from HTML */
+}
+
+/* scroll viewport */
+.paired-track-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+.paired-track-wrapper::before,
+.paired-track-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 60px;
+  z-index: 10;
+  pointer-events: none;
+}
+.paired-track-wrapper::before {
+  left: 0;
+  background: linear-gradient(to right, white, transparent);
+}
+.paired-track-wrapper::after {
+  right: 0;
+  background: linear-gradient(to left, white, transparent);
+}
+
+.paired-track {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  overflow-x: auto;
+  overflow-y: visible;
+  padding: 28px 32px 36px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.paired-track::-webkit-scrollbar { display: none; }
+
+/* ── CARD ── */
+.paired-section .p-card {
+  --circle: 150px;
+  --card-w: calc(var(--circle) + 20px);
+  --exp-w: calc(var(--circle) * 2);
+  --exp-h: calc(var(--circle) * 1.1);
+  --push:  calc((var(--exp-w) - var(--card-w)) / 2 + 4px);
+
+  position: relative;
+  width: var(--card-w);
+  height: var(--card-w);
+  flex-shrink: 0;
+  scroll-snap-align: center;
+  margin-inline: 0;
+  transition: margin-inline .4s cubic-bezier(.4,0,.2,1);
+  z-index: 0;
+}
+.paired-section .p-card:hover {
+  margin-inline: var(--push);
+  z-index: 10;
+}
+
+/* circle thumbnail */
+.paired-section .p-card .p-circle {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--circle);
+  height: var(--circle);
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--border);
+  box-shadow: 0 4px 16px rgba(0,0,0,.08), inset 0 1px 4px rgba(255,255,255,.9);
+  overflow: hidden;
+  cursor: pointer;
+  transition: opacity .28s ease;
+  transition-delay: .38s;
+}
+.paired-section .p-card:hover .p-circle {
+  opacity: 0;
+  pointer-events: none;
+  transition-delay: 0s;
+}
+.paired-section .p-card .p-circle img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center; display: block;
+}
+
+/* label under circle */
+.paired-section .p-card .p-label {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Jost', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--muted);
+  white-space: nowrap;
+  transition: opacity .2s;
+  transition-delay: .36s;
+}
+.paired-section .p-card:hover .p-label {
+  opacity: 0;
+  transition-delay: 0s;
+}
+
+/* ── EXPANDED PANEL ── */
+.paired-section .p-card .p-panel {
+  display: flex;
+  align-items: stretch;
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--circle);
+  height: var(--circle);
+  background: white;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 32px rgba(0,0,0,.1), 0 2px 6px rgba(0,0,0,.05);
+  visibility: hidden;
+  overflow: hidden;
+  transition:
+    width  .4s cubic-bezier(.4,0,.2,1),
+    height .4s cubic-bezier(.4,0,.2,1),
+    visibility 0s linear .4s;
+}
+.paired-section .p-card:hover .p-panel {
+  width: var(--exp-w);
+  height: var(--exp-h);
+  visibility: visible;
+  transition:
+    width  .4s cubic-bezier(.4,0,.2,1),
+    height .4s cubic-bezier(.4,0,.2,1),
+    visibility 0s linear 0s;
+}
+
+/* green bottom accent strip — matches page's green */
+.paired-section .p-card .p-panel::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--g);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .38s ease;
+  transition-delay: 0s;
+}
+.paired-section .p-card:hover .p-panel::after {
+  transform: scaleX(1);
+  transition-delay: .46s;
+}
+
+/* left: product info */
+.paired-section .p-card .p-info {
+  display: flex;
+  flex-direction: column;
+  padding: 14px 12px 12px;
+  width: 50%; min-width: 50%;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity .22s ease;
+  transition-delay: 0s;
+}
+.paired-section .p-card:hover .p-info {
+  opacity: 1;
+  transition-delay: .34s;
+}
+
+.paired-section .p-card .p-info .p-brand {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 800;
+  color: var(--g);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 3px;
+}
+.paired-section .p-card .p-info .p-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1.15;
+  margin-bottom: 4px;
+}
+.paired-section .p-card .p-info .p-desc {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.68rem;
+  color: var(--mid);
+  line-height: 1.5;
+  font-weight: 400;
+  flex: 1;
+}
+.paired-section .p-card .p-info .p-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  margin: 6px 0 7px;
+}
+.paired-section .p-card .p-info .p-price {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--dark);
+}
+.paired-section .p-card .p-info .p-mrp {
+  font-size: 0.7rem;
+  color: var(--muted);
+  text-decoration: line-through;
+  font-weight: 600;
+}
+.paired-section .p-card .p-info .p-add {
+  width: 100%;
+  background: white;
+  border: 2px solid var(--g);
+  color: var(--g);
+  border-radius: 7px;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 5px;
+  cursor: pointer;
+  transition: all .2s;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.paired-section .p-card .p-info .p-add:hover {
+  background: var(--g);
+  color: white;
+}
+
+/* right: usage image */
+.paired-section .p-card .p-img {
+  position: relative;
+  width: 50%; min-width: 50%;
+  flex-shrink: 0;
+  background: var(--bg);
+  overflow: hidden;
+}
+.paired-section .p-card .p-img .p-img-inner {
+  position: absolute; inset: 0;
+  opacity: 0;
+  transform: translateX(14px) scale(0.9);
+  transition: opacity .34s ease, transform .34s ease;
+  transition-delay: 0s;
+}
+.paired-section .p-card:hover .p-img .p-img-inner {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  transition-delay: .26s;
+}
+.paired-section .p-card .p-img .p-img-inner img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center; display: block;
+}
+/* "on bread" badge — uses page's green pill style */
+.paired-section .p-card .p-img .p-badge {
+  position: absolute;
+  top: 7px; right: 7px;
+  background: var(--g);
+  color: white;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 50px;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity .25s, transform .25s;
+  transition-delay: 0s;
+}
+.paired-section .p-card:hover .p-img .p-badge {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: .5s;
+}
+
+/* scroll hint arrow in header */
+.paired-section .p-scroll-hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.75rem;
+  color: var(--muted);
+  letter-spacing: 0.03em;
+}
+.paired-section .p-scroll-hint svg {
+  animation: pHintNudge 1.8s ease-in-out infinite;
+}
+@keyframes pHintNudge {
+  0%, 100% { transform: translateX(0); }
+  50%       { transform: translateX(5px); }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ── STORE HEADER ── -->
+<header class="store-header">
+  <div class="store-logo"><span class="dot"></span>FreshMart</div>
+  <div class="store-search">
+    <span class="si">🔍</span>
+    <input type="text" placeholder="Search for groceries, snacks, bread...">
+  </div>
+  <div class="header-right">
+    <span class="h-loc" style="font-size:0.82rem;opacity:0.85">📍 Bengaluru</span>
+    <button onclick="handleCart()">Login</button>
+    <div class="cart-icon" onclick="handleCart()">🛒<span class="cart-count" id="cartCount">0</span></div>
+  </div>
+</header>
+
+<!-- ── BREADCRUMB ── -->
+<nav class="breadcrumb">
+  <a href="#">Home</a> › <a href="#">Bakery</a> › <a href="#">Bread</a> › <span>GOOD GRUB SoftWhite Crustless Bread</span>
+</nav>
+
+<!-- ── PDP TOP (Image + Details) ── -->
+<div class="pdp-wrapper">
+
+  <!-- LEFT: IMAGE PANEL -->
+  <div class="img-panel">
+    <div class="img-panel-body">
+      <div class="img-thumbs">
+        <div class="thumb active" onclick="switchImg(this,'img1.png')"><img src="img1.png" alt="View 1"></div>
+        <div class="thumb" onclick="switchImg(this,'img2.png')"><img src="img2.png" alt="View 2"></div>
+        <div class="thumb" onclick="switchImg(this,'img3.png')"><img src="img3.png" alt="View 3"></div>
+        <div class="thumb" onclick="switchImg(this,'img4.png')"><img src="img4.png" alt="View 4"></div>
+      </div>
+      <div class="img-main">
+        <div class="offer-ribbon">🔥 20% OFF · Today Only</div>
+        <img id="mainImg" src="img1.png" alt="GOOD GRUB SoftWhite Crustless Bread – front view with packaging">
+      </div>
+    </div>
+    <div class="cert-strip">
+      <span class="cert-badge">🟢 Vegetarian</span>
+      <span class="cert-badge">✅ FSSAI Certified</span>
+      <span class="cert-badge">🚫 No Artificial Colors</span>
+      <span class="cert-badge">🚫 No HFCS</span>
+    </div>
+  </div>
+
+  <!-- RIGHT: DETAILS PANEL -->
+  <div class="details-panel">
+
+    <!-- Offer banner -->
+    <div class="offer-banner">
+      <span class="ob-icon">🏷️</span>
+      <div>
+        <div style="font-size:0.78rem;font-weight:600;margin-bottom:1px">Limited Time Offer</div>
+        Buy 2 get ₹20 off · Use code <strong>GRUB20</strong>
+      </div>
+      <span class="offer-tag">SAVE ₹20</span>
+    </div>
+
+    <!-- Main info -->
+    <div class="info-card">
+      <div class="brand-tag">GOOD GRUB</div>
+      <h1 class="product-name">SoftWhite Crustless<br>Sandwich Bread</h1>
+      <p class="product-sub">400g · 14–16 slices · Extra Soft · Crustless</p>
+
+      <div class="rating-row">
+        <span class="r-pill">⭐ 4.8</span>
+        <span class="r-count">12,400+ ratings</span>
+        <span class="r-dot"></span>
+        <span class="r-sold">1.2M+ sold</span>
+        <span class="r-dot"></span>
+        <span style="font-size:0.82rem;font-weight:700;color:var(--g)">In Stock ✓</span>
+      </div>
+
+      <div class="price-block">
+        <span class="price-now">₹52</span>
+        <span class="price-mrp">₹65</span>
+        <span class="price-save">20% OFF</span>
+      </div>
+      <p class="size-note">Inclusive of all taxes · Free delivery on orders above ₹199</p>
+
+      <div class="atc-row">
+        <div class="qty-control">
+          <button class="qty-btn" onclick="changeQty(-1)">−</button>
+          <span class="qty-num" id="qtyNum">1</span>
+          <button class="qty-btn" onclick="changeQty(1)">+</button>
+        </div>
+        <button class="btn-atc" id="atcBtn" onclick="handleCart()">
+          <span>🛒</span> Add to Cart
+        </button>
+        <button class="btn-wl" id="wlBtn" onclick="toggleWishlist(this)" title="Wishlist">🤍</button>
+      </div>
+
+      <div class="delivery-strip">
+        <div class="d-item">⚡ Delivery in 10 mins</div>
+        <div class="d-item">↩️ Easy returns</div>
+        <div class="d-item">🔒 Safe checkout</div>
+      </div>
+
+      <!-- Quick features — inside info-card, no gap -->
+      <div class="fq-divider"></div>
+      <div class="fq-title">Why you'll love it</div>
+      <div class="fq-grid">
+        <div class="fq-item"><span class="fq-icon">✂️</span>100% Crustless — soft edge to edge</div>
+        <div class="fq-item"><span class="fq-icon">☁️</span>Cloud-like, melt-in-mouth texture</div>
+        <div class="fq-item"><span class="fq-icon">🌿</span>No artificial preservatives</div>
+        <div class="fq-item"><span class="fq-icon">🎒</span>Stays soft in lunchboxes</div>
+        <div class="fq-item"><span class="fq-icon">🔥</span>Toasts beautifully golden</div>
+        <div class="fq-item"><span class="fq-icon">🔒</span>Resealable freshness bag</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── BELOW FOLD ── -->
+<div class="below-fold">
+
+  <!-- PRODUCT DESCRIPTION -->
+  <div class="section-card">
+    <div class="sc-header">
+      <span class="sc-icon">🍞</span>
+      <h2>About this Product</h2>
+    </div>
+    <div style="padding:24px 28px">
+      <p style="font-family:'Jost',sans-serif;font-size:1rem;line-height:1.85;color:var(--mid);margin-bottom:16px">
+        Say hello to the softest sandwich bread you'll ever sink your teeth into. <strong style="color:var(--dark)">GOOD GRUB SoftWhite Crustless Bread</strong> is crafted for those who believe the middle is the best part — so we made the whole loaf that way.
+      </p>
+      <p style="font-family:'Jost',sans-serif;font-size:1rem;line-height:1.85;color:var(--mid);margin-bottom:16px">
+        Baked fresh with a focus on texture and taste, every slice delivers a <em>cloud-like softness</em> that melts in your mouth. Whether you're packing a school lunch, building the ultimate afternoon grilled cheese, or just craving a simple piece of toast — GOOD GRUB gives you that pillowy, melt-in-your-mouth experience without the chewy edges nobody asked for.
+      </p>
+      <p style="font-family:'Jost',sans-serif;font-size:1rem;line-height:1.85;color:var(--mid);margin-bottom:24px">
+        Made simple. Made soft. Made for <strong style="color:var(--dark)">GOOD GRUB</strong>.
+      </p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px">
+        <div style="display:flex;align-items:center;gap:8px;background:var(--g-light);border:1px solid #A5D6A7;border-radius:10px;padding:10px 16px;flex:1;min-width:180px">
+          <span style="font-size:1.4rem">✂️</span>
+          <div>
+            <div style="font-family:'Jost',sans-serif;font-size:0.82rem;font-weight:700;color:var(--g)">100% Crustless</div>
+            <div style="font-size:0.75rem;color:var(--muted);font-family:'Jost',sans-serif">Soft edge to edge, always</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;background:var(--y-light);border:1px solid #FFE082;border-radius:10px;padding:10px 16px;flex:1;min-width:180px">
+          <span style="font-size:1.4rem">☁️</span>
+          <div>
+            <div style="font-family:'Jost',sans-serif;font-size:0.82rem;font-weight:700;color:#E65100">Ultra-Soft Texture</div>
+            <div style="font-size:0.75rem;color:var(--muted);font-family:'Jost',sans-serif">Pillowy melt-in-mouth feel</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;background:#F3E5F5;border:1px solid #CE93D8;border-radius:10px;padding:10px 16px;flex:1;min-width:180px">
+          <span style="font-size:1.4rem">🎒</span>
+          <div>
+            <div style="font-family:'Jost',sans-serif;font-size:0.82rem;font-weight:700;color:#7B1FA2">Kid-Approved</div>
+            <div style="font-size:0.75rem;color:var(--muted);font-family:'Jost',sans-serif">Lunchboxes will never be boring</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;background:#E3F2FD;border:1px solid #90CAF9;border-radius:10px;padding:10px 16px;flex:1;min-width:180px">
+          <span style="font-size:1.4rem">🌿</span>
+          <div>
+            <div style="font-family:'Jost',sans-serif;font-size:0.82rem;font-weight:700;color:#1565C0">Clean Ingredients</div>
+            <div style="font-size:0.75rem;color:var(--muted);font-family:'Jost',sans-serif">No artificial preservatives</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MOSTLY PAIRED TOGETHER -->
+  <div class="section-card paired-section">
+    <div class="sc-header">
+      <span class="sc-icon">&#x1F96A;</span>
+      <h2>Mostly Paired Together</h2>
+      <div class="p-scroll-hint" style="margin-left:auto">
+        Scroll to explore
+        <svg width="18" height="10" viewBox="0 0 18 10" fill="none">
+          <path d="M1 5h16M11 1l5 4-5 4" stroke="#0C831F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+    <div class="paired-track-wrapper">
+      <div class="paired-track">
+
+        <div class="p-card">
+          <div class="p-circle"><img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&h=400&fit=crop&auto=format" alt="Strawberry Jam"></div>
+          <span class="p-label">Strawberry Jam</span>
+          <div class="p-panel">
+            <div class="p-info"><span class="p-brand">Preserve</span><span class="p-name">Strawberry Jam</span><p class="p-desc">Sun-ripened berries, low-sugar small-batch. Seeds in, flavour all the way through.</p><div class="p-price-row"><span class="p-price">&#8377;220</span><span class="p-mrp">&#8377;260</span></div><button class="p-add" onclick="handleCart()">+ Add</button></div>
+            <div class="p-img"><div class="p-img-inner"><img src="https://images.unsplash.com/photo-1484723091739-30990ff60163?w=400&h=400&fit=crop&auto=format" alt="On bread"></div><span class="p-badge">On Bread</span></div>
+          </div>
+        </div>
+
+        <div class="p-card">
+          <div class="p-circle"><img src="https://images.unsplash.com/photo-1600423115367-87ea7661688f?w=400&h=400&fit=crop&auto=format" alt="Peanut Butter"></div>
+          <span class="p-label">Peanut Butter</span>
+          <div class="p-panel">
+            <div class="p-info"><span class="p-brand">Spread</span><span class="p-name">Crunchy Peanut Butter</span><p class="p-desc">Stone-ground roasted peanuts. No palm oil, no sugar &#8212; just nutty goodness.</p><div class="p-price-row"><span class="p-price">&#8377;280</span></div><button class="p-add" onclick="handleCart()">+ Add</button></div>
+            <div class="p-img"><div class="p-img-inner"><img src="https://images.unsplash.com/photo-1626200419199-391ae4be7a41?w=400&h=400&fit=crop&auto=format" alt="On bread"></div><span class="p-badge">On Bread</span></div>
+          </div>
+        </div>
+
+        <div class="p-card">
+          <div class="p-circle"><img src="https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?w=400&h=400&fit=crop&auto=format" alt="Cultured Butter"></div>
+          <span class="p-label">Cultured Butter</span>
+          <div class="p-panel">
+            <div class="p-info"><span class="p-brand">Dairy</span><span class="p-name">Cultured Butter</span><p class="p-desc">Slow-churned with fleur de sel. Rich, tangy, impossibly spreadable.</p><div class="p-price-row"><span class="p-price">&#8377;210</span><span class="p-mrp">&#8377;240</span></div><button class="p-add" onclick="handleCart()">+ Add</button></div>
+            <div class="p-img"><div class="p-img-inner"><img src="https://images.unsplash.com/photo-1597528380823-50f3bd47c028?w=400&h=400&fit=crop&auto=format" alt="On bread"></div><span class="p-badge">On Bread</span></div>
+          </div>
+        </div>
+
+        <div class="p-card">
+          <div class="p-circle"><img src="https://images.unsplash.com/photo-1631898039004-c68e63c53fa0?w=400&h=400&fit=crop&auto=format" alt="Cream Cheese"></div>
+          <span class="p-label">Cream Cheese</span>
+          <div class="p-panel">
+            <div class="p-info"><span class="p-brand">Fresh</span><span class="p-name">Herb Cream Cheese</span><p class="p-desc">Dill, chive &amp; lemon zest blended into thick, velvety cream cheese.</p><div class="p-price-row"><span class="p-price">&#8377;230</span></div><button class="p-add" onclick="handleCart()">+ Add</button></div>
+            <div class="p-img"><div class="p-img-inner"><img src="https://images.unsplash.com/photo-1525351484163-7529414344d8?w=400&h=400&fit=crop&auto=format" alt="On bread"></div><span class="p-badge">On Bread</span></div>
+          </div>
+        </div>
+
+        <div class="p-card">
+          <div class="p-circle"><img src="https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=400&h=400&fit=crop&auto=format" alt="Raw Honey"></div>
+          <span class="p-label">Wildflower Honey</span>
+          <div class="p-panel">
+            <div class="p-info"><span class="p-brand">Nilgiris &middot; Raw</span><span class="p-name">Wildflower Honey</span><p class="p-desc">Unfiltered, unpasteurised. Floral sweetness that pools beautifully on warm crust.</p><div class="p-price-row"><span class="p-price">&#8377;340</span><span class="p-mrp">&#8377;390</span></div><button class="p-add" onclick="handleCart()">+ Add</button></div>
+            <div class="p-img"><div class="p-img-inner"><img src="https://images.unsplash.com/photo-1471943038054-fd4a3a15f60e?w=400&h=400&fit=crop&auto=format" alt="On bread"></div><span class="p-badge">On Bread</span></div>
+          </div>
+        </div>
+
+        <div class="p-card">
+          <div class="p-circle"><img src="https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=400&h=400&fit=crop&auto=format" alt="Avocado"></div>
+          <span class="p-label">Avocado Spread</span>
+          <div class="p-panel">
+            <div class="p-info"><span class="p-brand">Superfood</span><span class="p-name">Avocado Spread</span><p class="p-desc">Ripe hass avocado, lime, sea salt &amp; chilli flakes. Ready to smash.</p><div class="p-price-row"><span class="p-price">&#8377;190</span></div><button class="p-add" onclick="handleCart()">+ Add</button></div>
+            <div class="p-img"><div class="p-img-inner"><img src="https://images.unsplash.com/photo-1588137378633-dea1336ce1e2?w=400&h=400&fit=crop&auto=format" alt="On bread"></div><span class="p-badge">On Bread</span></div>
+          </div>
+        </div>
+
+        <div class="p-card">
+          <div class="p-circle"><img src="https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?w=400&h=400&fit=crop&auto=format" alt="Fig Jam"></div>
+          <span class="p-label">Black Fig Jam</span>
+          <div class="p-panel">
+            <div class="p-info"><span class="p-brand">Preserve</span><span class="p-name">Black Fig Jam</span><p class="p-desc">Small-batch, low-sugar. Wine-dark with a hint of vanilla bean.</p><div class="p-price-row"><span class="p-price">&#8377;275</span><span class="p-mrp">&#8377;310</span></div><button class="p-add" onclick="handleCart()">+ Add</button></div>
+            <div class="p-img"><div class="p-img-inner"><img src="https://images.unsplash.com/photo-1484723091739-30990ff60163?w=400&h=400&fit=crop&auto=format" alt="On bread"></div><span class="p-badge">On Bread</span></div>
+          </div>
+        </div>
+
+        <div class="p-card">
+          <div class="p-circle"><img src="https://images.unsplash.com/photo-1548369937-47519962c11a?w=400&h=400&fit=crop&auto=format" alt="Chocolate Hazelnut"></div>
+          <span class="p-label">Choco Hazelnut</span>
+          <div class="p-panel">
+            <div class="p-info"><span class="p-brand">Spread</span><span class="p-name">Chocolate Hazelnut</span><p class="p-desc">Dark roasted hazelnuts, single-origin cocoa. Guilt optional.</p><div class="p-price-row"><span class="p-price">&#8377;320</span></div><button class="p-add" onclick="handleCart()">+ Add</button></div>
+            <div class="p-img"><div class="p-img-inner"><img src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400&h=400&fit=crop&auto=format" alt="On bread"></div><span class="p-badge">On Bread</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- REVIEWS SLIDESHOW -->
+  <div class="section-card">
+    <div class="sc-header">
+      <span class="sc-icon">⭐</span>
+      <h2>Customer Reviews</h2>
+      <span class="sc-count">4.8 · 12,400+ reviews</span>
+    </div>
+    <div class="reviews-slider">
+      <div class="slider-track-outer">
+        <div class="slider-track" id="sliderTrack">
+
+          <div class="review-card">
+            <div class="rv-stars">★★★★★</div>
+            <p class="rv-text">"My kids call it 'cloud bread' and honestly they're not wrong. So soft, zero crust drama at the table. We go through 2 packs a week!"</p>
+            <div class="rv-user">
+              <div class="rv-avatar" style="background:linear-gradient(135deg,#C17A2E,#8B4C1E)">P</div>
+              <div>
+                <div class="rv-name">Priya M.</div>
+                <div class="rv-meta">Mumbai · Mom of 2</div>
+                <div class="rv-verified">✔ Verified Purchase</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="review-card">
+            <div class="rv-stars">★★★★★</div>
+            <p class="rv-text">"I make French toast every Sunday and it comes out perfect. Golden, fluffy, zero wasted ends. Honestly the best bread I've bought from a store."</p>
+            <div class="rv-user">
+              <div class="rv-avatar" style="background:linear-gradient(135deg,#4A90D9,#1A5FA0)">R</div>
+              <div>
+                <div class="rv-name">Rahul S.</div>
+                <div class="rv-meta">Bengaluru · Home Cook</div>
+                <div class="rv-verified">✔ Verified Purchase</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="review-card">
+            <div class="rv-stars">★★★★☆</div>
+            <p class="rv-text">"Genuinely the softest bread I've had. Resealable pack is a great touch — still fresh on day 7. Slight minus for price but honestly worth every rupee."</p>
+            <div class="rv-user">
+              <div class="rv-avatar" style="background:linear-gradient(135deg,#7B5EA7,#4A3570)">A</div>
+              <div>
+                <div class="rv-name">Anjali K.</div>
+                <div class="rv-meta">Delhi · Working Parent</div>
+                <div class="rv-verified">✔ Verified Purchase</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="review-card">
+            <div class="rv-stars">★★★★★</div>
+            <p class="rv-text">"As someone who hates crust, this was literally made for me. Started bulk ordering. Every slice is perfect — I refuse to go back to regular bread."</p>
+            <div class="rv-user">
+              <div class="rv-avatar" style="background:linear-gradient(135deg,#D45F3C,#A03020)">K</div>
+              <div>
+                <div class="rv-name">Karthik R.</div>
+                <div class="rv-meta">Chennai · Regular Customer</div>
+                <div class="rv-verified">✔ Verified Purchase</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="review-card">
+            <div class="rv-stars">★★★★★</div>
+            <p class="rv-text">"Pack my kid's lunch every day and she actually eats everything now. No sad sandwiches coming back home. Game changer for school lunches."</p>
+            <div class="rv-user">
+              <div class="rv-avatar" style="background:linear-gradient(135deg,#3DAD7B,#1A8050)">S</div>
+              <div>
+                <div class="rv-name">Sunita B.</div>
+                <div class="rv-meta">Pune · Parent</div>
+                <div class="rv-verified">✔ Verified Purchase</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="review-card">
+            <div class="rv-stars">★★★★★</div>
+            <p class="rv-text">"Simple ingredients, no HFCS, tastes bakery-fresh. Finally a product that does exactly what it promises. My dietitian approved too!"</p>
+            <div class="rv-user">
+              <div class="rv-avatar" style="background:linear-gradient(135deg,#E8A030,#B07010)">N</div>
+              <div>
+                <div class="rv-name">Neha J.</div>
+                <div class="rv-meta">Hyderabad · Wellness Enthusiast</div>
+                <div class="rv-verified">✔ Verified Purchase</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="slider-controls">
+        <div class="slider-dots" id="sliderDots"></div>
+        <div class="slider-arrows">
+          <button class="s-arrow" id="prevBtn" onclick="slide(-1)">◀</button>
+          <button class="s-arrow" id="nextBtn" onclick="slide(1)">▶</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPECS + NUTRITION side by side -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px" id="specsNutrGrid">
+
+    <div class="section-card">
+      <div class="sc-header"><span class="sc-icon">📋</span><h2>Product Details</h2></div>
+      <div class="specs-table-inner">
+        <div class="specs-row"><span class="specs-key">Type</span><span class="specs-val">Crustless Sandwich Bread</span></div>
+        <div class="specs-row"><span class="specs-key">Net Weight</span><span class="specs-val">400g</span></div>
+        <div class="specs-row"><span class="specs-key">Slices</span><span class="specs-val">14–16 slices</span></div>
+        <div class="specs-row"><span class="specs-key">Slice Thickness</span><span class="specs-val">~12 mm</span></div>
+        <div class="specs-row"><span class="specs-key">Shelf Life</span><span class="specs-val">7–10 days (ambient)</span></div>
+        <div class="specs-row"><span class="specs-key">Refrigerated</span><span class="specs-val">12–15 days</span></div>
+        <div class="specs-row"><span class="specs-key">Storage</span><span class="specs-val">Cool, dry. Refrigerate after opening.</span></div>
+        <div class="specs-row"><span class="specs-key">Packaging</span><span class="specs-val">Resealable polybag</span></div>
+        <div class="specs-row"><span class="specs-key">Vegetarian</span><span class="specs-val"><span class="tag">🟢 Yes</span></span></div>
+        <div class="specs-row"><span class="specs-key">Certifications</span><span class="specs-val"><span class="tag">✅ FSSAI</span></span></div>
+        <div class="specs-row"><span class="specs-key">Artificial Colors</span><span class="specs-val"><span class="tag" style="background:#FEE2E2;color:#DC2626">❌ None</span></span></div>
+        <div class="specs-row"><span class="specs-key">HFCS</span><span class="specs-val"><span class="tag" style="background:#FEE2E2;color:#DC2626">❌ None</span></span></div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="sc-header"><span class="sc-icon">🥗</span><h2>Nutrition Facts</h2></div>
+      <div class="nutrition-inner">
+        <div class="nutr-header">
+          <h3>Per 100g</h3>
+          <span>/ Per Slice (~25g)</span>
+        </div>
+        <div class="nutr-row bold"><span class="nk">Energy</span><span class="nv">280 kcal / 70 kcal</span></div>
+        <div class="nutr-row"><span class="nk">Total Fat</span><span class="nv">4.5g / 1.1g</span></div>
+        <div class="nutr-row sub"><span class="nk">— Saturated Fat</span><span class="nv">1.2g / 0.3g</span></div>
+        <div class="nutr-bar-row">
+          <div class="nutr-bar-label"><span>Carbohydrates</span><span>50g / 12.5g</span></div>
+          <div class="nutr-bar"><div class="nutr-bar-fill" id="carbBar" style="width:0%;background:#F5A623"></div></div>
+        </div>
+        <div class="nutr-row sub"><span class="nk">— Sugars</span><span class="nv">5g / 1.2g</span></div>
+        <div class="nutr-bar-row">
+          <div class="nutr-bar-label"><span>Protein</span><span>8g / 2g</span></div>
+          <div class="nutr-bar"><div class="nutr-bar-fill" id="protBar" style="width:0%;background:#0C831F"></div></div>
+        </div>
+        <div class="nutr-row"><span class="nk">Sodium</span><span class="nv">380mg / 95mg</span></div>
+        <div class="allergen-note">
+          ⚠️ <strong>Allergens:</strong> Contains <strong>Wheat</strong> and <strong>Milk</strong>. Processed in a facility that handles Soy and Tree Nuts.<br>
+          <strong>Ingredients:</strong> Enriched Wheat Flour, Water, Sugar, Edible Vegetable Oil, Yeast, Iodized Salt, Milk Solids, Dough Conditioners (INS 1101(i), INS 1100), Emulsifier (INS 471, INS 472e), Preservative (INS 282).
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FAQ -->
+  <div class="section-card">
+    <div class="sc-header"><span class="sc-icon">❓</span><h2>Frequently Asked Questions</h2></div>
+    <div class="faq-inner">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Is it really 100% crustless on every slice? <span class="faq-chevron">▼</span></button>
+        <div class="faq-ans"><p>Yes — every single slice including the first and last is soft all the way through. No tough edges, no chewy ends. Just pure, pillowy softness from slice one to sixteen.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">How long does it stay fresh after opening? <span class="faq-chevron">▼</span></button>
+        <div class="faq-ans"><p>At room temperature, 7–10 days in the resealable bag. Once opened, refrigerate it and it'll stay fresh for 12–15 days. The resealable bag helps lock softness in — just seal it fully after each use.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Can I freeze GOOD GRUB bread? <span class="faq-chevron">▼</span></button>
+        <div class="faq-ans"><p>Absolutely. Freeze individual slices or the whole loaf. Defrost at room temperature for 30 mins or pop directly into the toaster. The softness holds up beautifully after freezing.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Is it suitable for toddlers and kids? <span class="faq-chevron">▼</span></button>
+        <div class="faq-ans"><p>Yes — it's kid-approved and designed with lunchboxes in mind. The ultra-soft texture is easy for little ones. Note: contains Wheat and Milk, so not suitable for kids with those specific allergies.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Does it contain any artificial colors or HFCS? <span class="faq-chevron">▼</span></button>
+        <div class="faq-ans"><p>No artificial colors and no high fructose corn syrup. GOOD GRUB is made with simple, clean ingredients. What you see on the label is exactly what goes in — nothing hidden.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">What's the difference between ambient and refrigerated storage? <span class="faq-chevron">▼</span></button>
+        <div class="faq-ans"><p>Ambient storage (room temperature in the sealed bag) keeps the bread fresh for 7–10 days. Refrigerating after opening extends this to 12–15 days and prevents moisture loss. Both methods keep it deliciously soft.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RELATED PRODUCTS -->
+  <div class="section-card">
+    <div class="sc-header"><span class="sc-icon">🛒</span><h2>You might also like</h2></div>
+    <div class="related-inner">
+      <div class="related-grid">
+        <div class="rel-card">
+          <div class="rel-img">
+            <img
+              src="https://i5.walmartimages.com/seo/Pepperidge-Farm-Farmhouse-Multigrain-Bread-24-oz-Loaf_44981006_a4c4a5c3-76c1-4a8e-a7c3-f88ac5e94d28.b81cde7a4a47c3282f4c90accd7ef7bf.jpeg"
+              alt="Multigrain Crustless Bread"
+              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&q=80'"
+            >
+            <span class="rel-badge">15% OFF</span>
+          </div>
+          <div class="rel-body">
+            <div class="rel-brand">GOOD GRUB</div>
+            <div class="rel-name">Multigrain Crustless Bread</div>
+            <div class="rel-sub">400g · 14 slices</div>
+            <div class="rel-price-row">
+              <span class="rel-price">₹68</span>
+              <span class="rel-mrp">₹80</span>
+            </div>
+            <button class="rel-add" onclick="handleCart()">+ Add</button>
+          </div>
+        </div>
+
+        <div class="rel-card">
+          <div class="rel-img">
+            <img
+              src="https://www.thecuriouschickpea.com/wp-content/uploads/2020/11/soft-whole-wheat-dinner-rolls-1200.jpg"
+              alt="Whole Wheat Soft Rolls"
+              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400&q=80'"
+            >
+            <span class="rel-badge">NEW</span>
+          </div>
+          <div class="rel-body">
+            <div class="rel-brand">GOOD GRUB</div>
+            <div class="rel-name">Whole Wheat Soft Rolls</div>
+            <div class="rel-sub">6 pcs · 240g</div>
+            <div class="rel-price-row">
+              <span class="rel-price">₹55</span>
+              <span class="rel-mrp">₹60</span>
+            </div>
+            <button class="rel-add" onclick="handleCart()">+ Add</button>
+          </div>
+        </div>
+
+        <div class="rel-card">
+          <div class="rel-img">
+            <img
+              src="https://i5.walmartimages.com/seo/Nature-s-Own-Butterbread-Sliced-White-Bread-Loaf-20-oz_14e4c59b-3a8c-4468-a2b2-c9e3e4ddc2c8.b81cde7a4a47c3282f4c90accd7ef7bf.jpeg"
+              alt="Butter Sandwich Loaf"
+              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1586444248902-2f64eddc13df?w=400&q=80'"
+            >
+          </div>
+          <div class="rel-body">
+            <div class="rel-brand">BRIT'S</div>
+            <div class="rel-name">Butter Sandwich Loaf</div>
+            <div class="rel-sub">500g · 18 slices</div>
+            <div class="rel-price-row">
+              <span class="rel-price">₹48</span>
+              <span class="rel-mrp">₹55</span>
+            </div>
+            <button class="rel-add" onclick="handleCart()">+ Add</button>
+          </div>
+        </div>
+
+        <div class="rel-card">
+          <div class="rel-img">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Fresh_made_bread_05.jpg/800px-Fresh_made_bread_05.jpg"
+              alt="Brown Bread Classic"
+              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1568471173242-461f0a730452?w=400&q=80'"
+            >
+            <span class="rel-badge">10% OFF</span>
+          </div>
+          <div class="rel-body">
+            <div class="rel-brand">DAILY BAKE</div>
+            <div class="rel-name">Brown Bread Classic</div>
+            <div class="rel-sub">400g · 16 slices</div>
+            <div class="rel-price-row">
+              <span class="rel-price">₹44</span>
+              <span class="rel-mrp">₹49</span>
+            </div>
+            <button class="rel-add" onclick="handleCart()">+ Add</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">🛒 Added to cart!</div>
+
+<script>
+/* IMAGE SWITCHER */
+function switchImg(thumbEl, src){
+  document.getElementById('mainImg').src = src;
+  document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+  thumbEl.classList.add('active');
+}
+
+/* QTY */
+let qty = 1;
+function changeQty(d){
+  qty = Math.max(1, Math.min(10, qty + d));
+  document.getElementById('qtyNum').textContent = qty;
+}
+
+/* CART */
+let cartTotal = 0;
+function handleCart(){
+  cartTotal += qty;
+  document.getElementById('cartCount').textContent = cartTotal;
+  const btn = document.getElementById('atcBtn');
+  if(btn){ btn.innerHTML = '<span>✅</span> Added!'; btn.style.background='#2E7D32'; }
+  showToast(`${qty} item${qty>1?'s':''} added to cart 🎉`);
+  setTimeout(()=>{
+    if(btn){ btn.innerHTML='<span>🛒</span> Add to Cart'; btn.style.background=''; }
+  }, 2000);
+}
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._to);
+  t._to = setTimeout(()=>t.classList.remove('show'), 2800);
+}
+
+/* WISHLIST */
+function toggleWishlist(btn){
+  btn.classList.toggle('active');
+  btn.textContent = btn.classList.contains('active') ? '❤️' : '🤍';
+  showToast(btn.classList.contains('active') ? 'Added to wishlist ❤️' : 'Removed from wishlist');
+}
+
+/* FAQ */
+function toggleFaq(btn){
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));
+  if(!isOpen) item.classList.add('open');
+}
+
+/* SLIDER */
+const cards = document.querySelectorAll('.review-card');
+const track = document.getElementById('sliderTrack');
+const dotsContainer = document.getElementById('sliderDots');
+let currentSlide = 0;
+const visibleCount = () => window.innerWidth < 640 ? 1 : window.innerWidth < 960 ? 2 : 3;
+
+// build dots
+const dotCount = Math.ceil(cards.length / 1);
+for(let i=0;i<cards.length;i++){
+  const d = document.createElement('div');
+  d.className='s-dot'+(i===0?' active':'');
+  d.onclick=()=>goSlide(i);
+  dotsContainer.appendChild(d);
+}
+
+function goSlide(n){
+  const vc = visibleCount();
+  const max = Math.max(0, cards.length - vc);
+  currentSlide = Math.max(0, Math.min(n, max));
+  const cardW = cards[0].offsetWidth + 16;
+  track.style.transform = `translateX(-${currentSlide * cardW}px)`;
+  document.querySelectorAll('.s-dot').forEach((d,i)=>d.classList.toggle('active', i===currentSlide));
+  document.getElementById('prevBtn').disabled = currentSlide === 0;
+  document.getElementById('nextBtn').disabled = currentSlide >= max;
+}
+
+function slide(dir){ goSlide(currentSlide + dir); }
+
+// Auto-slide every 4s
+let autoTimer = setInterval(()=>{
+  const vc = visibleCount();
+  const max = Math.max(0, cards.length - vc);
+  goSlide(currentSlide >= max ? 0 : currentSlide + 1);
+}, 4000);
+
+track.addEventListener('mouseenter',()=>clearInterval(autoTimer));
+track.addEventListener('mouseleave',()=>{
+  autoTimer = setInterval(()=>{
+    const vc = visibleCount();
+    const max = Math.max(0, cards.length - vc);
+    goSlide(currentSlide >= max ? 0 : currentSlide + 1);
+  }, 4000);
+});
+
+window.addEventListener('resize',()=>goSlide(currentSlide));
+
+/* Animate nutrition bars on scroll */
+const bars = [
+  {id:'carbBar', w:'72'},
+  {id:'protBar', w:'45'}
+];
+const nutrObs = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      bars.forEach(b=>{
+        const el = document.getElementById(b.id);
+        if(el) setTimeout(()=>el.style.width=b.w+'%', 200);
+      });
+      nutrObs.disconnect();
+    }
+  });
+},{threshold:0.3});
+const nutrSection = document.querySelector('.nutrition-inner');
+if(nutrSection) nutrObs.observe(nutrSection);
+
+/* Make specs+nutr grid responsive */
+function checkGrid(){
+  const g = document.getElementById('specsNutrGrid');
+  if(g) g.style.gridTemplateColumns = window.innerWidth < 768 ? '1fr' : '1fr 1fr';
+}
+checkGrid();
+window.addEventListener('resize', checkGrid);
+</script>
+<!-- MOBILE STICKY BAR -->
+<div class="mobile-sticky-bar">
+  <div class="mobile-sticky-price">
+    <strong>₹52</strong>
+    <span>₹65 MRP</span>
+  </div>
+  <button class="mobile-sticky-btn" onclick="handleCart()">🛒 Add to Cart</button>
+</div>
+
+</body>
+</html>
